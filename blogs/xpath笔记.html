@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>xpath笔记</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">xpath笔记</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 最近在做自己的一个python小项目，做好了我也会在这里呈现出来；其中用到了爬虫，因此需要使用选择器从html中提取需要的信息；常用的选择器除了css，还有xpath和正则，个人觉得，在实际网页解析中，配合xpath和正则简直就够用了；所以本篇先介绍xpath，以备后期学习查询，正则正在深入学习，待出！
+
+[TOC]
+
+---
+
+## 1. 定义
+XPath 是一门在 XML 文档中查找信息的语言
+
+* XPath 使用路径表达式在 XML 文档中进行导航
+* XPath 包含一个标准函数库
+* XPath 是 XSLT 中的主要元素
+* XPath 是一个 W3C 标准
+
+## 2.语法
+XPath 使用路径表达式来选取 XML 文档中的节点或节点集
+### a.基础
+* bookstore	选取 bookstore 元素的所有子节点。->list
+* /bookstore	选取根元素 bookstore。注释：假如路径起始于正斜杠( / )，则此路径始终代表到某元素的绝对路径！
+* bookstore/book	选取属于 bookstore 的子元素的所有 book 元素。
+* //book	选取所有 book 子元素，而不管它们在文档中的位置。
+* bookstore//book	选择属于 bookstore 元素的后代的所有 book 元素，而不管它们位于 bookstore 之下的什么位置。
+* //@lang	选取名为 lang 的所有属性
+
+### b.限定
+* /bookstore/book[1]	选取属于 bookstore 子元素的第一个 book 元素。
+* /bookstore/book[last()]	选取属于 bookstore 子元素的最后一个 book 元素。
+* /bookstore/book[last()-1]	选取属于 bookstore 子元素的倒数第二个 book 元素。
+* /bookstore/book[position()<3]	选取最前面的两个属于 bookstore 元素的子元素的 book 元素。
+* //title[@lang]	选取所有拥有名为 lang 的属性的 title 元素。
+* //title[@lang='eng']	选取所有 title 元素，且这些元素拥有值为 eng 的 lang 属性。
+* /bookstore/book[price>35.00]	选取 bookstore 元素的所有 book 元素，且其中的 price 元素的值须大于 35.00。
+* /bookstore/book[price>35.00]/title	选取 bookstore 元素中的 book 元素的所有 title 元素，且其中的 price 元素的值须大于 35.00。
+
+### c.通配
+* \*	匹配任何元素节点。
+* @*	匹配任何属性节点。
+* node()	匹配任何类型的节点。
+* /bookstore/*	选取 bookstore 元素的所有子元素。
+* //*	选取文档中的所有元素。
+* //title[@*]	选取所有带有属性的 title 元素。
+
+### d.运算
+* //book/title | //book/price	选取 book 元素的所有 title 和 price 元素
+* （支持的运算符）|	+	-	*	div=	!=	<	<=	>	>=	or	and mod
+
+### e.从当前节点选取相对节点集
+* ancestor	选取当前节点的所有先辈（父、祖父等）。
+* ancestor-or-self	选取当前节点的所有先辈（父、祖父等）以及当前节点本身。
+* attribute	选取当前节点的所有属性。
+* child	选取当前节点的所有子元素。
+* descendant	选取当前节点的所有后代元素（子、孙等）。
+* descendant-or-self	选取当前节点的所有后代元素（子、孙等）以及当前节点本身。
+* following	选取文档中当前节点的结束标签之后的所有节点。
+* namespace	选取当前节点的所有命名空间节点。
+* parent	选取当前节点的父节点。
+* preceding	选取文档中当前节点的开始标签之前的所有节点。
+* preceding-sibling	选取当前节点之前的所有同级节点。
+* self	选取当前节点
+例子：
+    child::book	选取所有属于当前节点的子元素的 book 节点。
+    attribute::lang	选取当前节点的 lang 属性。
+    child::*	选取当前节点的所有子元素。
+    attribute::*	选取当前节点的所有属性。
+    child::text()	选取当前节点的所有文本子节点。
+    child::node()	选取当前节点的所有子节点。
+    descendant::book	选取当前节点的所有 book 后代。
+    ancestor::book	选择当前节点的所有 book 先辈。
+    ancestor-or-self::book	选取当前节点的所有 book 先辈以及当前节点（如果此节点是 book 节点）
+    child::*/child::price	选取当前节点的所有 price 孙节点。
+
+
+## 3.例子
+
+![节点集1](xpath笔记_files/59897fb37a43a20883000006.png)
+
+![属性1](xpath笔记_files/59897fe07a43a20883000007.png)
+
+![路径1](xpath笔记_files/59897ffc7a43a20883000008.png)
+
+![路径2](xpath笔记_files/598980347a43a2088300000b.png)
+
+
+</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 最近在做自己的一个python小项目，做好了我也会在这里呈现出来；其中用到了爬虫，因此需要使用选择器从html中提取需要的信息；常用的选择器除了css，还有xpath和正则，个人觉得，在实际网页解析中，配合xpath和正则简直就够用了；所以本篇先介绍xpath，以备后期学习查询，正则正在深入学习，待出！
+
+[TOC]
+
+---
+
+## 1. 定义
+XPath 是一门在 XML 文档中查找信息的语言
+
+* XPath 使用路径表达式在 XML 文档中进行导航
+* XPath 包含一个标准函数库
+* XPath 是 XSLT 中的主要元素
+* XPath 是一个 W3C 标准
+
+## 2.语法
+XPath 使用路径表达式来选取 XML 文档中的节点或节点集
+### a.基础
+* bookstore	选取 bookstore 元素的所有子节点。->list
+* /bookstore	选取根元素 bookstore。注释：假如路径起始于正斜杠( / )，则此路径始终代表到某元素的绝对路径！
+* bookstore/book	选取属于 bookstore 的子元素的所有 book 元素。
+* //book	选取所有 book 子元素，而不管它们在文档中的位置。
+* bookstore//book	选择属于 bookstore 元素的后代的所有 book 元素，而不管它们位于 bookstore 之下的什么位置。
+* //@lang	选取名为 lang 的所有属性
+
+### b.限定
+* /bookstore/book[1]	选取属于 bookstore 子元素的第一个 book 元素。
+* /bookstore/book[last()]	选取属于 bookstore 子元素的最后一个 book 元素。
+* /bookstore/book[last()-1]	选取属于 bookstore 子元素的倒数第二个 book 元素。
+* /bookstore/book[position()<3]	选取最前面的两个属于 bookstore 元素的子元素的 book 元素。
+* //title[@lang]	选取所有拥有名为 lang 的属性的 title 元素。
+* //title[@lang='eng']	选取所有 title 元素，且这些元素拥有值为 eng 的 lang 属性。
+* /bookstore/book[price>35.00]	选取 bookstore 元素的所有 book 元素，且其中的 price 元素的值须大于 35.00。
+* /bookstore/book[price>35.00]/title	选取 bookstore 元素中的 book 元素的所有 title 元素，且其中的 price 元素的值须大于 35.00。
+
+### c.通配
+* \*	匹配任何元素节点。
+* @*	匹配任何属性节点。
+* node()	匹配任何类型的节点。
+* /bookstore/*	选取 bookstore 元素的所有子元素。
+* //*	选取文档中的所有元素。
+* //title[@*]	选取所有带有属性的 title 元素。
+
+### d.运算
+* //book/title | //book/price	选取 book 元素的所有 title 和 price 元素
+* （支持的运算符）|	+	-	*	div=	!=	<	<=	>	>=	or	and mod
+
+### e.从当前节点选取相对节点集
+* ancestor	选取当前节点的所有先辈（父、祖父等）。
+* ancestor-or-self	选取当前节点的所有先辈（父、祖父等）以及当前节点本身。
+* attribute	选取当前节点的所有属性。
+* child	选取当前节点的所有子元素。
+* descendant	选取当前节点的所有后代元素（子、孙等）。
+* descendant-or-self	选取当前节点的所有后代元素（子、孙等）以及当前节点本身。
+* following	选取文档中当前节点的结束标签之后的所有节点。
+* namespace	选取当前节点的所有命名空间节点。
+* parent	选取当前节点的父节点。
+* preceding	选取文档中当前节点的开始标签之前的所有节点。
+* preceding-sibling	选取当前节点之前的所有同级节点。
+* self	选取当前节点
+例子：
+    child::book	选取所有属于当前节点的子元素的 book 节点。
+    attribute::lang	选取当前节点的 lang 属性。
+    child::*	选取当前节点的所有子元素。
+    attribute::*	选取当前节点的所有属性。
+    child::text()	选取当前节点的所有文本子节点。
+    child::node()	选取当前节点的所有子节点。
+    descendant::book	选取当前节点的所有 book 后代。
+    ancestor::book	选择当前节点的所有 book 先辈。
+    ancestor-or-self::book	选取当前节点的所有 book 先辈以及当前节点（如果此节点是 book 节点）
+    child::*/child::price	选取当前节点的所有 price 孙节点。
+
+
+## 3.例子
+
+![节点集1](xpath笔记_files/59897fb37a43a20883000006.png)
+
+![属性1](xpath笔记_files/59897fe07a43a20883000007.png)
+
+![路径1](xpath笔记_files/59897ffc7a43a20883000008.png)
+
+![路径2](xpath笔记_files/598980347a43a2088300000b.png)
+
+
+</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="/js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>

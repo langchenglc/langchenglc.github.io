@@ -1,0 +1,615 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>spring security使用</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">spring security使用</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 一般的企业项目中都会需要登录和权限控制；本来没有怎么接触这一块，之前的项目也是通过之前写好的插件直接引入，不过现在项目经理离职了，所以这一块都接过来继续弄；之前[有一篇blog](http://gong.leanote.com/post/jsp%E4%B8%AD%E9%85%8D%E7%BD%AE%E6%8C%89%E9%92%AE%E6%9D%83%E9%99%90)已经介绍了一下按钮权限的配置，不过当时主要是用了自定义的jsp标签来完成的。这次我们来主要窥测一下spring security在常规RBAC权限管理系统中的使用
+
+---
+
+[TOC]
+
+## 什么是 Spring Security?
+
+Spring Security，这是一种基于Spring AOP和Servlet过滤器的安全框架。它提供全面
+的安全性解决方案，同时在 Web 请求级和方法调用级处理身份确认和授权。在 Spring
+Framework 基础上，Spring Security 充分利用了依赖注入（DI，Dependency Injection）和
+面向切面技术。
+
+## 依赖
+
+```
+<!-- spring security -->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-web</artifactId>
+    <version>3.2.9.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-config</artifactId>
+    <version>3.2.9.RELEASE</version>
+</dependency>
+```   
+![依赖图](spring-security使用_files/59787bf493aeb557f100000b.png)
+    
+## 使用步骤
+
+1. web.xml中配置filter
+在 web.xml 文件中添加一个过滤器,这个过滤器不在 security 包中，它可以代理一个application context 中定义的 Spring bean 所实现的 filter .DelegatingFilterProxy 做的事情是代理 Filter 的方法，从 application context 里获得bean（这些 bean 就是 Spring Security 中的核心部分，过滤器。这些过滤器被定义在了Spring 容器中） 。 这让 bean 可以获得 spring web application context 的生命周期支持，使配置较为轻便。 bean必须实现javax.servlet.Filter接口，它必须和filter-name里定义的名称是一样的。
+Spring Security 需要一些过滤器，这些过滤器如果在 web.xml 中配置的话，配
+置起来就很繁琐了，这些过滤器还必须按照顺序来配置. 所以为了方便，就只在 web.xml 文件
+中配置了一个代理过滤器，它就相当于是一个入口，web容器启动的时候，由它到spring容器
+中启动 spring Security 需要的过滤器链
+    ```
+    <!--spring security -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    ```
+
+2. 配置安全管理配置类
+```
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private LogRecordService logRecordService;
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(new SimpleUserDetailsService(userDao)).passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+    protected void configure(HttpSecurity http) throws Exception {
+        //配置直接放过的url
+        http.authorizeRequests().antMatchers("/ui/**").permitAll();
+        http.authorizeRequests().antMatchers("/login").permitAll();
+        http.authorizeRequests().antMatchers("/webservice/**").permitAll();
+        http.authorizeRequests().antMatchers("/druid/**").permitAll();
+
+        http.csrf().disable();
+        http.headers().disable();
+        //配置登录url，登出url；登录失败处理（或者改成登录失败调整url）
+        http.authorizeRequests().anyRequest().fullyAuthenticated().and().formLogin().loginPage("/login").successHandler(new LoginSuccessHandler(logRecordService))
+                .failureHandler(new AuthenticationFailureHandler() {
+                    @Override
+                    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+                        if (e instanceof DisabledException) {
+                            httpServletResponse.sendRedirect("login?error=1");
+                        } else {
+                            httpServletResponse.sendRedirect("login?error=2");
+                        }
+                    }
+                }).permitAll().and().logout().logoutSuccessUrl("/")
+                ;
+    }
+}
+```
+再看一下自定义user登录主体
+```
+//UserDetails是关键
+@Entity(name = "SYS_USER")
+public class User implements UserDetails {
+    String username;
+    String password;
+    ...
+}
+```    
+用户验证service
+```
+//UserDetailService是关键
+public class SimpleUserDetailsService implements UserDetailsService {
+    private UserDao userDao;
+    public SimpleUserDetailsService(UserDao userDao) {
+        this.userDao = userDao;
+    }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userDao.get(username);
+        if(user != null && !userDao.enableUser(username)){
+            user = new User();
+            user.setEnabled(false);
+        }
+        if (user == null) {
+            user = new AnonymousAccessor();
+        }
+        //防止延迟加载session关闭
+        user.getAuthorities();
+        return user;
+    }
+}
+```
+获取当前登录用户信息
+```
+public class AccessorHelper {
+    //  这个方法是关键
+    public static User getAccessor() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User) {
+            return ((User) principal);
+        } else {
+            return new AnonymousAccessor();
+        }
+    }
+
+    /**
+     * 获取用户名
+     */
+    public static String getUsername() {
+        return getAccessor().getUsername();
+    }
+
+    /**
+     * 获取姓名
+     */
+    public static String getName() {
+        return getAccessor().getName();
+    }
+
+    /**
+     * 获取机构
+     */
+    public static Organization getOrganization(){
+        return getAccessor().getOrganization();
+    }
+    public static List<Permission> getPermissions(){
+        List<Permission> list = new ArrayList<>();
+        list.addAll(getAccessor().getAuthorities());
+        return list;
+    }
+    public static List<String> getAuthorities(){
+        List<String> list = new ArrayList<>();
+        List<Permission> permissions = getPermissions();
+        for(Permission permission:permissions){
+            list.add(permission.getAuthority());
+        }
+        return list;
+    }
+}
+
+```
+
+## 其他
+最后在介绍一个jsp里头对按钮进行权限控制的方法---使用security的taglib
+```
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-taglibs</artifactId>
+  <version>3.2.9.RELEASE</version>
+</dependency>
+```
+然后代码中使用taglib进行组件元素的权限控制
+```
+<sec:authentication propertity="name"/>//获取登录用户的用户名
+<sec:authorize ifAllGranted="ROLE_ADMIN" >//只有admin角色的人才能看到下面的超链接
+    <a href="admin.jsp">进入admin.jsp页面</a>
+</sec:authorize>
+```
+![jsp中使用taglib](spring-security使用_files/597fe53293aeb557f1000011.png)
+![权限控制1](spring-security使用_files/597fe6e193aeb557f1000012.png)
+![权限控制2](spring-security使用_files/597fe6f093aeb557f1000013.png)
+## 友情链接
+http://download.csdn.net/detail/u012367513/7826801
+http://www.importnew.com/20612.html
+一个很好的spring security的演示文档[spring security.pdf](leanote://file/getAttach?fileId=597fe9de93aeb557f1000014)
+进阶点儿的spring security的演示文档[spring security2.pdf](leanote://file/getAttach?fileId=59802082f9fd7f60fd000000)</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 一般的企业项目中都会需要登录和权限控制；本来没有怎么接触这一块，之前的项目也是通过之前写好的插件直接引入，不过现在项目经理离职了，所以这一块都接过来继续弄；之前[有一篇blog](http://gong.leanote.com/post/jsp%E4%B8%AD%E9%85%8D%E7%BD%AE%E6%8C%89%E9%92%AE%E6%9D%83%E9%99%90)已经介绍了一下按钮权限的配置，不过当时主要是用了自定义的jsp标签来完成的。这次我们来主要窥测一下spring security在常规RBAC权限管理系统中的使用
+
+---
+
+[TOC]
+
+## 什么是 Spring Security?
+
+Spring Security，这是一种基于Spring AOP和Servlet过滤器的安全框架。它提供全面
+的安全性解决方案，同时在 Web 请求级和方法调用级处理身份确认和授权。在 Spring
+Framework 基础上，Spring Security 充分利用了依赖注入（DI，Dependency Injection）和
+面向切面技术。
+
+## 依赖
+
+```
+<!-- spring security -->
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-web</artifactId>
+    <version>3.2.9.RELEASE</version>
+</dependency>
+<dependency>
+    <groupId>org.springframework.security</groupId>
+    <artifactId>spring-security-config</artifactId>
+    <version>3.2.9.RELEASE</version>
+</dependency>
+```   
+![依赖图](spring-security使用_files/59787bf493aeb557f100000b.png)
+    
+## 使用步骤
+
+1. web.xml中配置filter
+在 web.xml 文件中添加一个过滤器,这个过滤器不在 security 包中，它可以代理一个application context 中定义的 Spring bean 所实现的 filter .DelegatingFilterProxy 做的事情是代理 Filter 的方法，从 application context 里获得bean（这些 bean 就是 Spring Security 中的核心部分，过滤器。这些过滤器被定义在了Spring 容器中） 。 这让 bean 可以获得 spring web application context 的生命周期支持，使配置较为轻便。 bean必须实现javax.servlet.Filter接口，它必须和filter-name里定义的名称是一样的。
+Spring Security 需要一些过滤器，这些过滤器如果在 web.xml 中配置的话，配
+置起来就很繁琐了，这些过滤器还必须按照顺序来配置. 所以为了方便，就只在 web.xml 文件
+中配置了一个代理过滤器，它就相当于是一个入口，web容器启动的时候，由它到spring容器
+中启动 spring Security 需要的过滤器链
+    ```
+    <!--spring security -->
+    <filter>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <filter-class>org.springframework.web.filter.DelegatingFilterProxy</filter-class>
+    </filter>
+    <filter-mapping>
+        <filter-name>springSecurityFilterChain</filter-name>
+        <url-pattern>/*</url-pattern>
+    </filter-mapping>
+    ```
+
+2. 配置安全管理配置类
+```
+@Configuration
+@EnableWebSecurity
+public class SecurityConfig extends WebSecurityConfigurerAdapter {
+    @Autowired
+    private UserDao userDao;
+    @Autowired
+    private LogRecordService logRecordService;
+    @Autowired
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(new SimpleUserDetailsService(userDao)).passwordEncoder(new BCryptPasswordEncoder());
+    }
+
+    protected void configure(HttpSecurity http) throws Exception {
+        //配置直接放过的url
+        http.authorizeRequests().antMatchers("/ui/**").permitAll();
+        http.authorizeRequests().antMatchers("/login").permitAll();
+        http.authorizeRequests().antMatchers("/webservice/**").permitAll();
+        http.authorizeRequests().antMatchers("/druid/**").permitAll();
+
+        http.csrf().disable();
+        http.headers().disable();
+        //配置登录url，登出url；登录失败处理（或者改成登录失败调整url）
+        http.authorizeRequests().anyRequest().fullyAuthenticated().and().formLogin().loginPage("/login").successHandler(new LoginSuccessHandler(logRecordService))
+                .failureHandler(new AuthenticationFailureHandler() {
+                    @Override
+                    public void onAuthenticationFailure(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, AuthenticationException e) throws IOException, ServletException {
+                        if (e instanceof DisabledException) {
+                            httpServletResponse.sendRedirect("login?error=1");
+                        } else {
+                            httpServletResponse.sendRedirect("login?error=2");
+                        }
+                    }
+                }).permitAll().and().logout().logoutSuccessUrl("/")
+                ;
+    }
+}
+```
+再看一下自定义user登录主体
+```
+//UserDetails是关键
+@Entity(name = "SYS_USER")
+public class User implements UserDetails {
+    String username;
+    String password;
+    ...
+}
+```    
+用户验证service
+```
+//UserDetailService是关键
+public class SimpleUserDetailsService implements UserDetailsService {
+    private UserDao userDao;
+    public SimpleUserDetailsService(UserDao userDao) {
+        this.userDao = userDao;
+    }
+    @Override
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        User user = userDao.get(username);
+        if(user != null && !userDao.enableUser(username)){
+            user = new User();
+            user.setEnabled(false);
+        }
+        if (user == null) {
+            user = new AnonymousAccessor();
+        }
+        //防止延迟加载session关闭
+        user.getAuthorities();
+        return user;
+    }
+}
+```
+获取当前登录用户信息
+```
+public class AccessorHelper {
+    //  这个方法是关键
+    public static User getAccessor() {
+        Object principal = SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        if (principal instanceof User) {
+            return ((User) principal);
+        } else {
+            return new AnonymousAccessor();
+        }
+    }
+
+    /**
+     * 获取用户名
+     */
+    public static String getUsername() {
+        return getAccessor().getUsername();
+    }
+
+    /**
+     * 获取姓名
+     */
+    public static String getName() {
+        return getAccessor().getName();
+    }
+
+    /**
+     * 获取机构
+     */
+    public static Organization getOrganization(){
+        return getAccessor().getOrganization();
+    }
+    public static List<Permission> getPermissions(){
+        List<Permission> list = new ArrayList<>();
+        list.addAll(getAccessor().getAuthorities());
+        return list;
+    }
+    public static List<String> getAuthorities(){
+        List<String> list = new ArrayList<>();
+        List<Permission> permissions = getPermissions();
+        for(Permission permission:permissions){
+            list.add(permission.getAuthority());
+        }
+        return list;
+    }
+}
+
+```
+
+## 其他
+最后在介绍一个jsp里头对按钮进行权限控制的方法---使用security的taglib
+```
+<dependency>
+  <groupId>org.springframework.security</groupId>
+  <artifactId>spring-security-taglibs</artifactId>
+  <version>3.2.9.RELEASE</version>
+</dependency>
+```
+然后代码中使用taglib进行组件元素的权限控制
+```
+<sec:authentication propertity="name"/>//获取登录用户的用户名
+<sec:authorize ifAllGranted="ROLE_ADMIN" >//只有admin角色的人才能看到下面的超链接
+    <a href="admin.jsp">进入admin.jsp页面</a>
+</sec:authorize>
+```
+![jsp中使用taglib](spring-security使用_files/597fe53293aeb557f1000011.png)
+![权限控制1](spring-security使用_files/597fe6e193aeb557f1000012.png)
+![权限控制2](spring-security使用_files/597fe6f093aeb557f1000013.png)
+## 友情链接
+http://download.csdn.net/detail/u012367513/7826801
+http://www.importnew.com/20612.html
+一个很好的spring security的演示文档[spring security.pdf](leanote://file/getAttach?fileId=597fe9de93aeb557f1000014)
+进阶点儿的spring security的演示文档[spring security2.pdf](leanote://file/getAttach?fileId=59802082f9fd7f60fd000000)</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="/js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>
