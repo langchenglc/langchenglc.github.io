@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title> quartz CronExpression表达式</title>
+<style>
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-html.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title"> quartz CronExpression表达式</h1>
+		<div class="content-html" id="leanote-content"><p><a href="http://blog.csdn.net/u010448530/article/details/52209119" data-mce-href="http://blog.csdn.net/u010448530/article/details/52209119"></a></p><p>一个cron表达式有至少6个（也可能7个）有空格分隔的时间元素。<br>按顺序依次为<br>1. 秒（0~59）<br>2. 分钟（0~59）<br>3. 小时（0~23）<br>4. 天（月）（0~31，但是你需要考虑你月的天数）<br>5. 月（0~11）<br>6. 天（星期）（1~7 1=SUN 或 SUN，MON，TUE，WED，THU，FRI，SAT）<br>7. 年份（1970－2099）<br>其中每个元素可以是一个值(如6),一个连续区间(9-12),一个间隔时间(8-18/4)(/表示每隔4小时),一个列表(1,3,5),通配符。<br>由于"月份中的日期"和"星期中的日期"这两个元素互斥的,必须要对其中一个设置<br><br>例：<br>0 0 10,14,16 * * ? 每天上午10点，下午2点，4点<br>0 0/30 9-17 * * ??? 朝九晚五工作时间内每半小时<br>0 0 12 ? * WED 表示每个星期三中午12点<br>有些子表达式能包含一些范围或列表<br>例如：子表达式（天（星期））可以为 “MON-FRI”，“MON，WED，FRI”，“MON-WED,SAT”<br>“*”字符代表所有可能的值<br>因此，“*”在子表达式（月）里表示每个月的含义，“*”在子表达式（天（星期））表示星期的每一天<br>“/”字符用来指定数值的增量<br>例如：在子表达式（分钟）里的“0/15”表示从第0分钟开始，每15分钟 ;<br>在子表达式（分钟）里的“3/20”表示从第3分钟开始，每20分钟（它和“3，23，43”）的含义一样<br><br>“？”字符仅被用于天（月）和天（星期）两个子表达式，表示不指定值<br>当2个子表达式其中之一被指定了值以后，为了避免冲突，需要将另一个子表达式的值设为“？”<br><br>“L” 字符仅被用于天（月）和天（星期）两个子表达式，它是单词“last”的缩写<br>但是它在两个子表达式里的含义是不同的。<br>在天（月）子表达式中，“L”表示一个月的最后一天 ,<br>在天（星期）自表达式中，“L”表示一个星期的最后一天，也就是SAT<br>如果在“L”前有具体的内容，它就具有其他的含义了<br>例如：“6L”表示这个月的倒数第６天，“ＦＲＩＬ”表示这个月的最后一个星期五<br>注意：在使用“L”参数时，不要指定列表或范围，因为这会导致问题<br><br>CronTrigger配置完整格式为： [秒] [分] [小时] [日] [月] [周] [年]<br>序号&nbsp;&nbsp; &nbsp;说明&nbsp;&nbsp; &nbsp;是否必填&nbsp;&nbsp; &nbsp;允许填写的值&nbsp;&nbsp; &nbsp;允许的通配符<br>1&nbsp;&nbsp; &nbsp;秒&nbsp;&nbsp; &nbsp;是&nbsp;&nbsp; &nbsp;0-59&nbsp;&nbsp; &nbsp;, - * /<br>2&nbsp;&nbsp; &nbsp;分&nbsp;&nbsp; &nbsp;是&nbsp;&nbsp; &nbsp;0-59&nbsp;&nbsp; &nbsp;, - * /<br>3&nbsp;&nbsp; &nbsp;小时&nbsp;&nbsp; &nbsp;是&nbsp;&nbsp; &nbsp;0-23&nbsp;&nbsp; &nbsp;, - * /<br>4&nbsp;&nbsp; &nbsp;日&nbsp;&nbsp; &nbsp;是&nbsp;&nbsp; &nbsp;1-31&nbsp;&nbsp; &nbsp;, - * ? / L W<br>5&nbsp;&nbsp; &nbsp;月&nbsp;&nbsp; &nbsp;是&nbsp;&nbsp; &nbsp;1-12或JAN-DEC&nbsp;&nbsp; &nbsp;, - * /<br>6&nbsp;&nbsp; &nbsp;周&nbsp;&nbsp; &nbsp;是&nbsp;&nbsp; &nbsp;1-7或SUN-SAT&nbsp;&nbsp; &nbsp;, - * ? / L W<br>7&nbsp;&nbsp; &nbsp;年&nbsp;&nbsp; &nbsp;否&nbsp;&nbsp; &nbsp;empty 或1970-2099&nbsp;&nbsp; &nbsp;, - * /<br><br>通配符说明:<br><br>* 表示所有值. 例如:在分的字段上设置 "*",表示每一分钟都会触发。<br>? 表示不指定值。使用的场景为不需要关心当前设置这个字段的值。例如:要在每月的10号触发一个操作，但不关心是周几，所以需要周位置的那个字段设置为"?" 具体设置为 0 0 0 10 * ?<br>- 表示区间。例如 在小时上设置 "10-12",表示 10,11,12点都会触发。<br>, 表示指定多个值，例如在周字段上设置 "MON,WED,FRI" 表示周一，周三和周五触发<br>/ 用于递增触发。如在秒上面设置"5/15" 表示从5秒开始，每增15秒触发(5,20,35,50)。 在月字段上设置'1/3'所示每月1号开始，每隔三天触发一次。<br>L 表示最后的意思。在日字段设置上，表示当月的最后一天(依据当前月份，如果是二月还会依据是否是润年[leap]), 在周字段上表示星期六，相当于"7"或"SAT"。如果在"L"前加上数字，则表示该数据的最后一个。例如在周字段上设置"6L"这样的格式,则表示“本月最后一个星期五"<br>W 表示离指定日期的最近那个工作日(周一至周五). 例如在日字段上设置"15W"，表示离每月15号最近的那个工作日触发。如果15号正好是周六，则找最近的周五(14号)触发, 如果15号是周未，则找最近的下周一(16号)触发.如果15号正好在工作日(周一至周五)，则就在该天触发。如果指定格式为 "1W",它则表示每月1号往后最近的工作日触发。如果1号正是周六，则将在3号下周一触发。(注，"W"前只能设置具体的数字,不允许区间"-").<br># 序号(表示每月的第几个周几)，例如在周字段上设置"6#3"表示在每月的第三个周六.注意如果指定"#5",正好第五周没有周六，则不会触发该配置(用在母亲节和父亲节再合适不过了) ；<br><br>小提示：<br>'L'和 'W'可以一组合使用。如果在日字段上设置"LW",则表示在本月的最后一个工作日触发；<br>周字段的设置，若使用英文字母是不区分大小写的，即MON 与mon相同；<br><br>常用示例:<br><br>0 0 12 * * ? 每天12点触发<br>0 15 10 ? * * 每天10点15分触发<br>0 15 10 * * ? 每天10点15分触发<br>0 15 10 * * ? * 每天10点15分触发<br>0 15 10 * * ? 2005 2005年每天10点15分触发<br>0 * 14 * * ? 每天下午的 2点到2点59分每分触发<br>0 0/5 14 * * ? 每天下午的 2点到2点59分(整点开始，每隔5分触发)<br>0 0/5 14,18 * * ? 每天下午的 2点到2点59分、18点到18点59分(整点开始，每隔5分触发)<br>0 0-5 14 * * ? 每天下午的 2点到2点05分每分触发<br>0 10,44 14 ? 3 WED 3月分每周三下午的 2点10分和2点44分触发<br>0 15 10 ? * MON-FRI 从周一到周五每天上午的10点15分触发<br>0 15 10 15 * ? 每月15号上午10点15分触发<br>0 15 10 L * ? 每月最后一天的10点15分触发<br>0 15 10 ? * 6L 每月最后一周的星期五的10点15分触发<br>0 15 10 ? * 6L 2002-2005 从2002年到2005年每月最后一周的星期五的10点15分触发<br>0 15 10 ? * 6#3 每月的第三周的星期五开始触发<br>0 0 12 1/5 * ? 每月的第一个中午开始每隔5天触发一次<br>0 11 11 11 11 ? 每年的11月11号 11点11分触发(光棍节)</p><p><br data-mce-bogus="1"></p><p><a href="http://blog.csdn.net/u010448530/article/details/52209119" data-mce-href="http://blog.csdn.net/u010448530/article/details/52209119">http://blog.csdn.net/u010448530/article/details/52209119</a></p><p>&nbsp;</p></div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-html.js"></script>
+</body>
+</html>
