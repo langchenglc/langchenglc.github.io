@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>十年以后你是否成了你想成为的那个样子</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">十年以后你是否成了你想成为的那个样子</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">上周五同学朋友圈的两条信息引爆了高中同学群，大意是这位同学连日加班劳累紧急住院，他的同事用这个同学的微信号发了两条很紧急的微信，想要通过微信朋友圈马上联系到这位同学的父母，并且留下了一个电话号码！
+一石激起千层浪，平时比较沉寂的同学群突然热闹了起来，大家都纷纷开始发表自己的看法，有说是不是诈骗的，有说是不是真的出问题了。但是好在大家的警惕性都是比较高的，对于先验证这条信息的真实性至少先达成了统一，然后再想办法去联系这位同学的父母。
+但高中毕业大家都各奔东西，散落在中国的各地，除了几枚还在帝都的，其他的似乎也只能留着干着急；不过好在群策群力，有立马拨打这个号码确认的额，有百度这个号码分析是不是真的是这位同学的同事，也有赶紧电话找同学本人确认的，也有动用私人关系来通过医院渠道打听消息可靠性的；具体的过程不想多说，当然最后很快就确认了消息的准确性，也确认到联系了同学父母，事情也得以短暂停歇；
+但这短暂卷起又平息的风波，让我意识到，曾经并肩努力的峥嵘岁月早已经在时间的流逝中成了印记，时间拂过，剩给我们的是每个人独特的成长和改变；
+先说H同学，虽然实高中时候跟她的接触不太多，但我的印象里她一直是一个活泼讨喜的女孩子，瘦瘦的却给人一直很有精力很能干的感觉；大学去读了医学院，后来继续考研，现在正式成了一名正式的眼科大夫；平时朋友圈经常也可以看到她晒出自己做科研汇报的照片，同时也有各种吃喝玩乐的生活味道，足足一身现代科研女神范，又不失生活气息，算是很成功的知性学霸，风光无限。挺为她高兴的，看到她的如意，仿佛一切都是命中注定的，这样的人生应该是所谓的easy模式吧，或许上天真的更眷顾可爱美丽的女生。
+再说Z同学，Z同学走的路子完全是另外一种style，浑身自带领导光环，对于一切事情的从容镇定让人真的遗憾学也学不来；他大学在校期间就创建了自己的团购网站，后来毕业进了某知名互联网公司做了管理职位，现在辞职自己创业。因为自己从事it行业，后来他也曾拉我入伙，无奈我对于帝都多少有一点敬远感，他需要的技术也不是我的专长方向，后来委婉拒绝了；但是说实话，他身上散发的自信是我一直羡慕的，就像当年我看过的一部很燃的讲述新东方创业的电影，天不怕地不怕的去为了自己的理想而奋斗实践；高中时期对未来人生的慷慨激扬，在我认识的人里头，我想也只有他是一直朝着这个方向在践行的，而我们大多数人都是被淹没在生活的劳累中渐渐忘却了自己当年的也有的改变世界的梦想。
+接下来也是Z同学，但是这次是个女生；不知道为什么，总觉得她身上透露出来的气质好奇怪，既有小女生的娇小可爱，又有抠脚女汉子的霸气；既能花前月下，又能舞枪弄棒。经常就是背个包钻进深山老林几天不出来的徒步，又或者和一群帅哥美女在聚光灯下展示她的表演才华，又或者突然化身严厉又不失温情的班主任。在她的身上好像总有一种东西是你无法预料到的，八面玲珑这个词说的大底就是她这样的姑娘。这次的集体讨论实践，其实她的反应也让我印象深刻：对于同学的不幸运，大多数人都是在感情上表达自己的抱歉，却鲜有人能像她一样在这种时候能保持冷静，理性得提出及时保留工伤证据，积极联系律师主动出击这样的建议，确实是让我刮目相看！
+当然还有y同学，w同学。。。更多的是我从朋友圈未能了解到的改变和生长！
+
+忘记是谁告诉我，一件事你坚持一遍看不出效果，但是等坚持一年，两年。。。十年的时候，差别就出来了！我想十年前我应该问过自己：十年后我将是什么样的人，但如今已是十年后，对比别人的成长，我想我自己的答案却难以让自己心悦诚服！
+
+ps：最近精神压力颇大，除了工作感情，生活的停滞不前让我也感到一种恐慌！正好于别人的进步警惕自己，人生需要提速了！
+最后，愿老同学早日康复，平时也应该要劳逸结合，毕竟梦想和身体如果只能选择一个，当然还是身体重要！</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">上周五同学朋友圈的两条信息引爆了高中同学群，大意是这位同学连日加班劳累紧急住院，他的同事用这个同学的微信号发了两条很紧急的微信，想要通过微信朋友圈马上联系到这位同学的父母，并且留下了一个电话号码！
+一石激起千层浪，平时比较沉寂的同学群突然热闹了起来，大家都纷纷开始发表自己的看法，有说是不是诈骗的，有说是不是真的出问题了。但是好在大家的警惕性都是比较高的，对于先验证这条信息的真实性至少先达成了统一，然后再想办法去联系这位同学的父母。
+但高中毕业大家都各奔东西，散落在中国的各地，除了几枚还在帝都的，其他的似乎也只能留着干着急；不过好在群策群力，有立马拨打这个号码确认的额，有百度这个号码分析是不是真的是这位同学的同事，也有赶紧电话找同学本人确认的，也有动用私人关系来通过医院渠道打听消息可靠性的；具体的过程不想多说，当然最后很快就确认了消息的准确性，也确认到联系了同学父母，事情也得以短暂停歇；
+但这短暂卷起又平息的风波，让我意识到，曾经并肩努力的峥嵘岁月早已经在时间的流逝中成了印记，时间拂过，剩给我们的是每个人独特的成长和改变；
+先说H同学，虽然实高中时候跟她的接触不太多，但我的印象里她一直是一个活泼讨喜的女孩子，瘦瘦的却给人一直很有精力很能干的感觉；大学去读了医学院，后来继续考研，现在正式成了一名正式的眼科大夫；平时朋友圈经常也可以看到她晒出自己做科研汇报的照片，同时也有各种吃喝玩乐的生活味道，足足一身现代科研女神范，又不失生活气息，算是很成功的知性学霸，风光无限。挺为她高兴的，看到她的如意，仿佛一切都是命中注定的，这样的人生应该是所谓的easy模式吧，或许上天真的更眷顾可爱美丽的女生。
+再说Z同学，Z同学走的路子完全是另外一种style，浑身自带领导光环，对于一切事情的从容镇定让人真的遗憾学也学不来；他大学在校期间就创建了自己的团购网站，后来毕业进了某知名互联网公司做了管理职位，现在辞职自己创业。因为自己从事it行业，后来他也曾拉我入伙，无奈我对于帝都多少有一点敬远感，他需要的技术也不是我的专长方向，后来委婉拒绝了；但是说实话，他身上散发的自信是我一直羡慕的，就像当年我看过的一部很燃的讲述新东方创业的电影，天不怕地不怕的去为了自己的理想而奋斗实践；高中时期对未来人生的慷慨激扬，在我认识的人里头，我想也只有他是一直朝着这个方向在践行的，而我们大多数人都是被淹没在生活的劳累中渐渐忘却了自己当年的也有的改变世界的梦想。
+接下来也是Z同学，但是这次是个女生；不知道为什么，总觉得她身上透露出来的气质好奇怪，既有小女生的娇小可爱，又有抠脚女汉子的霸气；既能花前月下，又能舞枪弄棒。经常就是背个包钻进深山老林几天不出来的徒步，又或者和一群帅哥美女在聚光灯下展示她的表演才华，又或者突然化身严厉又不失温情的班主任。在她的身上好像总有一种东西是你无法预料到的，八面玲珑这个词说的大底就是她这样的姑娘。这次的集体讨论实践，其实她的反应也让我印象深刻：对于同学的不幸运，大多数人都是在感情上表达自己的抱歉，却鲜有人能像她一样在这种时候能保持冷静，理性得提出及时保留工伤证据，积极联系律师主动出击这样的建议，确实是让我刮目相看！
+当然还有y同学，w同学。。。更多的是我从朋友圈未能了解到的改变和生长！
+
+忘记是谁告诉我，一件事你坚持一遍看不出效果，但是等坚持一年，两年。。。十年的时候，差别就出来了！我想十年前我应该问过自己：十年后我将是什么样的人，但如今已是十年后，对比别人的成长，我想我自己的答案却难以让自己心悦诚服！
+
+ps：最近精神压力颇大，除了工作感情，生活的停滞不前让我也感到一种恐慌！正好于别人的进步警惕自己，人生需要提速了！
+最后，愿老同学早日康复，平时也应该要劳逸结合，毕竟梦想和身体如果只能选择一个，当然还是身体重要！</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="/js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>
