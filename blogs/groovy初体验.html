@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>groovy初体验</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">groovy初体验</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 由于本菜鸟学习代码是从java入门的，所以一直对于java的语法习惯和编码方式很适应；直到上个项目中由于使用到了spark，稍微接触了一点scala，新语言的接触让我感觉仿佛是打开了新世界的大门；所以有空也抽一点精力去了解一下其他类型的语言，虽然基本上都是蜻蜓点水，只限于大致了解一下其他语言的特性；像python，node，scala，lisp...，但对于开阔眼界还是很重要的；以后的目标也是多掌握两门语言，给自己更多的选择空间；
+
+
+今天又发现了一个新目标groovy；
+
+---
+
+[TOC]
+
+## groovy介绍
+1. Groovy是一种基于Java平台的面向对象语言。 Groovy 1.0于2007年1月2日发布，其中Groovy 2.4是当前的主要版本。 Groovy通过Apache License v 2.0发布。
+2. Groovy的特点
+    * Groovy中有以下特点:
+    * 同时支持静态和动态类型。
+    * 支持运算符重载。
+    * 本地语法列表和关联数组。
+    * 对正则表达式的本地支持。
+    * 各种标记语言，如XML和HTML原生支持。
+    * Groovy对于Java开发人员来说很简单，因为Java和Groovy的语法非常相似。
+    * 您可以使用现有的Java库。
+    * Groovy扩展了java.lang.Object。
+
+## groovy 安装
+1. [官网下载地址---http://www.groovy-lang.org/download.html](http://www.groovy-lang.org/download.html)
+2. 下载binary包就好了，将目录解压，添加到path环境变量中就可以正常使用了；
+3. groovysh命令使用groovy的shell环境，开始你的println "hello world"吧
+![groovysh](groovy初体验_files/59770c8993aeb557f1000007.png)
+
+## 读取个文件体验一下
+groovy对于常用功能都做了封装，在groovy shell我们可以很方便的演示读取一个文件；
+```
+file = new File('d:\\text.txt')
+file.eachLine{print it}
+file.eachLine{line -> println line}
+```
+![读取文件](groovy初体验_files/59770f0493aeb557f1000008.png)
+
+## 写第一个groovy脚本
+```
+//这是一个斐波那契数列的函数；1+1+2+3+5+8---test.groovy
+current=1;
+next=1;
+10.times{
+	print current +" ";
+	newCurrent = next;
+	next = current + next;
+	current = newCurrent;
+}
+print " "
+```
+
+1. 运行脚本
+`groovy test.groovy`
+![运行脚本](groovy初体验_files/59770a2793aeb557f1000003.png)
+
+2. 编译脚本
+很好奇groovy是否如介绍所说，groovy所写的代码是否能在java中使用，所以我们尝试将上面的类编译后在jvm中调用一下看看
+`groovyc -d classes test.groovy`
+确实可以生成class文件
+![生成class文件](groovy初体验_files/59770b3b93aeb557f1000004.png)
+
+3. java运行
+`java -cp %GROOVY_HOME%/embeddable/groovy-all-2.4.12.jar;classes test`
+这里需要引入groovy的一个jar文件；
+![正常运行](groovy初体验_files/59770bb293aeb557f1000005.png)
+
+4. 反编译查询生成的class文件是什么样子
+```
+import groovy.lang.Binding;
+import groovy.lang.Closure;
+import groovy.lang.Script;
+import org.codehaus.groovy.runtime.GeneratedClosure;
+import org.codehaus.groovy.runtime.InvokerHelper;
+import org.codehaus.groovy.runtime.ScriptBytecodeAdapter;
+import org.codehaus.groovy.runtime.callsite.CallSite;
+
+public class test extends Script
+{
+  public test()
+  {
+    test this;
+    CallSite[] arrayOfCallSite = $getCallSiteArray();
+  }
+
+  public test(Binding context)
+  {
+    super(context);
+  }
+
+  public static void main(String[] args)
+  {
+    CallSite[] arrayOfCallSite = $getCallSiteArray();
+    arrayOfCallSite[0].call(InvokerHelper.class, test.class, args);
+  }
+
+  public Object run()
+  {
+    CallSite[] arrayOfCallSite = $getCallSiteArray(); int i = 1; ScriptBytecodeAdapter.setGroovyObjectProperty(Integer.valueOf(i), test.class, this, (String)"current");
+    int j = 1; ScriptBytecodeAdapter.setGroovyObjectProperty(Integer.valueOf(j), test.class, this, (String)"next");
+    arrayOfCallSite[1].call(Integer.valueOf(10), new test._run_closure1(this));
+
+    return arrayOfCallSite[2].callCurrent(this, " "); return null;
+  }
+
+  public class _run_closure1 extends Closure
+    implements GeneratedClosure
+  {
+    public _run_closure1(Object _thisObject)
+    {
+      super(_thisObject);
+    }
+
+    public Object doCall(Object it)
+    {
+      CallSite[] arrayOfCallSite = $getCallSiteArray(); arrayOfCallSite[0].callCurrent(this, arrayOfCallSite[1].call(arrayOfCallSite[2].callGroovyObjectGetProperty(this), " "));
+      Object localObject1 = arrayOfCallSite[3].callGroovyObjectGetProperty(this); ScriptBytecodeAdapter.setGroovyObjectProperty(localObject1, _run_closure1.class, this, (String)"newCurrent");
+      Object localObject2 = arrayOfCallSite[4].call(arrayOfCallSite[5].callGroovyObjectGetProperty(this), arrayOfCallSite[6].callGroovyObjectGetProperty(this)); ScriptBytecodeAdapter.setGroovyObjectProperty(localObject2, _run_closure1.class, this, (String)"next");
+      Object localObject3 = arrayOfCallSite[7].callGroovyObjectGetProperty(this); ScriptBytecodeAdapter.setGroovyObjectProperty(localObject3, _run_closure1.class, this, (String)"current"); return localObject3; return null;
+    }
+
+    public Object doCall()
+    {
+      CallSite[] arrayOfCallSite = $getCallSiteArray();
+      return doCall(null);
+      return null;
+    }
+  }
+}
+```
+
+## 小结
+
+只是对于groovy的一瞥，就已经让我爱上了这门可爱的语言，对于groovy的探索未完待续！
+</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 由于本菜鸟学习代码是从java入门的，所以一直对于java的语法习惯和编码方式很适应；直到上个项目中由于使用到了spark，稍微接触了一点scala，新语言的接触让我感觉仿佛是打开了新世界的大门；所以有空也抽一点精力去了解一下其他类型的语言，虽然基本上都是蜻蜓点水，只限于大致了解一下其他语言的特性；像python，node，scala，lisp...，但对于开阔眼界还是很重要的；以后的目标也是多掌握两门语言，给自己更多的选择空间；
+
+
+今天又发现了一个新目标groovy；
+
+---
+
+[TOC]
+
+## groovy介绍
+1. Groovy是一种基于Java平台的面向对象语言。 Groovy 1.0于2007年1月2日发布，其中Groovy 2.4是当前的主要版本。 Groovy通过Apache License v 2.0发布。
+2. Groovy的特点
+    * Groovy中有以下特点:
+    * 同时支持静态和动态类型。
+    * 支持运算符重载。
+    * 本地语法列表和关联数组。
+    * 对正则表达式的本地支持。
+    * 各种标记语言，如XML和HTML原生支持。
+    * Groovy对于Java开发人员来说很简单，因为Java和Groovy的语法非常相似。
+    * 您可以使用现有的Java库。
+    * Groovy扩展了java.lang.Object。
+
+## groovy 安装
+1. [官网下载地址---http://www.groovy-lang.org/download.html](http://www.groovy-lang.org/download.html)
+2. 下载binary包就好了，将目录解压，添加到path环境变量中就可以正常使用了；
+3. groovysh命令使用groovy的shell环境，开始你的println "hello world"吧
+![groovysh](groovy初体验_files/59770c8993aeb557f1000007.png)
+
+## 读取个文件体验一下
+groovy对于常用功能都做了封装，在groovy shell我们可以很方便的演示读取一个文件；
+```
+file = new File('d:\\text.txt')
+file.eachLine{print it}
+file.eachLine{line -> println line}
+```
+![读取文件](groovy初体验_files/59770f0493aeb557f1000008.png)
+
+## 写第一个groovy脚本
+```
+//这是一个斐波那契数列的函数；1+1+2+3+5+8---test.groovy
+current=1;
+next=1;
+10.times{
+	print current +" ";
+	newCurrent = next;
+	next = current + next;
+	current = newCurrent;
+}
+print " "
+```
+
+1. 运行脚本
+`groovy test.groovy`
+![运行脚本](groovy初体验_files/59770a2793aeb557f1000003.png)
+
+2. 编译脚本
+很好奇groovy是否如介绍所说，groovy所写的代码是否能在java中使用，所以我们尝试将上面的类编译后在jvm中调用一下看看
+`groovyc -d classes test.groovy`
+确实可以生成class文件
+![生成class文件](groovy初体验_files/59770b3b93aeb557f1000004.png)
+
+3. java运行
+`java -cp %GROOVY_HOME%/embeddable/groovy-all-2.4.12.jar;classes test`
+这里需要引入groovy的一个jar文件；
+![正常运行](groovy初体验_files/59770bb293aeb557f1000005.png)
+
+4. 反编译查询生成的class文件是什么样子
+```
+import groovy.lang.Binding;
+import groovy.lang.Closure;
+import groovy.lang.Script;
+import org.codehaus.groovy.runtime.GeneratedClosure;
+import org.codehaus.groovy.runtime.InvokerHelper;
+import org.codehaus.groovy.runtime.ScriptBytecodeAdapter;
+import org.codehaus.groovy.runtime.callsite.CallSite;
+
+public class test extends Script
+{
+  public test()
+  {
+    test this;
+    CallSite[] arrayOfCallSite = $getCallSiteArray();
+  }
+
+  public test(Binding context)
+  {
+    super(context);
+  }
+
+  public static void main(String[] args)
+  {
+    CallSite[] arrayOfCallSite = $getCallSiteArray();
+    arrayOfCallSite[0].call(InvokerHelper.class, test.class, args);
+  }
+
+  public Object run()
+  {
+    CallSite[] arrayOfCallSite = $getCallSiteArray(); int i = 1; ScriptBytecodeAdapter.setGroovyObjectProperty(Integer.valueOf(i), test.class, this, (String)"current");
+    int j = 1; ScriptBytecodeAdapter.setGroovyObjectProperty(Integer.valueOf(j), test.class, this, (String)"next");
+    arrayOfCallSite[1].call(Integer.valueOf(10), new test._run_closure1(this));
+
+    return arrayOfCallSite[2].callCurrent(this, " "); return null;
+  }
+
+  public class _run_closure1 extends Closure
+    implements GeneratedClosure
+  {
+    public _run_closure1(Object _thisObject)
+    {
+      super(_thisObject);
+    }
+
+    public Object doCall(Object it)
+    {
+      CallSite[] arrayOfCallSite = $getCallSiteArray(); arrayOfCallSite[0].callCurrent(this, arrayOfCallSite[1].call(arrayOfCallSite[2].callGroovyObjectGetProperty(this), " "));
+      Object localObject1 = arrayOfCallSite[3].callGroovyObjectGetProperty(this); ScriptBytecodeAdapter.setGroovyObjectProperty(localObject1, _run_closure1.class, this, (String)"newCurrent");
+      Object localObject2 = arrayOfCallSite[4].call(arrayOfCallSite[5].callGroovyObjectGetProperty(this), arrayOfCallSite[6].callGroovyObjectGetProperty(this)); ScriptBytecodeAdapter.setGroovyObjectProperty(localObject2, _run_closure1.class, this, (String)"next");
+      Object localObject3 = arrayOfCallSite[7].callGroovyObjectGetProperty(this); ScriptBytecodeAdapter.setGroovyObjectProperty(localObject3, _run_closure1.class, this, (String)"current"); return localObject3; return null;
+    }
+
+    public Object doCall()
+    {
+      CallSite[] arrayOfCallSite = $getCallSiteArray();
+      return doCall(null);
+      return null;
+    }
+  }
+}
+```
+
+## 小结
+
+只是对于groovy的一瞥，就已经让我爱上了这门可爱的语言，对于groovy的探索未完待续！
+</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="http://leanote.github.io/markdown-to-html/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>

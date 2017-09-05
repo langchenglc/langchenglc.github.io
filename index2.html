@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+	<head>
+		<meta http-equiv="content-type" content="text/html; charset=utf-8">
+		<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0" name="viewport">
+		<meta content="yes" name="apple-mobile-web-app-capable">
+		<meta content="black-translucent" name="apple-mobile-web-app-status-bar-style">
+		<meta content="telephone=no" name="format-detection">
+		<meta name="description" content="langchenglc的博客">
+		<title>langchenglc</title>
+		<link rel="stylesheet" type="text/css" href="/css/style.css?v=0.0.0">
+		<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/normalize/4.2.0/normalize.min.css">
+		<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/pure-min.css">
+		<link rel="stylesheet" type="text/css" href="//cdn.bootcss.com/pure/0.6.0/grids-responsive-min.css">
+		<link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.min.css">
+		<link rel="stylesheet" type="text/css" href="/css/jquery.dataTables.min.css">
+		<script type="text/javascript" src="//cdn.bootcss.com/jquery/3.0.0/jquery.min.js"></script>
+		<script type="text/javascript" src="/js/jquery.dataTables.min.js"></script>
+		<link rel="Shortcut Icon" type="image/x-icon" href="/favicon.ico">
+		<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+		<link rel="apple-touch-icon-precomposed" href="/apple-touch-icon.png">
+	</head>
+	<body>
+		<div class="body_container">
+			<div id="header">
+				<div class="site-name">
+					<h1 class="hidden">langchenglc</h1>
+					<a id="logo" href="/.">langchenglc</a>
+					<p class="description">---做一名终身学习者</p>
+				</div>
+			</div>
+			<div id="layout" class="pure-g">
+				<div class="pure-u-1 pure-u-md-3-4">
+					<div class="content_container">
+						<table id="blogs">
+							<thead>
+								<tr>
+									<th>标题</th>
+									<th>发布时间</th>
+									<th>标签</th>
+									<th>详情</th>
+								</tr>
+							</thead>
+							<tbody>
+							</tbody>
+						</table>
+					</div>
+				</div>
+				<div class="pure-u-1 pure-u-md-3-4">
+					<div id="footer">©
+						<a href="/." rel="nofollow">langchenglc.</a> |
+						<a href="http://gong.leanote.com/" title="leanote-blog" target="_blank">更多博客请参见gong.leanote.com</a>
+					</div>
+				</div>
+			</div>
+			<a id="rocket" href="#top" class="show"></a>
+			<script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script>
+			<script type="text/javascript" src="//cdn.bootcss.com/fancybox/2.1.5/jquery.fancybox.pack.js" async></script>
+			<script type="text/javascript" src="/js/fancybox.js?v=0.0.0" async></script>
+			<link rel="stylesheet" type="text/css" href="/css/jquery.fancybox.css?v=0.0.0">
+			<script type="text/javascript" src="/js/codeblock-resizer.js?v=0.0.0"></script>
+			<script type="text/javascript" src="/js/smartresize.js?v=0.0.0"></script>
+		</div>
+	</body>
+	<script>
+		var table = $('#blogs').DataTable({
+            'language': {
+                url:'/files/language.json'
+            },
+            'ajax':{
+            	url:'/files/index.json'
+            },
+            'columns': [
+		        { data: 0 },
+		        { data: 1 },
+		        { data: 2 }
+		    ],
+            'searching': true,
+            "lengthMenu": [ 10,20,50,100 ],
+            "columnDefs": [
+                { "width": "50%", "targets": 0 },
+                { "width": "20%", "targets": 1 },
+                { "width": "20%", "targets": 2 },
+                { 	
+                	"orderable": false,
+                	"data":null,
+                	"width":10%,
+                	"defaultContent":'<button>博客详情</button>',
+                	"targets": -1 
+                }
+            ],
+            "autoWidth": false
+        });
+        $('#blogs tbody').on( 'click', 'button', function () {
+            var title = table.row( $(this).parents('tr') ).data()[0] ;
+            if(title != null && title.trim().length>0){
+            	window.open("/blogs/"+title+".html");
+            }else{
+            	alert("blog链接异常，请查看其他blog！或者参见http://gong.leanote.com");
+            }
+        } );
+	</script>
+</html>
