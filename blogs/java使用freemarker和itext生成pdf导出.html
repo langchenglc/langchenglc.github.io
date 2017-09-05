@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>java使用freemarker和itext生成pdf导出</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">java使用freemarker和itext生成pdf导出</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 上回我们在java中使用了freemarker和自己绘制的excel模板在java中生成excel文档导出，这一次我们继续使用freemarker工具结合itext生成pdf文档导出；
+
+[TOC]
+
+## 实现步骤
+
+1. 可以使用itext动态绘制pdf文件，但是为了方便动态调整文件格式，依旧使用模板来动态生成；
+2. 绘制html文件模板
+3. 使用freemarker的标签替换html模板部分内容（freemarker的标签使用参照excel文件生成博客）
+4. 使用itext的api将html生成pdf文件导出
+
+
+## 绘制html注意要点
+
+1. 严格遵守标签闭合，否则容易导出失败；
+2. 中文导出会出问题，应增加字体说明
+
+    ```
+    body{
+        font-family: 'SimSun';
+        margin:0px;
+        padding: 0px;
+    }
+    ```
+    如果是布置的linux服务器上没有对应的中文字体，应在对应的服务器上安装中文字体，[linux中安装中文字体方法](https://leanote.com/blog/post/5959e055ab644133a3000e13)
+3. table标签中不要使用thead tbody标签
+4. html中的table的格式比较难以控制，笔者自己用css样式控制，但是itext对于css样式的解析好像比较粗放；各位有比较好的方式能控制导出的table的样式的好的方法欢迎告知；
+    已知问题---table字段太多时候显示不全 ![table字段太多时候显示不全](java使用freemarker和itext生成pdf导出_files/5955e9a40259852833000003.png)
+    目前解决方案，每个table td单独设置width；
+    ![解决以后](java使用freemarker和itext生成pdf导出_files/5959b68a0259852833000008.png)
+    ```
+        table{border-collapse:collapse;border-spacing:0;border-left:1px solid grey;border-top:1px solid grey;table-layout:fixed;word-break:break-strict;width: 100%;}
+        th,td{border-right:1px solid grey;border-bottom:1px solid grey;padding:5px 15px;}
+        th{font-weight:bold;}
+
+        <th width="5%">数据类型</th>
+        <th width="10%">标题</th>
+        <th width="5%">立案时间</th>
+        <th width="5%">执行案号</th>
+        <th width="10%">执行法院</th>
+        <th width="20%">执行内容</th>
+        <th width="5%">执行状态</th>
+        <th width="40%">异议备注</th>
+    ```
+
+## 文件导出api
+```
+public class PdfGenerator {
+    private static Logger logger = Logger.getLogger(PdfGenerator.class);
+    private static final String templatePathSuf="/output/pdf/";
+    private static final String templatePathPre_html = ".html";
+    private static final String templatePathPre_ftl = ".ftl";
+
+    private static Configuration configuration = new Configuration();
+    static{
+        configuration = new Configuration();
+        configuration.setObjectWrapper(new DefaultObjectWrapper());
+        configuration.setClassForTemplateLoading(PdfGenerator.class, templatePathSuf);
+        configuration.setDefaultEncoding("UTF-8");   //这个一定要设置，不然在生成的页面中 会乱码
+    }
+    public static boolean GeneratePdfWithFtl(Object o,String ftlFilePath,OutputStream os) throws Exception{
+        if(o!=null && StringUtils.isNotEmpty(ftlFilePath)){
+            logger.info("开始根据模板文件生成pdf文件，模板文件路径" + ftlFilePath);
+            String htmlStr = generateStringFromFtl(o,ftlFilePath);//根据给定的模板生成一个字符串
+//            Document document = new Document(PageSize.A3, 50, 50, 60, 60);
+            Document document = new Document(new RectangleReadOnly(1191.0F,842.0F), 50, 50, 60, 60);
+            PdfWriter writer = PdfWriter.getInstance(document, os);
+            document.open();
+            XMLWorkerHelper.getInstance().parseXHtml(writer, document, new ByteArrayInputStream(htmlStr.getBytes("UTF-8")), Charset.forName("UTF-8"));
+            document.close();
+            return true;
+        }
+        return false;
+    }
+
+    private static String generateStringFromFtl(Object o,String ftlFilePath) throws Exception{
+        Template template = configuration.getTemplate(ftlFilePath+templatePathPre_ftl);
+        StringWriter stringWriter = new StringWriter();
+        template.process(o, stringWriter);
+        String htmlStr = stringWriter.toString();
+        stringWriter.flush();
+        stringWriter.close();
+        return htmlStr;
+    }
+}
+```
+代码中调用
+```
+response.setCharacterEncoding("UTF-8");
+response.setContentType("multipart/form-data");
+response.setHeader("Content-Disposition", "attachment;fileName=" + new String(requestInfo.getFileName().getBytes("GB2312"), "ISO_8859_1") + ".pdf");
+PdfGenerator.GeneratePdfWithFtl(fxcontent,templateFileName,response.getOutputStream());
+//第一个参数为自己传过去的查询的结果实体；第二个参数为目标文件名；第三个固定为response的输出流
+```
+导表超链接
+```
+<a href="#" onclick="downloadpdf">点击下载pdf</a>
+或者
+<a href="downloadpdf" target="_blank">点击下载pdf</a>
+```
+
+## maven坐标
+```
+<!--pdf生成-->
+<dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>itextpdf</artifactId>
+    <version>5.5.8</version>
+</dependency>
+<dependency>
+    <groupId>com.itextpdf.tool</groupId>
+    <artifactId>xmlworker</artifactId>
+    <version>5.5.8</version>
+</dependency>
+```
+    </textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 上回我们在java中使用了freemarker和自己绘制的excel模板在java中生成excel文档导出，这一次我们继续使用freemarker工具结合itext生成pdf文档导出；
+
+[TOC]
+
+## 实现步骤
+
+1. 可以使用itext动态绘制pdf文件，但是为了方便动态调整文件格式，依旧使用模板来动态生成；
+2. 绘制html文件模板
+3. 使用freemarker的标签替换html模板部分内容（freemarker的标签使用参照excel文件生成博客）
+4. 使用itext的api将html生成pdf文件导出
+
+
+## 绘制html注意要点
+
+1. 严格遵守标签闭合，否则容易导出失败；
+2. 中文导出会出问题，应增加字体说明
+
+    ```
+    body{
+        font-family: 'SimSun';
+        margin:0px;
+        padding: 0px;
+    }
+    ```
+    如果是布置的linux服务器上没有对应的中文字体，应在对应的服务器上安装中文字体，[linux中安装中文字体方法](https://leanote.com/blog/post/5959e055ab644133a3000e13)
+3. table标签中不要使用thead tbody标签
+4. html中的table的格式比较难以控制，笔者自己用css样式控制，但是itext对于css样式的解析好像比较粗放；各位有比较好的方式能控制导出的table的样式的好的方法欢迎告知；
+    已知问题---table字段太多时候显示不全 ![table字段太多时候显示不全](java使用freemarker和itext生成pdf导出_files/5955e9a40259852833000003.png)
+    目前解决方案，每个table td单独设置width；
+    ![解决以后](java使用freemarker和itext生成pdf导出_files/5959b68a0259852833000008.png)
+    ```
+        table{border-collapse:collapse;border-spacing:0;border-left:1px solid grey;border-top:1px solid grey;table-layout:fixed;word-break:break-strict;width: 100%;}
+        th,td{border-right:1px solid grey;border-bottom:1px solid grey;padding:5px 15px;}
+        th{font-weight:bold;}
+
+        <th width="5%">数据类型</th>
+        <th width="10%">标题</th>
+        <th width="5%">立案时间</th>
+        <th width="5%">执行案号</th>
+        <th width="10%">执行法院</th>
+        <th width="20%">执行内容</th>
+        <th width="5%">执行状态</th>
+        <th width="40%">异议备注</th>
+    ```
+
+## 文件导出api
+```
+public class PdfGenerator {
+    private static Logger logger = Logger.getLogger(PdfGenerator.class);
+    private static final String templatePathSuf="/output/pdf/";
+    private static final String templatePathPre_html = ".html";
+    private static final String templatePathPre_ftl = ".ftl";
+
+    private static Configuration configuration = new Configuration();
+    static{
+        configuration = new Configuration();
+        configuration.setObjectWrapper(new DefaultObjectWrapper());
+        configuration.setClassForTemplateLoading(PdfGenerator.class, templatePathSuf);
+        configuration.setDefaultEncoding("UTF-8");   //这个一定要设置，不然在生成的页面中 会乱码
+    }
+    public static boolean GeneratePdfWithFtl(Object o,String ftlFilePath,OutputStream os) throws Exception{
+        if(o!=null && StringUtils.isNotEmpty(ftlFilePath)){
+            logger.info("开始根据模板文件生成pdf文件，模板文件路径" + ftlFilePath);
+            String htmlStr = generateStringFromFtl(o,ftlFilePath);//根据给定的模板生成一个字符串
+//            Document document = new Document(PageSize.A3, 50, 50, 60, 60);
+            Document document = new Document(new RectangleReadOnly(1191.0F,842.0F), 50, 50, 60, 60);
+            PdfWriter writer = PdfWriter.getInstance(document, os);
+            document.open();
+            XMLWorkerHelper.getInstance().parseXHtml(writer, document, new ByteArrayInputStream(htmlStr.getBytes("UTF-8")), Charset.forName("UTF-8"));
+            document.close();
+            return true;
+        }
+        return false;
+    }
+
+    private static String generateStringFromFtl(Object o,String ftlFilePath) throws Exception{
+        Template template = configuration.getTemplate(ftlFilePath+templatePathPre_ftl);
+        StringWriter stringWriter = new StringWriter();
+        template.process(o, stringWriter);
+        String htmlStr = stringWriter.toString();
+        stringWriter.flush();
+        stringWriter.close();
+        return htmlStr;
+    }
+}
+```
+代码中调用
+```
+response.setCharacterEncoding("UTF-8");
+response.setContentType("multipart/form-data");
+response.setHeader("Content-Disposition", "attachment;fileName=" + new String(requestInfo.getFileName().getBytes("GB2312"), "ISO_8859_1") + ".pdf");
+PdfGenerator.GeneratePdfWithFtl(fxcontent,templateFileName,response.getOutputStream());
+//第一个参数为自己传过去的查询的结果实体；第二个参数为目标文件名；第三个固定为response的输出流
+```
+导表超链接
+```
+<a href="#" onclick="downloadpdf">点击下载pdf</a>
+或者
+<a href="downloadpdf" target="_blank">点击下载pdf</a>
+```
+
+## maven坐标
+```
+<!--pdf生成-->
+<dependency>
+    <groupId>com.itextpdf</groupId>
+    <artifactId>itextpdf</artifactId>
+    <version>5.5.8</version>
+</dependency>
+<dependency>
+    <groupId>com.itextpdf.tool</groupId>
+    <artifactId>xmlworker</artifactId>
+    <version>5.5.8</version>
+</dependency>
+```
+    </pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="/js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>
