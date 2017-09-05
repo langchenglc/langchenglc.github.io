@@ -1,0 +1,475 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>redis</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">redis</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown"># redis
+
+## ------非关系的内存数据库  
+
+## redis简介 
+redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set --有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步。  
+
+Redis 是一个高性能的key-value数据库。 redis的出现，很大程度补偿了memcached这类key/value存储的不足，在部 分场合可以对关系数据库起到很好的补充作用。它提供了Java，C/C++，C#，PHP，JavaScript，Perl，Object-C，Python，Ruby，Erlang等客户端，使用很方便。[1]  
+
+Redis支持主从同步。数据可以从主服务器向任意数量的从服务器上同步，从服务器可以是关联其他从服务器的主服务器。这使得Redis可执行单层树复制。存盘可以有意无意的对数据进行写操作。由于完全实现了发布/订阅机制，使得从数据库在任何地方同步树时，可订阅一个频道并接收主服务器完整的消息发布记录。同步对读取操作的可扩展性和数据冗余很有帮助。
+## redis命令
+* keys \* ===查看所有的keys 
+* exists key ===判断key是否存在
+* del key ===删除key
+* type key ===看key的类型
+* set key value 
+* get key
+* incr key ==自增
+* incrby key number ===自增几
+* decy key  
+* append key value / append key 'world'
+* strlen key ===字符串长度
+* mget/mset=== 一次性多设置几个key-value进去  
+
+---
+hash命令  
+* hmset key field value field value ...  
+* hmget key field field ...  
+* hgetall key  
+* hset key field value field value
+* hget key field
+* hexists key field ===判断某个key是否有某个字段
+* hsetnx key field val===field不存在的时候设置值
+* hincrby key field incrementNumber ====为某个字段加数字
+* hdel key field 
+* hkeys key
+* hvals key
+* hlen key ===获得字段个数
+
+---
+list命令  
+* lpush key value value...  
+* rpush key value value...  
+* lpop key
+* rpop key===弹出一个数据并返回，right-r /left -l
+* llen key===len
+* lrange key start end ===获取这个列表的片段===lrange key 0 -1 返回所有的list值
+* lrem key count value ===从左边或者右边删除需要删除的value值，删除的个数为count的绝对值；
+* lindex key indexNumber===根据下标获得值
+* lset key index value
+* ltrim key start end
+* linsert key before|after pivot value
+* rpoplpush key key === 从一个队列中拿出数据放到第二个列表中，当两个key相同的时候，就构成了循环列表  
+
+---
+集合命令
+* sadd key number number...  
+* srem key number number...
+* smembers key
+* sismember key value
+* sdiff key1 key2 ...===集合的差集运算 sdiffstore destination key1 key2
+* sinter key1 key2 ... ===集合的交集运算 sinterstore destionation key1 key2
+* sunion key1 key2... ===集合的并集匀运算 sunionstore destionation key1 key2
+* scard key ===获取集合元素个数
+* smember key === 随机获取一个元素
+
+---
+有序集合sorted set  
+* zadd key score member score member ...
+* zscore key member === 获取分数
+* zrange key start end withscores
+* zrevrange key start end withscores
+* zrangebyscore key min max
+* zincrby key increment member  
+* sort key (desc) limit offset count === 排序并输出从offset开始的count个数据
+* sort key by key* -> field desc === sort post:tag:ruby by posts:*->time desc
+* sort 参数 get* get# store
+
+---
+redis的事务
+* muti/exec===事务开始/事务结束
+* redis事务不支持回滚，出错了要自己处理
+* watch ===监视一个变量的值的改变，不包括到期key的删除，在下一个事务处理之前如果改变，则下一个事务不做处理
+* unwatch === 同上，用来取消上一次的watch操作，保证不会下一次的事务操作造成影响
+
+---  
+redis的时间周期/缓存
+* expire key seconds ===设置某个key的生存时间，单位为秒
+* pexpire key mmseconds === 毫秒
+* ttl key === 查看一个key的剩余时间，不存在的返回-2，存在的不失效的返回-1
+* persist key === 变这个key为永久生效的 
+* 当缓存的东西太多的时候，可以设置maxmemory和设置max memory-policy参数来进行控制，以排除不经常使用的key值，达到节省memory的目的；
+
+---
+redis任务队列
+* rpop
+* brpop key time ===阻塞直到拿到数据，或者限定时间time为止
+* brpop key1 key2 key3 ... time === 排在前面的key为优先级更高的队列，优先进行处理
+
+---
+redis发布和订阅
+* publish channel-name message ===发布信息
+* subscibe channel-name ===订阅信息
+
+---
+redis的管理
+* redis的持久化方法 rdb和aof
+
+flushall === 清空所有的key
+
+
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+    </textarea>
+			<!-- markdown -->
+			<pre class="content-markdown"># redis
+
+## ------非关系的内存数据库  
+
+## redis简介 
+redis是一个key-value存储系统。和Memcached类似，它支持存储的value类型相对更多，包括string(字符串)、list(链表)、set(集合)、zset(sorted set --有序集合)和hash（哈希类型）。这些数据类型都支持push/pop、add/remove及取交集并集和差集及更丰富的操作，而且这些操作都是原子性的。在此基础上，redis支持各种不同方式的排序。与memcached一样，为了保证效率，数据都是缓存在内存中。区别的是redis会周期性的把更新的数据写入磁盘或者把修改操作写入追加的记录文件，并且在此基础上实现了master-slave(主从)同步。  
+
+Redis 是一个高性能的key-value数据库。 redis的出现，很大程度补偿了memcached这类key/value存储的不足，在部 分场合可以对关系数据库起到很好的补充作用。它提供了Java，C/C++，C#，PHP，JavaScript，Perl，Object-C，Python，Ruby，Erlang等客户端，使用很方便。[1]  
+
+Redis支持主从同步。数据可以从主服务器向任意数量的从服务器上同步，从服务器可以是关联其他从服务器的主服务器。这使得Redis可执行单层树复制。存盘可以有意无意的对数据进行写操作。由于完全实现了发布/订阅机制，使得从数据库在任何地方同步树时，可订阅一个频道并接收主服务器完整的消息发布记录。同步对读取操作的可扩展性和数据冗余很有帮助。
+## redis命令
+* keys \* ===查看所有的keys 
+* exists key ===判断key是否存在
+* del key ===删除key
+* type key ===看key的类型
+* set key value 
+* get key
+* incr key ==自增
+* incrby key number ===自增几
+* decy key  
+* append key value / append key 'world'
+* strlen key ===字符串长度
+* mget/mset=== 一次性多设置几个key-value进去  
+
+---
+hash命令  
+* hmset key field value field value ...  
+* hmget key field field ...  
+* hgetall key  
+* hset key field value field value
+* hget key field
+* hexists key field ===判断某个key是否有某个字段
+* hsetnx key field val===field不存在的时候设置值
+* hincrby key field incrementNumber ====为某个字段加数字
+* hdel key field 
+* hkeys key
+* hvals key
+* hlen key ===获得字段个数
+
+---
+list命令  
+* lpush key value value...  
+* rpush key value value...  
+* lpop key
+* rpop key===弹出一个数据并返回，right-r /left -l
+* llen key===len
+* lrange key start end ===获取这个列表的片段===lrange key 0 -1 返回所有的list值
+* lrem key count value ===从左边或者右边删除需要删除的value值，删除的个数为count的绝对值；
+* lindex key indexNumber===根据下标获得值
+* lset key index value
+* ltrim key start end
+* linsert key before|after pivot value
+* rpoplpush key key === 从一个队列中拿出数据放到第二个列表中，当两个key相同的时候，就构成了循环列表  
+
+---
+集合命令
+* sadd key number number...  
+* srem key number number...
+* smembers key
+* sismember key value
+* sdiff key1 key2 ...===集合的差集运算 sdiffstore destination key1 key2
+* sinter key1 key2 ... ===集合的交集运算 sinterstore destionation key1 key2
+* sunion key1 key2... ===集合的并集匀运算 sunionstore destionation key1 key2
+* scard key ===获取集合元素个数
+* smember key === 随机获取一个元素
+
+---
+有序集合sorted set  
+* zadd key score member score member ...
+* zscore key member === 获取分数
+* zrange key start end withscores
+* zrevrange key start end withscores
+* zrangebyscore key min max
+* zincrby key increment member  
+* sort key (desc) limit offset count === 排序并输出从offset开始的count个数据
+* sort key by key* -> field desc === sort post:tag:ruby by posts:*->time desc
+* sort 参数 get* get# store
+
+---
+redis的事务
+* muti/exec===事务开始/事务结束
+* redis事务不支持回滚，出错了要自己处理
+* watch ===监视一个变量的值的改变，不包括到期key的删除，在下一个事务处理之前如果改变，则下一个事务不做处理
+* unwatch === 同上，用来取消上一次的watch操作，保证不会下一次的事务操作造成影响
+
+---  
+redis的时间周期/缓存
+* expire key seconds ===设置某个key的生存时间，单位为秒
+* pexpire key mmseconds === 毫秒
+* ttl key === 查看一个key的剩余时间，不存在的返回-2，存在的不失效的返回-1
+* persist key === 变这个key为永久生效的 
+* 当缓存的东西太多的时候，可以设置maxmemory和设置max memory-policy参数来进行控制，以排除不经常使用的key值，达到节省memory的目的；
+
+---
+redis任务队列
+* rpop
+* brpop key time ===阻塞直到拿到数据，或者限定时间time为止
+* brpop key1 key2 key3 ... time === 排在前面的key为优先级更高的队列，优先进行处理
+
+---
+redis发布和订阅
+* publish channel-name message ===发布信息
+* subscibe channel-name ===订阅信息
+
+---
+redis的管理
+* redis的持久化方法 rdb和aof
+
+flushall === 清空所有的key
+
+
+
+
+
+---
+
+
+
+
+
+
+
+
+
+
+
+    </pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="/js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,603 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>svn服务器配置</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">svn服务器配置</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">[root@singledb ~]# yum install -y subversion
+
+
+验证安装版本：
+
+[root@singledb ~]# svnserve --version
+
+svnserve, version 1.4.2 (r22196)
+
+
+2.2 创建SVN 版本库
+
+[root@singledb ~]# mkdir /u02/svn
+
+[root@singledb ~]# svnadmin create /u02/svn/davesvn  --davesvn为版本库名称
+
+ 
+
+ 
+
+2.3  SVN 配置
+
+ 
+
+创建版本库后，在这个目录下会生成3个配置文件：
+
+[root@singledb conf]# pwd
+
+/u02/svn/davesvn/conf
+
+[root@singledb conf]# ls
+
+authz  passwd  svnserve.conf
+
+ 
+
+（1）svnserve.conf：  svn服务配置文件下。
+
+（2）passwd： 用户名口令文件。
+
+（3）authz： 权限配置文件。 
+
+ 
+
+svnserve.conf 文件， 该文件配置项分为以下5项：
+
+       anon-access： 控制非鉴权用户访问版本库的权限。
+
+       auth-access：  控制鉴权用户访问版本库的权限。
+
+       password-db： 指定用户名口令文件名。
+
+       authz-db：指定权限配置文件名，通过该文件可以实现以路径为基础的访问控制。
+
+       realm：指定版本库的认证域，即在登录时提示的认证域名称。若两个版本库的认证域相同，建议使用相同的用户名口令数据文件
+
+ 
+
+ 
+
+Passwd 文件 ：
+
+       我们在svnserve.conf文件里启用这个文件。然后配置如下：
+
+[root@singledb conf]# cat passwd
+
+[users]
+
+harry = harryssecret
+
+sally = sallyssecret
+
+dave = davepwd
+
+tianlesoftware = tianlesoftwarepwd
+
+ 
+
+authz  文件 ：
+
+在网上找到一个很好的配置例子：
+
+[groups]
+
+admin = john, kate
+
+devteam1 = john, rachel, sally
+
+devteam2 = kate, peter, mark
+
+docs = bob, jane, mike
+
+training = zak
+
+--这里把不同用户放到不同的组里面，下面在设置目录访问权限的时候，用目录来操作就可以了。
+
+ 
+
+为所有库指定默认访问规则
+
+所有人可以读，管理员可以写，危险分子没有任何权限
+
+[/]  --对应我测试里的：/u02/svn 目录
+
+* = r
+
+@admin = rw
+
+dangerman =
+
+ 
+
+ 允许开发人员可以完全访问他们的项目版本库
+
+[proj1:/]
+
+@devteam1 = rw
+
+[proj2:/]
+
+@devteam2 = rw
+
+[bigproj:/]
+
+@devteam1 = rw
+
+@devteam2 = rw
+
+trevor = rw
+
+ 
+
+ 文档编写人员对所有的docs目录有写权限
+
+[/trunk/doc]
+
+@docs = rw
+
+ 
+
+ 培训人员可以完全访问培训版本库
+
+[TrainingRepos:/]
+
+@training = rw
+
+ 
+
+下面我们来配置我们的authz文件：
+
+[root@singledb conf]# cat authz
+
+[groups]
+
+admin = dave
+
+dev=tianlesoftware
+
+[davesvn:/]
+
+@admin = rw
+
+@dev = rw
+
+[root@singledb conf]#
+
+ 
+
+ 
+
+2.4 启动和停止SVN服务
+
+（1）启动SVN服务:
+
+[root@singledb conf]# svnserve -d -r /u02/svn
+
+       -d表示后台运行
+
+       -r 指定根目录是 /u02/svn
+
+[root@singledb conf]# ps -ef | grep svn
+
+root      4592     1  0 18:04 ?        00:00:00 svnserve -d -r /u02/svn
+
+root      4594  3709  0 18:04 pts/1    00:00:00 grep svn
+
+（2）停止SVN服务:
+
+ps -aux |grep svn
+
+kill -9 进程杀掉</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">[root@singledb ~]# yum install -y subversion
+
+
+验证安装版本：
+
+[root@singledb ~]# svnserve --version
+
+svnserve, version 1.4.2 (r22196)
+
+
+2.2 创建SVN 版本库
+
+[root@singledb ~]# mkdir /u02/svn
+
+[root@singledb ~]# svnadmin create /u02/svn/davesvn  --davesvn为版本库名称
+
+ 
+
+ 
+
+2.3  SVN 配置
+
+ 
+
+创建版本库后，在这个目录下会生成3个配置文件：
+
+[root@singledb conf]# pwd
+
+/u02/svn/davesvn/conf
+
+[root@singledb conf]# ls
+
+authz  passwd  svnserve.conf
+
+ 
+
+（1）svnserve.conf：  svn服务配置文件下。
+
+（2）passwd： 用户名口令文件。
+
+（3）authz： 权限配置文件。 
+
+ 
+
+svnserve.conf 文件， 该文件配置项分为以下5项：
+
+       anon-access： 控制非鉴权用户访问版本库的权限。
+
+       auth-access：  控制鉴权用户访问版本库的权限。
+
+       password-db： 指定用户名口令文件名。
+
+       authz-db：指定权限配置文件名，通过该文件可以实现以路径为基础的访问控制。
+
+       realm：指定版本库的认证域，即在登录时提示的认证域名称。若两个版本库的认证域相同，建议使用相同的用户名口令数据文件
+
+ 
+
+ 
+
+Passwd 文件 ：
+
+       我们在svnserve.conf文件里启用这个文件。然后配置如下：
+
+[root@singledb conf]# cat passwd
+
+[users]
+
+harry = harryssecret
+
+sally = sallyssecret
+
+dave = davepwd
+
+tianlesoftware = tianlesoftwarepwd
+
+ 
+
+authz  文件 ：
+
+在网上找到一个很好的配置例子：
+
+[groups]
+
+admin = john, kate
+
+devteam1 = john, rachel, sally
+
+devteam2 = kate, peter, mark
+
+docs = bob, jane, mike
+
+training = zak
+
+--这里把不同用户放到不同的组里面，下面在设置目录访问权限的时候，用目录来操作就可以了。
+
+ 
+
+为所有库指定默认访问规则
+
+所有人可以读，管理员可以写，危险分子没有任何权限
+
+[/]  --对应我测试里的：/u02/svn 目录
+
+* = r
+
+@admin = rw
+
+dangerman =
+
+ 
+
+ 允许开发人员可以完全访问他们的项目版本库
+
+[proj1:/]
+
+@devteam1 = rw
+
+[proj2:/]
+
+@devteam2 = rw
+
+[bigproj:/]
+
+@devteam1 = rw
+
+@devteam2 = rw
+
+trevor = rw
+
+ 
+
+ 文档编写人员对所有的docs目录有写权限
+
+[/trunk/doc]
+
+@docs = rw
+
+ 
+
+ 培训人员可以完全访问培训版本库
+
+[TrainingRepos:/]
+
+@training = rw
+
+ 
+
+下面我们来配置我们的authz文件：
+
+[root@singledb conf]# cat authz
+
+[groups]
+
+admin = dave
+
+dev=tianlesoftware
+
+[davesvn:/]
+
+@admin = rw
+
+@dev = rw
+
+[root@singledb conf]#
+
+ 
+
+ 
+
+2.4 启动和停止SVN服务
+
+（1）启动SVN服务:
+
+[root@singledb conf]# svnserve -d -r /u02/svn
+
+       -d表示后台运行
+
+       -r 指定根目录是 /u02/svn
+
+[root@singledb conf]# ps -ef | grep svn
+
+root      4592     1  0 18:04 ?        00:00:00 svnserve -d -r /u02/svn
+
+root      4594  3709  0 18:04 pts/1    00:00:00 grep svn
+
+（2）停止SVN服务:
+
+ps -aux |grep svn
+
+kill -9 进程杀掉</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="/js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>

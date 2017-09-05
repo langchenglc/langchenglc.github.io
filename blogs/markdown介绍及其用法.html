@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>markdown介绍及其用法</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">markdown介绍及其用法</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown"># markdown及其用法
+## 什么是markdown
+    markdown是一种标记语言，将文本和与文本相关的其他信息结合起来，用来展示关于文档结构的一种标识性语言，与html和xml类似；但markdown的设计主要被用来简洁化排版，可以让人专注于文字写作，同时又很简洁高效的实现文字的排版和字体设置等。
+
+## markdown的语法
+    由于markdown当初被设计就是为了简化写作，因此它的语法也是相当简洁。
+1. 标题
+
+    Markdown如果一段文字被定义为标题，只要在这段文字前加 # 号即可,总共六级标题，注意#号后有空格一枚。
+    > \# 一级标题
+
+    > \## 二级标题
+
+    > \### 三级标题
+
+以此类推
+
+2. 列表
+* 无序列表 
+    （同样标识符之后有一个空格，以下不做说明，在markdown中大多数都是酱紫的）
+    > \* 列表内容
+
+    > \* 列表内容
+* 有序列表  
+    > 1.列表内容
+    
+    > 2.列表内容
+3. 引用
+
+    只需要在文本前加一个>，就可以变成引用文字了
+4. 链接
+
+* url的链接形式   [baidu](http://www.baidu.com)
+    >  \[baidu](http :/\/www.baidu.com)
+* 图片的链接形式   ![图片](https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png)
+    > \![图片] ( http: /\/图片的地址写这里。和url链接形式的区别就是前面多了一个！号)
+4. 粗体斜体样式
+
+    *前后各一个\*号包含一段文字，这段文字就会变成斜体,前后不要空格*
+
+    > \*前后各一个\\*号包含一段文字，这段文字就会变成斜体,前后不要空格\*
+
+    **前后各两个\*号包含一段文字，这段文字就会变成粗体，前后不要空格**
+
+    > \*\*前后各两个\\*号包含一段文字，这段文字就会变成粗体，前后不要空格\*\*
+    
+5. 分割线
+
+    *** 三个*就变成了分割线，华丽丽的分割线
+    
+6.代码区
+
+有时候我们希望在我们的文字中嵌入代码，只需要将你的代码放在两个点号之间就好了；就是你键盘tab上的那个按键
+
+> \` your code here `
+
+` put your code here,and it will display like this! `
+
+7. 表格 
+
+| title | content1 | content2 |
+| - | :-: | -:|
+|内容1 | 内容2 | 内容3 |
+|内容1 | 内容2,但是如果这一样的内容很多呢，中对齐，两边都有冒号 | 内容3, |
+|内容1 | 内容2 | 内容3,这里右对齐 |
+
+> \| title | content1 | content2 |
+
+> \| - | :-: | -:|
+
+> \|内容1 | 内容2 | 内容3 |
+
+> \|内容1 | 内容2,中对齐，两边都有冒号 | 内容3, |
+
+> |内容1 | 内容2 | 内容3,这里右对齐 |
+
+
+***
+好了，接下来，享受你的文字之旅吧！
+
+
+另外，你如果也信奉一个浏览器搞定能所有事情，你需要这个
+[在线markdown文字编辑器](http://dillinger.io/)
+
+
+
+
+
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              </textarea>
+			<!-- markdown -->
+			<pre class="content-markdown"># markdown及其用法
+## 什么是markdown
+    markdown是一种标记语言，将文本和与文本相关的其他信息结合起来，用来展示关于文档结构的一种标识性语言，与html和xml类似；但markdown的设计主要被用来简洁化排版，可以让人专注于文字写作，同时又很简洁高效的实现文字的排版和字体设置等。
+
+## markdown的语法
+    由于markdown当初被设计就是为了简化写作，因此它的语法也是相当简洁。
+1. 标题
+
+    Markdown如果一段文字被定义为标题，只要在这段文字前加 # 号即可,总共六级标题，注意#号后有空格一枚。
+    > \# 一级标题
+
+    > \## 二级标题
+
+    > \### 三级标题
+
+以此类推
+
+2. 列表
+* 无序列表 
+    （同样标识符之后有一个空格，以下不做说明，在markdown中大多数都是酱紫的）
+    > \* 列表内容
+
+    > \* 列表内容
+* 有序列表  
+    > 1.列表内容
+    
+    > 2.列表内容
+3. 引用
+
+    只需要在文本前加一个>，就可以变成引用文字了
+4. 链接
+
+* url的链接形式   [baidu](http://www.baidu.com)
+    >  \[baidu](http :/\/www.baidu.com)
+* 图片的链接形式   ![图片](https://ss0.bdstatic.com/5aV1bjqh_Q23odCf/static/superman/img/logo_top_ca79a146.png)
+    > \![图片] ( http: /\/图片的地址写这里。和url链接形式的区别就是前面多了一个！号)
+4. 粗体斜体样式
+
+    *前后各一个\*号包含一段文字，这段文字就会变成斜体,前后不要空格*
+
+    > \*前后各一个\\*号包含一段文字，这段文字就会变成斜体,前后不要空格\*
+
+    **前后各两个\*号包含一段文字，这段文字就会变成粗体，前后不要空格**
+
+    > \*\*前后各两个\\*号包含一段文字，这段文字就会变成粗体，前后不要空格\*\*
+    
+5. 分割线
+
+    *** 三个*就变成了分割线，华丽丽的分割线
+    
+6.代码区
+
+有时候我们希望在我们的文字中嵌入代码，只需要将你的代码放在两个点号之间就好了；就是你键盘tab上的那个按键
+
+> \` your code here `
+
+` put your code here,and it will display like this! `
+
+7. 表格 
+
+| title | content1 | content2 |
+| - | :-: | -:|
+|内容1 | 内容2 | 内容3 |
+|内容1 | 内容2,但是如果这一样的内容很多呢，中对齐，两边都有冒号 | 内容3, |
+|内容1 | 内容2 | 内容3,这里右对齐 |
+
+> \| title | content1 | content2 |
+
+> \| - | :-: | -:|
+
+> \|内容1 | 内容2 | 内容3 |
+
+> \|内容1 | 内容2,中对齐，两边都有冒号 | 内容3, |
+
+> |内容1 | 内容2 | 内容3,这里右对齐 |
+
+
+***
+好了，接下来，享受你的文字之旅吧！
+
+
+另外，你如果也信奉一个浏览器搞定能所有事情，你需要这个
+[在线markdown文字编辑器](http://dillinger.io/)
+
+
+
+
+
+
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              
+              </pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="http://leanote.github.io/markdown-to-html/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>webService详解2</title>
+<style>
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-html.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">webService详解2</h1>
+		<div class="content-html" id="leanote-content"><p>https://my.oschina.net/u/1425737/blog/217758</p><p>概念：</p><p>1、WebService，顾名思义就是基于Web的服务。它使用Web(HTTP)方式，接收和响应外部系统的某种请求。从而实现远程调用.&nbsp;</p><p>2、我们可以调用互联网上查询天气信息Web服务，然后将它嵌入到我们的程序(C/S或B/S程序)当中来，当用户从我们的网点看到天气信息时，他会认为我们为他提供了很多的信息服务，但其实我们什么也没有做，只是简单调用了一下服务器上的一段代码而已。</p><p>3、学习WebService可以将你的服务(一段代码)发布到互联网上让别人去调用,也可以调用别人机器上发布的WebService,就像使用自己的代码一样.。</p><p><br></p><p>简单名词：<br></p><p>名词1：XML. Extensible Markup Language －扩展性标记语言</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;XML，用于传输格式化的数据，是Web服务的基础。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;namespace-命名空间。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmlns=“http://itcast.cn” 使用默认命名空间。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;xmlns:itcast=“http://itcast.cn”使用指定名称的命名空间。</p><p>名词2：WSDL – WebService Description Language – Web服务描述语言。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过XML形式说明服务在什么地方－地址。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过XML形式说明服务提供什么样的方法 – 如何调用。</p><p>名词3：SOAP-Simple Object Access Protocol(简单对象访问协议)</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOAP作为一个基于XML语言的协议用于有网上传输数据。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOAP = 在HTTP的基础上+XML数据。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOAP是基于HTTP的。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;SOAP的组成如下：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Envelope – 必须的部分。以XML的根元素出现。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Headers – 可选的。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Body – 必须的。在body部分，包含要执行的服务器的方法。和发送到服务器的数据。</p><p><br></p><p>WSDL－说明服务在哪里，如何调用，其实就是一个使用说明书：</p><p><img id="__LEANOTE_D_IMG_1476000191398" src="webService详解2_files/57f9f9c051b5130783000001.png" alt="" data-mce-src="webService详解2_files/57f9f9c051b5130783000001.png"></p><p>SOAP协议的范本：－请求示例</p><p>以下发出HTTP请求，但不同的是向服务器发送的是XML数据！</p><p><img id="__LEANOTE_D_IMG_1476000191399" src="webService详解2_files/57f9f9c051b5130783000002.png" alt="" data-mce-src="webService详解2_files/57f9f9c051b5130783000002.png"></p><p>SOAP协议：－响应示例：</p><p>响应的信息，同发送信息一样，先必须是HTTP协议，然后再遵循SOAP协议</p><p><img id="__LEANOTE_D_IMG_1476000191400" src="webService详解2_files/57f9f9c151b5130783000007.png" alt="" data-mce-src="webService详解2_files/57f9f9c151b5130783000007.png"></p><p><br></p><p><strong>在Java项目中发布第一个WS服务</strong></p><p>1、用Jdk1.6.0_21以后的版本发布一个WebService服务.</p><p>2、与Web服务相关的类，都位于javax.jws.*包中。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;主要类有：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;1、 @WebService － 它是一个注解，用在类上指定将此类发布成一个ws.</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2、 &nbsp;Endpoint – 此类为端点服务类，它的方法publish用于将一个已经添加了@WebService注解对象绑定到一个地址的端口上。</p><pre id="leanote_ace_1476000294409_0" class="brush:java;toolbar: true; auto-links: false; hljs cs ace-tomorrow">@WebService(name&nbsp;=&nbsp;"WebApp",&nbsp;targetNamespace&nbsp;=&nbsp;"http://baobaodaren/")
+public&nbsp;class&nbsp;WebApp&nbsp;{
+	public&nbsp;String&nbsp;sayHi(String&nbsp;name){
+		System.out.println("server&nbsp;go...");
+		return&nbsp;"youname"+name;
+		
+	}
+	public&nbsp;static&nbsp;void&nbsp;main(String[]&nbsp;args)&nbsp;{
+		Endpoint.publish("http://192.168.1.24:1234/hi",&nbsp;new&nbsp;WebApp());
+		System.out.println("server&nbsp;ready...");
+	}
+
+}</pre><p>注意事项：<br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;</p><p>１、在类上添加@WebService注解。</p><p>这是jdk1.6提供的一个注解。它位于：javax.jws.*包中。</p><p>２、通过EndPoint(端点服务)发布一个webService。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Endpoint也是jdk提供的一个专门用于发布服务的类，它的publish方法接收两个参数，一个是本地的服务地址，二是提供服务的类。它位于javax.xml.ws.*包中。</p><p>static Endpoint.publish(String address, Object implementor)  &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;在给定地址处针对指定的实现者对象创建并发布端点。</p><p>stop方法用于停止服务。</p><p>EndPoint发布完成服务以后，将会独立的线程运行。所以，publish之后的代码，可以正常执行。</p><p>其他注意事项：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;给类添加上@WebService注解后，类中所有的非静态方法都将会对外公布。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;不支持静态方法，final方法。－</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果希望某个方法(非static,非final)不对外公开，可以在方法上添加@WebMethod(exclude=true)，阻止对外公开。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果一个类上，被添加了@WebService注解，则必须此类至少有一个可以公开的方法，否则将会启动失败。</p><p><br></p><p>服务发布成功了，如何调用呢？请看说明书-WSDL：</p><p>&nbsp; &nbsp;&nbsp;</p><p>在地址栏输入(注意后面的参数?wsdl)</p><p>http://192.168.1.24:1234/hi?wsdl</p><p>目前不是访问webService,只是获取一个用于描述WebService的说明文件,即:wsdl文件.</p><p>wsdl- WebService　Description　Language,是以XML文件形式来描述WebService的”说明书”,有了说明书,我们才可以知道如何使用或是调用这个服务.</p><p><br>使用wsimport生成本地调用代码：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;</p><p>wsimport是jdk自带的,可以根据wsdl文档生成客户端调用代码的工具.当然,无论服务器端的WebService是用什么语言写的,都将在客户端生成Java代码.服务器端用什么写的并不重要.</p><p>wsimport.exe位于JAVA_HOME\bin目录下.</p><p>常用参数为:</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-d&lt;目录&gt; &nbsp;- 将生成.class文件。默认参数。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-s&lt;目录&gt; - 将生成.java文件。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;-p&lt;生成的新包名&gt; -将生成的类，放于指定的包下。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;(wsdlurl) - http://server:port/service?wsdl，必须的参数。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;示例：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C:/&gt; wsimport –s . http://192.168.0.100/one?wsdl</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;注意：-s不能分开，-s后面有个小点，用于指定源代码生成的目录。点即当前目录。</p><p><br></p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;如果使用了-s参数则会在目录下生成两份代码，一份为.class代码。一份为.java代码。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;.class代码，可以经过打包以后使用。.java代码可以直接Copy到我们的项目中运行。</p><p><br></p><p>看懂使用说明书WSDL:</p><p>&nbsp;&nbsp;&nbsp;&nbsp;<img id="__LEANOTE_D_IMG_1476000191401" src="webService详解2_files/57f9f9c251b5130783000008.png" alt="" data-mce-src="webService详解2_files/57f9f9c251b5130783000008.png"></p><p>WebService通过HTTP协议完成远程调用: (深入分析) – RPC &nbsp;</p><p>WebService只采用HTTP POST方式传输数据，不使用GET方式; &nbsp;-- 握手，WSDL-get,</p><p>&nbsp;&nbsp;&nbsp;&nbsp;普通http post的contentType为</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;application/x-www-form-urlencoded</p><p>&nbsp;&nbsp;&nbsp;&nbsp;WebService的contentType为－即在Http的基础上发SOAP协议</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;text/xml 这是基于soap1.1协议。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;application/soap+xml 这是基于soap1.2协议。</p><p><br></p><p>WebService从数据传输格式上作了限定。WebService所使用的数据均是基于XML格式的。目前标准的WebService在数据格式上主要采用SOAP协议。SOAP协议实际上就是一种基于XML编码规范的文本协议。</p><p>SOAP – Simple Object Access protocol 简单对像访问协议。是运行在HTTP协议基础之上的协议。其实就是在HTTP协议是传输XML文件，就变成了SOAP协议。</p><p>SOAP1.1和SOAP1.2的 namespace不一样。可以通过查看类</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;javax.xml.ws.soap.SOAPBinding来查看里面的常量</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;默认情况下，Jdk1.6只支持soap1.1</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;即：@BindingType(value=javax.xml.ws.soap.SOAPBinding.SOAP11HTTP_BINDING)</p><p><br></p><p>WebService和Web服务器的区别</p><p>WebService和Web服务器有什么区别呢？我们可以把WebService看作是Web服务器上应用；反过来说，Web服务器是WebService运行时所必需的容器。这就是它们的区别和联系。</p><p>使用JDK1.6发布的简单Web服务，其内部其实是使用Socket实现。可以查看：SUN公司未对外公布的API类com.sun.xml.internal.ws.transport.http.server. ServerMgr获知，请使用反编译工具。</p><p>WebService的特点：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebService通过HTTP POST方式接受客户的请求</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;WebService与客户端之间一般使用SOAP协议传输XML数据.</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;它本身就是为了跨平台或跨语言而设计的。</p><p><br></p><p>客户端调用WebService的方式：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过wsimport生成客户端代码</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过客户端编程的方式调用</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过ajax调用 (js+XML) &nbsp;</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;通过URLConnection调用</p><p><br></p><p>使用原生的ajax调用web服务：</p><p>&nbsp;</p><p>由于使用ajax – js调用web服务完成不同于使用java代码调用。所以，必须要对SOAP文件非常的了解。</p><p>一般使用ajax调用，应该是在已经获知了以下信息以后才去调用：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;获知请求（request）的soap文本。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;获知响应(response)的soap文本。</p><p><img id="__LEANOTE_D_IMG_1476000191402" src="webService详解2_files/57f9f9c051b5130783000003.png" alt="" data-mce-src="webService详解2_files/57f9f9c051b5130783000003.png"></p><p><br>客户端通过编程的方式访问服务:</p><p>&nbsp;</p><p>使用javax.xml.ws.Service类用于访问web服务。</p><p>关键类Service：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;方法create – 用户创建Service对像，提供wsdlurl和服务名。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;getPort-用于通过指定namespace，portName和接口的范型。</p><p>&nbsp;&nbsp;&nbsp;&nbsp;在客户端需要一个与服务器接口完全相同的类。（仍然使用工具生成。但只需要一个接口。并需要简单修改。如果返 &nbsp; &nbsp; &nbsp; 回的是复杂数据类型如POJO，还需要将POJO一并放到项目中）-不要试图通过-p来修改包名，会出错的。</p><p>关键类QName – 被称为完全限定名即：Qualified Name的缩写：</p><p>&nbsp;&nbsp;&nbsp;&nbsp;QName 的值包含名称空间 URI、本地部分和前缀</p><p><img id="__LEANOTE_D_IMG_1476000191403" src="webService详解2_files/57f9f9c151b5130783000004.png" alt="" data-mce-src="webService详解2_files/57f9f9c151b5130783000004.png"></p><p>通过URLConnection调用：</p><pre id="leanote_ace_1476000294489_0" class="brush:java;toolbar: true; auto-links: false; hljs cs ace-tomorrow">/**
+&nbsp;*&nbsp;通过URLConnection调用webService服务
+&nbsp;*&nbsp;@author&nbsp;Administrator
+&nbsp;*
+&nbsp;*/
+public&nbsp;class&nbsp;URLConnectionApp&nbsp;{
+	
+	public&nbsp;static&nbsp;void&nbsp;main(String[]&nbsp;args)&nbsp;throws&nbsp;Exception&nbsp;{
+		//制定websercice的地址
+		String&nbsp;wsUrl&nbsp;=&nbsp;"http://192.168.1.24:1234/hi";
+		URL&nbsp;url&nbsp;=&nbsp;new&nbsp;URL(wsUrl);
+		URLConnection&nbsp;coon&nbsp;=&nbsp;&nbsp;url.openConnection();
+		HttpURLConnection&nbsp;con&nbsp;=&nbsp;(HttpURLConnection)coon;
+		
+		//设置请求方式
+		con.setDoInput(true);
+		con.setDoOutput(true);
+		con.setRequestMethod("POST");
+		con.setRequestProperty("content-type","text/xml;charset=UTF-8");
+		
+		//手动构造请求体
+		String&nbsp;requestBoby="&lt;soapenv:Envelope&nbsp;xmlns:soapenv=\"http://schemas.xmlsoap.org/soap/envelope/\"&nbsp;"+
+						&nbsp;&nbsp;&nbsp;"&nbsp;xmlns:q0=\"http://webxml.com.cn/\"&nbsp;xmlns:xsd=\"http://www.w3.org/2001/XMLSchema&nbsp;\"&nbsp;"+
+						&nbsp;&nbsp;&nbsp;"&nbsp;xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"&gt;"+
+						&nbsp;&nbsp;&nbsp;"&lt;soapenv:Body&gt;&lt;q0:sayHi&gt;&lt;arg0&gt;lisi&lt;/arg0&gt;&nbsp;&lt;arg1&gt;10&lt;/arg1&gt;&nbsp;&lt;/q0:sayHi&gt;&lt;/soapenv:Body&gt;&lt;/soapenv:Envelope&gt;";
+		
+		OutputStream&nbsp;out&nbsp;=&nbsp;con.getOutputStream();
+		out.write(requestBoby.getBytes());
+		out.close();
+		
+		int&nbsp;code&nbsp;=&nbsp;con.getResponseCode();
+		if(code==200){
+			InputStream&nbsp;input&nbsp;=&nbsp;&nbsp;con.getInputStream();
+			byte[]&nbsp;b&nbsp;=&nbsp;new&nbsp;byte[1024];
+			StringBuffer&nbsp;sb&nbsp;=&nbsp;new&nbsp;StringBuffer();
+			int&nbsp;len&nbsp;=&nbsp;0;
+			while((len=input.read(b))!=-1){
+				String&nbsp;str&nbsp;=&nbsp;new&nbsp;String(b,0,len,"UTF-8");
+				sb.append(str);
+			}
+			System.out.println(sb.toString());
+			input.close();
+		}
+		con.disconnect();
+	}
+}</pre><p>&nbsp;通过wsimport生成客户端代码：</p><p><img id="__LEANOTE_D_IMG_1476000191404" src="webService详解2_files/57f9f9c151b5130783000006.png" alt="" data-mce-src="webService详解2_files/57f9f9c151b5130783000006.png"></p><p><img id="__LEANOTE_D_IMG_1476000191405" src="webService详解2_files/57f9f9c151b5130783000005.png" alt="" data-mce-src="webService详解2_files/57f9f9c151b5130783000005.png"></p><p><br></p><p>以上就是简单的webservice</p></div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-html.js"></script>
+</body>
+</html>

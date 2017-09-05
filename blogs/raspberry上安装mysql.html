@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>raspberry上安装mysql</title>
+<style>
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-html.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">raspberry上安装mysql</h1>
+		<div class="content-html" id="leanote-content"><p>原文链接：http://blog.csdn.net/faryang/article/details/50788795</p><p>使用dpkg&nbsp;-l|grep&nbsp;<a class="replace_word" title="MySQL知识库" href="http://lib.csdn.net/base/mysql" target="_blank" data-mce-href="http://lib.csdn.net/base/mysql">MySQL</a>：查看是否安装mysql</p><p><img id="__LEANOTE_D_IMG_1494509389305" src="raspberry上安装mysql_files/5914674eb978a62de9000000.png" alt="" data-mce-src="raspberry上安装mysql_files/5914674eb978a62de9000000.png"><br></p><p>&nbsp;</p><div>注意：在2016-02-26-raspbian-jessie这个版本中：系统安装了mysql和java</div><div>&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; 在2015-05-05-raspbian-wheezy这个版本中：系统没有安装mysql、java</div><div><br></div><div><strong>1、卸载mysql</strong></div><div>一开始安装的操作系统是raspbian-jessie，故需要将mysql卸载掉，如果安装的是2015-05-05-raspbian-wheezy系统，跳过此步骤</div><div><div>ii&nbsp;&nbsp;mysql-client-5.5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.5.47-0+deb7u1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;armhf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MySQL&nbsp;database&nbsp;client&nbsp;binaries</div><div>ii&nbsp;&nbsp;mysql-common&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.5.47-0+deb7u1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MySQL&nbsp;database&nbsp;common&nbsp;files,&nbsp;e.g.&nbsp;/etc/mysql/my.cnf</div><div>ii&nbsp;&nbsp;mysql-server&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.5.47-0+deb7u1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;all&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MySQL&nbsp;database&nbsp;server&nbsp;(metapackage&nbsp;depending&nbsp;on&nbsp;the&nbsp;latest&nbsp;version)</div><div>ii&nbsp;&nbsp;mysql-server-5.5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.5.47-0+deb7u1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;armhf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MySQL&nbsp;database&nbsp;server&nbsp;binaries&nbsp;and&nbsp;system&nbsp;database&nbsp;setup</div><div>ii&nbsp;&nbsp;mysql-server-core-5.5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5.5.47-0+deb7u1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;armhf&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;MySQL&nbsp;database&nbsp;server&nbsp;binaries</div></div><div>利用下面来卸载上面的软件：</div><div>apt-get remove 软件名称（例如：apt-get remove&nbsp;&nbsp;mysql-server）</div><div>将上面软件卸载完后，开始安装mysql</div><div><br></div><div><strong>2、安装mysql（这里用的是root用户，如果没有开启root用户，可以参考本人的《初次使用树莓派并启用root用户》这篇文章）</strong></div><div>apt-get install mysql-server</div><div>等待下载安装，在安装过程中，会出现提示输入两次root账户密码来设置mysql中root账户密码</div><div>安装完后</div><div>输入：mysql -uroot -p密码登录mysql</div><div><br></div><div><strong>3、开启mysql远程访问</strong></div><div>3.1修改/etc/mysql/my.cnf文件</div><div>找到下面这行，并用#注释掉，</div><div><div>bind-address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;=&nbsp;127.0.0.1</div></div><div>或者修改为bind-address&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;= 0.0.0.0</div><div>3.2登录mysql，输入下面命令</div><p>mysql&gt;grant all privileges on *.* to&nbsp;username@"%" identified by "password";（username一般是root，password是新的密码）</p><div>mysql&gt; FLUSH PRIVILEGES;</div><div><br></div><div><strong>4、开启3306端口远程访问</strong></div><div>这里的iptable命令和centos中命令不一样，所以参考了一下文档，使用 ufw软件来开启3306端口</div><div>4.1安装ufw</div><div><code>apt-get&nbsp;</code><code>install</code><code>ufw</code><br></div><div>4.2启用ufw</div><div>ufw enable</div><div>ufw default deny</div><div>4.3开启3306、22（ssh端口）端口</div><div>ufw allow 3306&nbsp;<br></div><div>ufw allow 22&nbsp;</div><div>注意：如果不开启22端口，下次启动树莓派时，系统的22端口会禁用，不能使用ssh登录树莓派</div><div><br></div><div><strong>5、重新启动系统</strong></div><div>这里不知道在树莓派下这个系统里重新启动mysql，所以为了使得配置参数生效，这里选择重新启动操作系统，使用reboot这个命令</div><div><br></div><div><strong>6、解决远程连接出现1045的错误</strong></div><div><span lang="EN-US">ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO</span>）<br></div><div>这里贴了一个别人写的解决文档</div><div><p><span lang="EN-US"># mysql -u root -p&nbsp;</span><span lang="EN-US"><br>Enter password:&nbsp;<br>ERROR 1045 (28000): Access denied for user 'root'@'localhost' (using password: NO</span>）<span lang="EN-US"><br></span>或者&nbsp;<span lang="EN-US"><br># mysql -u root -p password 'newpassword'&nbsp;<br>Enter password:&nbsp;<br>mysqladmin: connect to server at 'localhost' failed&nbsp;<br>error: 'Access denied for user 'root'@'localhost' (using password: YES)'&nbsp;</span></p><p><span lang="EN-US"><br></span>出现此错误时：</p><p><span lang="EN-US">1.</span>关闭<span lang="EN-US">&nbsp;&nbsp;&nbsp; # service mysqld stop&nbsp;</span></p><p><span lang="EN-US">2.</span>屏蔽权限<span lang="EN-US">&nbsp;&nbsp;&nbsp; # mysqld_safe --skip-grant-table&nbsp;&nbsp;&nbsp;&nbsp;</span>屏幕出现：<span lang="EN-US">&nbsp;Starting demo from .....&nbsp;&nbsp;&nbsp;</span></p><p><span lang="EN-US">3.</span>新开起一个终端输入<span lang="EN-US">&nbsp;&nbsp;&nbsp; # mysql -u root mysql&nbsp;&nbsp;&nbsp; mysql&gt; UPDATE user SET Password=PASSWORD('newpassword') where USER='root';&nbsp;&nbsp;&nbsp; mysql&gt; FLUSH PRIVILEGES;//</span>记得要这句话，否则如果关闭先前的终端，又会出现原来的错误<span lang="EN-US">&nbsp;&nbsp;&nbsp; mysql&gt; \q&nbsp;</span>。</p></div></div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-html.js"></script>
+</body>
+</html>
