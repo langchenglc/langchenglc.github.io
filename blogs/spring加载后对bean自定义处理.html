@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>spring加载后对bean自定义处理</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">spring加载后对bean自定义处理</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 新项目由于对服务进行了重新架构，将原来各模块各自为政改成了统一化数据处理方式，通过数据引擎动态决定数据流的流向。但是所有的服务需要事先注册到上下文中，数据引擎才能获取进行进行动态任务委派；所以这一次解决怎么在容器启动的时候动态将各个模块的服务注册到上下文中；
+
+[TOC]
+
+## 问题来的很快
+目前我想到的一个解决办法是自定义java注解，在容器启动的时候解析标记了自定义标签的bean，并将bean注册及配置的注解参数注册到服务上下文中；那么问题就来了**怎么在spring容器启动的时候就获取这些服务bean？**
+
+网上找的了一些资料，原来spring对于bean的注册对外有开放一个接口BeanPostProcessor，当bean实例完成的时候会通知这个接口；
+```
+@Component
+public class RegistryListener implements BeanPostProcessor {//BeanDefinitionRegistryPostProcessor
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
+    }
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        //写自己的逻辑；我们可以在这里对实例好的bean进行检查，
+        //如果包含了我们自定义的注解，那么就将这个bean注册到服务上下文就好了！
+        return bean;
+    }
+}
+```
+
+## 坑也来的很快
+
+上面的方法解决了容器启动时候的动态bean扫描和注册，但是使用一段时候发现，这个bean有很大问题！
+因为你使用了aop技术的话，这里传过来的bean是动态代理后的bean，这点就比较坑了，spring默认对接口是使用java动态代理的，自定义的注解信息在这个bean上就找不到了，导致我调试了很久才找到这个坑！
+![坑](spring加载后对bean自定义处理_files/599e8a35acc1ee023b000000.png)
+注册到上下文的bean，后期我还要通过数据引擎使用反射技术动态调用，所以不能直接用原来的bean代替就完事，不然没办法受aop的支持；
+找了一个通过代理对象获取被代理对象的方法类，要获取源对象，调用一下就好了；
+```
+package com.skyon.celery.util;
+import org.springframework.aop.framework.AdvisedSupport;
+import org.springframework.aop.framework.AopProxy;
+import org.springframework.aop.support.AopUtils;
+import java.lang.reflect.Field;
+public class AopTargetUtils {
+    /**
+     * 获取 目标对象
+     * @param proxy 代理对象
+     * @throws Exception
+     */
+    public static Object getTarget(Object proxy) throws Exception {
+        if(!AopUtils.isAopProxy(proxy)) {
+            return proxy;//不是代理对象
+        }
+        if(AopUtils.isJdkDynamicProxy(proxy)) {
+            return getJdkDynamicProxyTargetObject(proxy);
+        } else { //cglib
+            return getCglibProxyTargetObject(proxy);
+        }
+    }
+    private static Object getCglibProxyTargetObject(Object proxy) throws Exception {
+        Field h = proxy.getClass().getDeclaredField("CGLIB$CALLBACK_0");
+        h.setAccessible(true);
+        Object dynamicAdvisedInterceptor = h.get(proxy);
+
+        Field advised = dynamicAdvisedInterceptor.getClass().getDeclaredField("advised");
+        advised.setAccessible(true);
+
+        return ((AdvisedSupport)advised.get(dynamicAdvisedInterceptor)).getTargetSource().getTarget();
+    }
+
+    private static Object getJdkDynamicProxyTargetObject(Object proxy) throws Exception {
+        Field h = proxy.getClass().getSuperclass().getDeclaredField("h");
+        h.setAccessible(true);
+        AopProxy aopProxy = (AopProxy) h.get(proxy);
+
+        Field advised = aopProxy.getClass().getDeclaredField("advised");
+        advised.setAccessible(true);
+
+        return ((AdvisedSupport)advised.get(aopProxy)).getTargetSource().getTarget();
+    }
+}
+
+```
+
+通过以上的方法就解决了之前的问题！
+</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 新项目由于对服务进行了重新架构，将原来各模块各自为政改成了统一化数据处理方式，通过数据引擎动态决定数据流的流向。但是所有的服务需要事先注册到上下文中，数据引擎才能获取进行进行动态任务委派；所以这一次解决怎么在容器启动的时候动态将各个模块的服务注册到上下文中；
+
+[TOC]
+
+## 问题来的很快
+目前我想到的一个解决办法是自定义java注解，在容器启动的时候解析标记了自定义标签的bean，并将bean注册及配置的注解参数注册到服务上下文中；那么问题就来了**怎么在spring容器启动的时候就获取这些服务bean？**
+
+网上找的了一些资料，原来spring对于bean的注册对外有开放一个接口BeanPostProcessor，当bean实例完成的时候会通知这个接口；
+```
+@Component
+public class RegistryListener implements BeanPostProcessor {//BeanDefinitionRegistryPostProcessor
+    @Override
+    public Object postProcessBeforeInitialization(Object bean, String beanName) throws BeansException {
+        return bean;
+    }
+    @Override
+    public Object postProcessAfterInitialization(Object bean, String beanName) throws BeansException {
+        //写自己的逻辑；我们可以在这里对实例好的bean进行检查，
+        //如果包含了我们自定义的注解，那么就将这个bean注册到服务上下文就好了！
+        return bean;
+    }
+}
+```
+
+## 坑也来的很快
+
+上面的方法解决了容器启动时候的动态bean扫描和注册，但是使用一段时候发现，这个bean有很大问题！
+因为你使用了aop技术的话，这里传过来的bean是动态代理后的bean，这点就比较坑了，spring默认对接口是使用java动态代理的，自定义的注解信息在这个bean上就找不到了，导致我调试了很久才找到这个坑！
+![坑](spring加载后对bean自定义处理_files/599e8a35acc1ee023b000000.png)
+注册到上下文的bean，后期我还要通过数据引擎使用反射技术动态调用，所以不能直接用原来的bean代替就完事，不然没办法受aop的支持；
+找了一个通过代理对象获取被代理对象的方法类，要获取源对象，调用一下就好了；
+```
+package com.skyon.celery.util;
+import org.springframework.aop.framework.AdvisedSupport;
+import org.springframework.aop.framework.AopProxy;
+import org.springframework.aop.support.AopUtils;
+import java.lang.reflect.Field;
+public class AopTargetUtils {
+    /**
+     * 获取 目标对象
+     * @param proxy 代理对象
+     * @throws Exception
+     */
+    public static Object getTarget(Object proxy) throws Exception {
+        if(!AopUtils.isAopProxy(proxy)) {
+            return proxy;//不是代理对象
+        }
+        if(AopUtils.isJdkDynamicProxy(proxy)) {
+            return getJdkDynamicProxyTargetObject(proxy);
+        } else { //cglib
+            return getCglibProxyTargetObject(proxy);
+        }
+    }
+    private static Object getCglibProxyTargetObject(Object proxy) throws Exception {
+        Field h = proxy.getClass().getDeclaredField("CGLIB$CALLBACK_0");
+        h.setAccessible(true);
+        Object dynamicAdvisedInterceptor = h.get(proxy);
+
+        Field advised = dynamicAdvisedInterceptor.getClass().getDeclaredField("advised");
+        advised.setAccessible(true);
+
+        return ((AdvisedSupport)advised.get(dynamicAdvisedInterceptor)).getTargetSource().getTarget();
+    }
+
+    private static Object getJdkDynamicProxyTargetObject(Object proxy) throws Exception {
+        Field h = proxy.getClass().getSuperclass().getDeclaredField("h");
+        h.setAccessible(true);
+        AopProxy aopProxy = (AopProxy) h.get(proxy);
+
+        Field advised = aopProxy.getClass().getDeclaredField("advised");
+        advised.setAccessible(true);
+
+        return ((AdvisedSupport)advised.get(aopProxy)).getTargetSource().getTarget();
+    }
+}
+
+```
+
+通过以上的方法就解决了之前的问题！
+</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="/js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>

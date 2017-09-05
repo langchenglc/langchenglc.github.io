@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>java注解</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">java注解</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> jdk5.0开始支持注解，注解本身对代码的运行没有什么影响，但是可以通过第三方代码和java反射技术动态获取注解信息，从而实现对代码逻辑的改变；注解在java的使用中已经越来越常见，本篇一起来了解和使用java 的注解技术；
+Annotation（注解）就是Java提供了一种元程序中的元素关联任何信息和着任何元数据（metadata）的途径和方法
+
+[TOC]
+
+---
+
+## 系统注解
+注解的语法比较简单，除了@符号的使用外，他基本与Java固有的语法一致，JavaSE中内置三个标准注解，定义在java.lang中：
+* @Override：用于修饰此方法覆盖了父类的方法;
+* @Deprecated：用于修饰已经过时的方法;
+* @SuppressWarnnings:用于通知java编译器禁止特定的编译警告。
+他们具体使用无用多言了吧
+
+## 元注解
+元注解的作用就是负责注解其他注解。Java5.0定义了4个标准的meta-annotation类型，它们被用来提供对其它annotation类型作说明。Java5.0定义的元注解：
+### @Target
+    @Target说明了Annotation所修饰的对象范围：Annotation可被用于packages、types（类、接口、枚举、Annotation类型）、类型成员（方法、构造方法、成员变量、枚举值）、方法参数和本地变量（如循环变量、catch参数）。在Annotation类型的声明中使用了target可更加明晰其修饰的目标。
+    
+* CONSTRUCTOR:用于描述构造器
+* FIELD:用于描述域
+* LOCAL_VARIABLE:用于描述局部变量
+* METHOD:用于描述方法
+* PACKAGE:用于描述包
+* PARAMETER:用于描述参数
+* TYPE:用于描述类、接口(包括注解类型) 或enum声明
+
+```
+package java.lang.annotation;
+public enum ElementType {
+    /** Class, interface (including annotation type), or enum declaration */
+    TYPE,
+    /** Field declaration (includes enum constants) */
+    FIELD,
+    /** Method declaration */
+    METHOD,
+    /** Formal parameter declaration */
+    PARAMETER,
+    /** Constructor declaration */
+    CONSTRUCTOR,
+    /** Local variable declaration */
+    LOCAL_VARIABLE,
+    /** Annotation type declaration */
+    ANNOTATION_TYPE,
+    /** Package declaration */
+    PACKAGE,
+    /** Type parameter declaration*/
+    TYPE_PARAMETER,
+    /** Use of a type*/
+    TYPE_USE
+}
+```
+### @Retention
+    @Retention定义了该Annotation被保留的时间长短：某些Annotation仅出现在源代码中，而被编译器丢弃；而另一些却被编译在class文件中；编译在class文件中的Annotation可能会被虚拟机忽略，而另一些在class被装载时将被读取（请注意并不影响class的执行，因为Annotation与class在使用上是被分离的）。使用这个meta-Annotation可以对 Annotation的“生命周期”限制
+    
+* SOURCE:在源文件中有效（即源文件保留）
+* CLASS:在class文件中有效（即class保留）
+* RUNTIME:在运行时有效（即运行时保留）
+
+```
+public enum RetentionPolicy {
+    SOURCE,
+    CLASS,
+    RUNTIME
+}
+
+```
+### @Documented
+    @Documented用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。Documented是一个标记注解，没有成员。
+    
+### @Inherited
+    @Inherited 元注解是一个标记注解，@Inherited阐述了某个被标注的类型是被继承的。如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个annotation将被用于该class的子类。
+    注意：@Inherited annotation类型是被标注过的class的子类所继承。类并不从它所实现的接口继承annotation，方法并不从它所重载的方法继承annotation。
+    当@Inherited annotation类型标注的annotation的Retention是RetentionPolicy.RUNTIME，则反射API增强了这种继承性。如果我们使用java.lang.reflect去查询一个@Inheritedannotation类型的annotation时，反射代码检查将展开工作：检查class和其父类，直到发现指定的annotation类型被发现，或者到达类继承结构的顶层。
+    
+    
+## 注解说明
+
+1. 如果注解只有一个成员，这个成员名可以定为value(),使用时候可以忽略成员名，直接使用@XmlAccessorType(XmlAccessType.FIELD)而不用@XmlAccessorType(value=XmlAccessType.FIELD)
+2. 成员方法必须无入参无抛出异常的方式声明
+3. 成员方法返回值是受限的，注解参数的可支持数据类型：
+* 所有基本数据类型（int,float,boolean,byte,double,char,long,short)
+* String类型
+* Class类型
+* enum类型
+* Annotation类型
+* 以上所有类型的数组
+4. 可以为注解方法设置默认值 default ,注解元素必须有确定的值，默认指定或者使用时候指定，非基本类型不可为null
+5. 举个栗子 
+* String name() default "";
+* A.class value();
+* public enum Color{ BULE,RED,GREEN};  Color fruitColor() default Color.GREEN;
+* public int id() default -1;
+
+## 注解使用
+    Java使用Annotation接口来代表程序元素前面的注解，该接口是所有Annotation类型的父接口。除此之外，Java在java.lang.reflect 包下新增了AnnotatedElement接口，该接口代表程序中可以接受注解的程序元素。
+    
+    java.lang.reflect 包下主要包含一些实现反射功能的工具类，实际上，java.lang.reflect包所有提供的反射API扩充了读取运行时Annotation信息的能力。当一个Annotation类型被定义为运行时的Annotation后，该注解才能是运行时可见，当class文件被装载时被保存在class文件中的Annotation才会被虚拟机读取。
+
+访问Annotation信息的四个方法：
+1. ```<T extends Annotation> T getAnnotation(Class<T> annotationClass)```: 返回改程序元素上存在的、指定类型的注解，如果该类型注解不存在，则返回null。
+2. ```Annotation[] getAnnotations()```:返回该程序元素上存在的所有注解。
+3. ```boolean is AnnotationPresent(Class<?extends Annotation> annotationClass)```:判断该程序元素上是否包含指定类型的注解，存在则返回true，否则返回false.
+4. ```Annotation[] getDeclaredAnnotations()```：返回直接存在于此元素上的所有注释。与此接口中的其他方法不同，该方法将忽略继承的注释。（如果没有注释直接存在于此元素上，则返回长度为零的一个数组。）该方法的调用者可以随意修改返回的数组；这不会对其他调用者返回的数组产生任何影响。
+
+```
+public class Test {
+    public static void main(String[] args) {
+        MyClass_RetentionClass a = new MyClass_RetentionClass();
+        MyClass_RetentionRuntime b = new MyClass_RetentionRuntime();
+
+        Annotation[] annotationsa = MyClass_RetentionClass.class.getAnnotations();
+        for(Annotation aa:annotationsa){
+            System.out.println("aa==="+aa.annotationType());
+        }
+        MyAnnotation_RententionClass annotationa = MyClass_RetentionClass.class.getAnnotation(MyAnnotation_RententionClass.class);
+        System.out.println("a==="+(annotationa != null));
+        System.out.println("a==="+(MyClass_RetentionClass.class.isAnnotationPresent(MyAnnotation_RententionClass.class)));
+
+
+        System.out.println("==================================================");
+
+        Annotation[] annotationsb = MyClass_RetentionRuntime.class.getAnnotations();
+        for(Annotation aa:annotationsb){
+            System.out.println("bb==="+aa.annotationType());
+        }
+        MyAnnotation_RententionRuntime annotationb = MyClass_RetentionRuntime.class.getAnnotation(MyAnnotation_RententionRuntime.class);
+        System.out.println("b===value==="+annotationb.value());
+        System.out.println("b==="+(annotationb != null));
+        System.out.println("b==="+(MyClass_RetentionRuntime.class.isAnnotationPresent(MyAnnotation_RententionRuntime.class)));
+//        a===false
+//        a===false
+//                ==================================================
+//        bb===interface com.gong.study.annotation.MyAnnotation_RententionRuntime
+//        b===value===study
+//        b===true
+//        b===true
+    }
+}
+
+```
+```
+@MyAnnotation_RententionClass
+public class MyClass_RetentionClass {
+}
+
+@MyAnnotation_RententionRuntime
+public class MyClass_RetentionRuntime {
+}
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyAnnotation_RententionRuntime {
+    public String value() default "study";
+}
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.CLASS)
+public @interface MyAnnotation_RententionClass {
+    public String value() default "study";
+}
+
+```
+
+
+----
+
+![盗的图](java注解_files/5982aacd2a30394ed000000a.png)
+
+## 友情链接
+[深入理解Java：注解（Annotation）--注解处理器](https://www.cnblogs.com/peida/archive/2013/04/26/3038503.html)
+</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> jdk5.0开始支持注解，注解本身对代码的运行没有什么影响，但是可以通过第三方代码和java反射技术动态获取注解信息，从而实现对代码逻辑的改变；注解在java的使用中已经越来越常见，本篇一起来了解和使用java 的注解技术；
+Annotation（注解）就是Java提供了一种元程序中的元素关联任何信息和着任何元数据（metadata）的途径和方法
+
+[TOC]
+
+---
+
+## 系统注解
+注解的语法比较简单，除了@符号的使用外，他基本与Java固有的语法一致，JavaSE中内置三个标准注解，定义在java.lang中：
+* @Override：用于修饰此方法覆盖了父类的方法;
+* @Deprecated：用于修饰已经过时的方法;
+* @SuppressWarnnings:用于通知java编译器禁止特定的编译警告。
+他们具体使用无用多言了吧
+
+## 元注解
+元注解的作用就是负责注解其他注解。Java5.0定义了4个标准的meta-annotation类型，它们被用来提供对其它annotation类型作说明。Java5.0定义的元注解：
+### @Target
+    @Target说明了Annotation所修饰的对象范围：Annotation可被用于packages、types（类、接口、枚举、Annotation类型）、类型成员（方法、构造方法、成员变量、枚举值）、方法参数和本地变量（如循环变量、catch参数）。在Annotation类型的声明中使用了target可更加明晰其修饰的目标。
+    
+* CONSTRUCTOR:用于描述构造器
+* FIELD:用于描述域
+* LOCAL_VARIABLE:用于描述局部变量
+* METHOD:用于描述方法
+* PACKAGE:用于描述包
+* PARAMETER:用于描述参数
+* TYPE:用于描述类、接口(包括注解类型) 或enum声明
+
+```
+package java.lang.annotation;
+public enum ElementType {
+    /** Class, interface (including annotation type), or enum declaration */
+    TYPE,
+    /** Field declaration (includes enum constants) */
+    FIELD,
+    /** Method declaration */
+    METHOD,
+    /** Formal parameter declaration */
+    PARAMETER,
+    /** Constructor declaration */
+    CONSTRUCTOR,
+    /** Local variable declaration */
+    LOCAL_VARIABLE,
+    /** Annotation type declaration */
+    ANNOTATION_TYPE,
+    /** Package declaration */
+    PACKAGE,
+    /** Type parameter declaration*/
+    TYPE_PARAMETER,
+    /** Use of a type*/
+    TYPE_USE
+}
+```
+### @Retention
+    @Retention定义了该Annotation被保留的时间长短：某些Annotation仅出现在源代码中，而被编译器丢弃；而另一些却被编译在class文件中；编译在class文件中的Annotation可能会被虚拟机忽略，而另一些在class被装载时将被读取（请注意并不影响class的执行，因为Annotation与class在使用上是被分离的）。使用这个meta-Annotation可以对 Annotation的“生命周期”限制
+    
+* SOURCE:在源文件中有效（即源文件保留）
+* CLASS:在class文件中有效（即class保留）
+* RUNTIME:在运行时有效（即运行时保留）
+
+```
+public enum RetentionPolicy {
+    SOURCE,
+    CLASS,
+    RUNTIME
+}
+
+```
+### @Documented
+    @Documented用于描述其它类型的annotation应该被作为被标注的程序成员的公共API，因此可以被例如javadoc此类的工具文档化。Documented是一个标记注解，没有成员。
+    
+### @Inherited
+    @Inherited 元注解是一个标记注解，@Inherited阐述了某个被标注的类型是被继承的。如果一个使用了@Inherited修饰的annotation类型被用于一个class，则这个annotation将被用于该class的子类。
+    注意：@Inherited annotation类型是被标注过的class的子类所继承。类并不从它所实现的接口继承annotation，方法并不从它所重载的方法继承annotation。
+    当@Inherited annotation类型标注的annotation的Retention是RetentionPolicy.RUNTIME，则反射API增强了这种继承性。如果我们使用java.lang.reflect去查询一个@Inheritedannotation类型的annotation时，反射代码检查将展开工作：检查class和其父类，直到发现指定的annotation类型被发现，或者到达类继承结构的顶层。
+    
+    
+## 注解说明
+
+1. 如果注解只有一个成员，这个成员名可以定为value(),使用时候可以忽略成员名，直接使用@XmlAccessorType(XmlAccessType.FIELD)而不用@XmlAccessorType(value=XmlAccessType.FIELD)
+2. 成员方法必须无入参无抛出异常的方式声明
+3. 成员方法返回值是受限的，注解参数的可支持数据类型：
+* 所有基本数据类型（int,float,boolean,byte,double,char,long,short)
+* String类型
+* Class类型
+* enum类型
+* Annotation类型
+* 以上所有类型的数组
+4. 可以为注解方法设置默认值 default ,注解元素必须有确定的值，默认指定或者使用时候指定，非基本类型不可为null
+5. 举个栗子 
+* String name() default "";
+* A.class value();
+* public enum Color{ BULE,RED,GREEN};  Color fruitColor() default Color.GREEN;
+* public int id() default -1;
+
+## 注解使用
+    Java使用Annotation接口来代表程序元素前面的注解，该接口是所有Annotation类型的父接口。除此之外，Java在java.lang.reflect 包下新增了AnnotatedElement接口，该接口代表程序中可以接受注解的程序元素。
+    
+    java.lang.reflect 包下主要包含一些实现反射功能的工具类，实际上，java.lang.reflect包所有提供的反射API扩充了读取运行时Annotation信息的能力。当一个Annotation类型被定义为运行时的Annotation后，该注解才能是运行时可见，当class文件被装载时被保存在class文件中的Annotation才会被虚拟机读取。
+
+访问Annotation信息的四个方法：
+1. ```<T extends Annotation> T getAnnotation(Class<T> annotationClass)```: 返回改程序元素上存在的、指定类型的注解，如果该类型注解不存在，则返回null。
+2. ```Annotation[] getAnnotations()```:返回该程序元素上存在的所有注解。
+3. ```boolean is AnnotationPresent(Class<?extends Annotation> annotationClass)```:判断该程序元素上是否包含指定类型的注解，存在则返回true，否则返回false.
+4. ```Annotation[] getDeclaredAnnotations()```：返回直接存在于此元素上的所有注释。与此接口中的其他方法不同，该方法将忽略继承的注释。（如果没有注释直接存在于此元素上，则返回长度为零的一个数组。）该方法的调用者可以随意修改返回的数组；这不会对其他调用者返回的数组产生任何影响。
+
+```
+public class Test {
+    public static void main(String[] args) {
+        MyClass_RetentionClass a = new MyClass_RetentionClass();
+        MyClass_RetentionRuntime b = new MyClass_RetentionRuntime();
+
+        Annotation[] annotationsa = MyClass_RetentionClass.class.getAnnotations();
+        for(Annotation aa:annotationsa){
+            System.out.println("aa==="+aa.annotationType());
+        }
+        MyAnnotation_RententionClass annotationa = MyClass_RetentionClass.class.getAnnotation(MyAnnotation_RententionClass.class);
+        System.out.println("a==="+(annotationa != null));
+        System.out.println("a==="+(MyClass_RetentionClass.class.isAnnotationPresent(MyAnnotation_RententionClass.class)));
+
+
+        System.out.println("==================================================");
+
+        Annotation[] annotationsb = MyClass_RetentionRuntime.class.getAnnotations();
+        for(Annotation aa:annotationsb){
+            System.out.println("bb==="+aa.annotationType());
+        }
+        MyAnnotation_RententionRuntime annotationb = MyClass_RetentionRuntime.class.getAnnotation(MyAnnotation_RententionRuntime.class);
+        System.out.println("b===value==="+annotationb.value());
+        System.out.println("b==="+(annotationb != null));
+        System.out.println("b==="+(MyClass_RetentionRuntime.class.isAnnotationPresent(MyAnnotation_RententionRuntime.class)));
+//        a===false
+//        a===false
+//                ==================================================
+//        bb===interface com.gong.study.annotation.MyAnnotation_RententionRuntime
+//        b===value===study
+//        b===true
+//        b===true
+    }
+}
+
+```
+```
+@MyAnnotation_RententionClass
+public class MyClass_RetentionClass {
+}
+
+@MyAnnotation_RententionRuntime
+public class MyClass_RetentionRuntime {
+}
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.RUNTIME)
+public @interface MyAnnotation_RententionRuntime {
+    public String value() default "study";
+}
+
+@Target(ElementType.TYPE)
+@Retention(RetentionPolicy.CLASS)
+public @interface MyAnnotation_RententionClass {
+    public String value() default "study";
+}
+
+```
+
+
+----
+
+![盗的图](java注解_files/5982aacd2a30394ed000000a.png)
+
+## 友情链接
+[深入理解Java：注解（Annotation）--注解处理器](https://www.cnblogs.com/peida/archive/2013/04/26/3038503.html)
+</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="/js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>
