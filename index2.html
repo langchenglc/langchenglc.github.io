@@ -29,25 +29,22 @@
 					<p class="description">---做一名终身学习者</p>
 				</div>
 			</div>
-			<div id="layout" class="pure-g">
-				<div class="content_container">
-					<table id="blogs">
-						<thead>
-							<tr>
-								<th>标题</th>
-								<th>发布时间</th>
-								<th>标签</th>
-								<th>详情</th>
-							</tr>
-						</thead>
-						<tbody>
-						</tbody>
-					</table>
-				</div>
-				<div id="footer">©
-					<a href="/." rel="nofollow">langchenglc.</a> |
-					<a href="http://gong.leanote.com/" title="leanote-blog" target="_blank">更多博客请参见gong.leanote.com</a>
-				</div>
+			<div class="content_container">
+				<table id="blogs">
+					<thead>
+						<tr>
+							<th>标题</th>
+							<th>发布时间</th>
+							<th>标签</th>
+						</tr>
+					</thead>
+					<tbody>
+					</tbody>
+				</table>
+			</div>
+			<div id="footer">©
+				<a href="/." rel="nofollow">langchenglc.</a> |
+				<a href="http://gong.leanote.com/" title="leanote-blog" target="_blank">更多博客请参见gong.leanote.com</a>
 			</div>
 			<a id="rocket" href="#top" class="show"></a>
 			<script type="text/javascript" src="/js/totop.js?v=0.0.0" async></script>
@@ -78,17 +75,10 @@
                 { "width": "50%", "targets": 0 },
                 { "width": "20%", "targets": 1 },
                 { "width": "20%", "targets": 2 },
-                { 	
-                	"orderable": false,
-                	"data":null,
-                	"width":"10%",
-                	"defaultContent":'<button>博客详情</button>',
-                	"targets": -1 
-                }
             ],
             "autoWidth": false
         });
-        $('#blogs tbody').on( 'click', 'button', function () {
+        $('#blogs tbody').on( 'click', 'td', function () {
             var title = table.row( $(this).parents('tr') ).data()[0] ;
             if(title != null && title.trim().length>0){
             	window.open("/blogs/"+title+".html");
