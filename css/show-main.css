@@ -1,0 +1,12 @@
+.show-main a{
+	background: none repeat scroll 0 0 #336699;
+	border: 1px solid #CCCCCC;
+	border-radius: 3px;
+	-webkit-border-radius: 3px;
+	color: #FF9966;
+	font-size: 14px;
+	padding: 5px;
+	text-decoration: none;
+	text-shadow: 0 1px 0 #999;
+	-webkit-text-shadow: 0 1px 0 #999;
+}
