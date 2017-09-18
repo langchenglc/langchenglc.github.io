@@ -86,7 +86,7 @@
         $('#blogs tbody').on( 'click', 'td', function () {
             var title = table.row( $(this).parents('tr') ).data()[0] ;
             if(title != null && title.trim().length>0){
-            	window.open("/blogs/"+title+".html");
+            	window.location.href = "./blogs/"+title+".html";
             }else{
             	alert("blog链接异常，请查看其他blog！或者参见http://gong.leanote.com");
             }
