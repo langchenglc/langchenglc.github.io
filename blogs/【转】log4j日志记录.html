@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>【转】log4j日志记录</title>
+<style>
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-html.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/show-main.js"></script>
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">【转】log4j日志记录</h1>
+		<div class="content-html" id="leanote-content"><p>http://blog.csdn.net/xianymo/article/details/51026663</p><p>一、介绍</p><p>Log4j是Apache的一个开源项目，通过使用Log4j，我们可以控制日志信息输送的目的地是控制台、文件、GUI组件、甚至是套接口服务 器、NT的事件记录器、UNIX Syslog守护进程等；我们也可以控制每一条日志的输出格式；通过定义每一条日志信息的级别，我们能够更加细致地控制日志的生成过程。</p><p>Log4j由三个重要的组件构成：日志信息的优先级（Loggers），日志信息的输出目的地（Appenders），日志信息的输出格式（Layouts）。日志信息的优先级从高到低有ERROR、WARN、 INFO、DEBUG，分别用来指定这条日志信息的重要程度；日志信息的输出目的地指定了日志将打印到控制台还是文件中；而输出格式则控制了日志信息的显示内容。</p><p>二、配置文件 <br>其实您也可以完全不使用配置文件，而是在代码中配置Log4j环境。但是，使用配置文件将使您的应用程序更加灵活。 <br>Log4j支持两种配置文件格式，一种是XML格式的文件，一种是properties格式的文件。下面我们介绍使用properties格式做为配置文件的方法： <br>示例： <br>log4j.rootLogger=INFO, A1 <br>log4j.appender.A1=org.apache.log4j.ConsoleAppender <br>log4j.appender.A1.layout=org.apache.log4j.PatternLayout <br>log4j.appender.A1.layout.ConversionPattern=%-4r %-5p [%t] %37c %3x - %m%n<br>1. 配置根Logger，其语法为： <br>log4j.rootLogger = [ level ] , appenderName, appenderName, … <br>其中，level 是日志记录的优先级，分为OFF、FATAL、ERROR、WARN、INFO、DEBUG、ALL或者您定义的级别。Log4j建议只使用四个级别，优先级从高到低分别是ERROR、WARN、INFO、DEBUG。通过在这里定义的级别，您可以控制到应用程序中相应级别的日志信息的开关。比如在这里定义了INFO级别，则应用程序中所有DEBUG级别的日志信息将不被打印出来。</p><p>appenderName就是指定日志信息输出到哪个地方。您可以同时指定多个输出目的地。</p><p>2. 配置日志信息输出目的地Appender，其语法为：</p><p>log4j.appender.appenderName = package+appender_class_name<br>log4j.appender.appenderName.option1 = value1 <br>… <br>log4j.appender.appenderName.option = valueN <br>其中，Log4j提供的appender有以下几种： <br>org.apache.log4j.ConsoleAppender（控制台）， <br>org.apache.log4j.FileAppender（文件）， <br>org.apache.log4j.DailyRollingFileAppender（每天产生一个日志文件）， <br>org.apache.log4j.RollingFileAppender（文件大小到达指定尺寸的时候产生一个新的文件）， <br>org.apache.log4j.WriterAppender（将日志信息以流格式发送到任意指定的地方)</p><p>org.apache.log4j.jdbc.JDBCAppender(将日志写入数据库)</p><p>(1).ConsoleAppender选项 <br>Threshold=WARN:指定日志消息的输出最低层次。 <br>ImmediateFlush=true:默认值是true,意谓着所有的消息都会被立即输出。 <br>Target=System.err：默认情况下是：System.out,指定输出控制台 <br>(2).FileAppender 选项 <br>Threshold=WARN:指定日志消息的输出最低层次。 <br>ImmediateFlush=true:默认值是true,意谓着所有的消息都会被立即输出。 <br>File=mylog.txt:指定消息输出到mylog.txt文件。 <br>Append=false:默认值是true,即将消息增加到指定文件中，false指将消息覆盖指定的文件内容。 <br>(3).DailyRollingFileAppender 选项 <br>Threshold=WARN:指定日志消息的输出最低层次。 <br>ImmediateFlush=true:默认值是true,意谓着所有的消息都会被立即输出。 <br>File=mylog.txt:指定消息输出到mylog.txt文件。 <br>Append=false:默认值是true,即将消息增加到指定文件中，false指将消息覆盖指定的文件内容。 <br>DatePattern=’.'yyyy-ww:每周滚动一次文件，即每周产生一个新的文件。当然也可以指定按月、周、天、时和分。即对应的格式如下： <br>1)’.'yyyy-MM: 每月 <br>2)’.'yyyy-ww: 每周 <br>3)’.'yyyy-MM-dd: 每天 <br>4)’.'yyyy-MM-dd-a: 每天两次 <br>5)’.'yyyy-MM-dd-HH: 每小时 <br>6)’.'yyyy-MM-dd-HH-mm: 每分钟 <br>(4).RollingFileAppender 选项 <br>Threshold=WARN:指定日志消息的输出最低层次。 <br>ImmediateFlush=true:默认值是true,意谓着所有的消息都会被立即输出。 <br>File=mylog.txt:指定消息输出到mylog.txt文件。 <br>Append=false:默认值是true,即将消息增加到指定文件中，false指将消息覆盖指定的文件内容。 <br>MaxFileSize=100KB: 后缀可以是KB, MB 或者是 GB. 在日志文件到达该大小时，将会自动滚动，即将原来的内容移到mylog.log.1文件。<br>MaxBackupIndex=2:指定可以产生的滚动文件的最大数。</p><p>(5). JDBCApperder选项</p><p>URL=jdbc:mysql://localhost:3306/test：指定日志写入的数据库链接<br>driver=com.mysql.jdbc.Driver：指定数据库驱动<br>user=root：指定数据库的用户名<br>password=123：指定数据库的登录密码<br>sql=insert into tb_log (message) values('=[%-5p] %d(%r) --&gt; [%t] %l: %m %x %n')：指定写入数据库的执行语句</p><p>3. 配置日志信息的布局，其语法为： <br>log4j.appender.appenderName.layout = package+layout_class_name <br>log4j.appender.appenderName.layout.option1 = value1 <br>… <br>log4j.appender.appenderName.layout.option = valueN <br>其中，Log4j提供的layout有以下几种： <br>org.apache.log4j.HTMLLayout（以HTML表格形式布局）， <br>org.apache.log4j.PatternLayout（可以灵活地指定布局模式）， <br>org.apache.log4j.SimpleLayout（包含日志信息的级别和信息字符串）， <br>org.apache.log4j.TTCCLayout（包含日志产生的时间、线程、类别等等信息）</p><p>4、输出格式设置 <br>在配置文件中可以通过log4j.appender.A1.layout.ConversionPattern设置日志输出格式。 <br>参数： <br>%p: 输出日志信息优先级，即DEBUG，INFO，WARN，ERROR，FATAL, <br>%d: 输出日志时间点的日期或时间，默认格式为ISO8601，也可以在其后指定格式，比如：%d{yyy MMM dd HH:mm:ss,SSS}，输出类似：2002年10月18日 22：10：28，921</p><p>%r: 输出自应用启动到输出该log信息耗费的毫秒数 <br>%c: 输出日志信息所属的类目，通常就是所在类的全名 <br>%t: 输出产生该日志事件的线程名 <br>%l: 输出日志事件的发生位置，相当于%C.%M(%F:%L)的组合,包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)</p><p>%x: 输出和当前线程相关联的NDC(嵌套诊断环境),尤其用到像java servlets这样的多客户多线程的应用中。 <br>%%: 输出一个”%”字符 <br>%F: 输出日志消息产生时所在的文件名称 <br>%L: 输出代码中的行号 <br>%m: 输出代码中指定的消息,产生的日志具体信息 <br>%n: 输出一个回车换行符，Windows平台为”\r\n”，Unix平台为”\n”输出日志信息换行 <br>可以在%与模式字符之间加上修饰符来控制其最小宽度、最大宽度、和文本的对齐方式。如： <br>1)%20c：指定输出category的名称，最小的宽度是20，如果category的名称小于20的话，默认的情况下右对齐。 <br>2)%-20c:指定输出category的名称，最小的宽度是20，如果category的名称小于20的话，”-”号指定左对齐。 <br>3)%.30c:指定输出category的名称，最大的宽度是30，如果category的名称大于30的话，就会将左边多出的字符截掉，但小于30的话也不会有空格。 <br>4)%20.30c:如果category的名称小于20就补空格，并且右对齐，如果其名称长于30字符，就从左边交远销出的字符截掉。</p><p>三、如何在不同的模块中输出不同的日志</p><p>用户基础信息模块路径为：com.test.user<br>它下面有个类：com.test.user.service.impl.UserInfo<br>private Log log = LogFactory.getLog(UserInfo.class);</p><p>方法1：<br>在log4j.properties中加入:<br>log4j.logger.com.test.user=info,userLog,stdout<br>log4j.appender.userLog=org.apache.log4j.FileAppender<br>log4j.appender.userLog.File=../logs/userinfo.log<br>log4j.appender.userLog.Append=true<br>log4j.appender.userLog.Threshold=info<br>log4j.appender.userLog.layout=org.apache.log4j.PatternLayout<br>log4j.appender.userLog.layout.ConversionPattern==%d %p [%c] - %m%n</p><p>注：也就是让com.test.user模块下所有的logger使用log4j.appender.userLog所做的配置。</p><p>方法2：自定义“别名”<br>private Log log = LogFactory.getLog("userInfoLog");<br>然后在log4j.properties中加入:<br>log4j.logger.userInfoLog=info,userLog,stdout<br>log4j.appender.userLog=org.apache.log4j.FileAppender<br>log4j.appender.userLog.File=../logs/userinfo.log<br>log4j.appender.userLog.Append=true<br>log4j.appender.userLog.Threshold=info<br>log4j.appender.userLog.layout=org.apache.log4j.PatternLayout<br>log4j.appender.userLog.layout.ConversionPattern==%d %p [%c] - %m%n</p><p>注：也就是在用logger时给它一个自定义的名字(如这里的"userInfoLog")，然后在log4j.properties中做出相应配置即可。，在这种模式下，即使在同一个类中也能定义多个不同输出的log.</p><p>在类中调用代码如下：<br>private Log loggerError = LogFactory.getLog("userErrorLog");<br>private Log loggerInfo = LogFactory.getLog("userInfoLog");</p><p>自定义的日志默认是同时输出到log4j.rootLogger所配置的日志中的，如何能只让它们输出到自己指定的日志中呢？<br>log4j.additivity.userInfoLog = false<br>它用来设置是否同时输出到log4j.rootLogger所配置的日志中，设为false就不会输出到其它地方啦！注意这里的"userInfoLog"是你在程序中给logger起的那个自定义的名字！<br>如果你说，我只是不想同时输出这个日志到log4j.rootLogger所配置的logfile中，stdout里我还想同时输出呢！如：<br>log4j.logger.userInfoLog=DEBUG, userLog, stdout</p><p>三、加载log4j.properties文件</p><p>1、spring方式加载，配置与web.xml中：</p><p>Spring加载log4j.properties，它提供了一个Log4jConfigListener，本身就能通过web.xml配置从指定位置加载log4j配置文件和log4j的输出路径，要注意的是</p><p>Log4jConfigListener必须要在Spring的Listener之前。</p><p>web.xml</p><p>&lt;!-- 设置由Spring载入的Log4j配置文件位置 --&gt;</p><p>&lt;context-param&gt;</p><p>&lt;param-name&gt;log4jConfigLocation&lt;/param-name&gt;</p><p>&lt;param-value&gt;WEB-INF/classes/log4j.properties&lt;/param-value&gt;</p><p>&lt;/context-param&gt;</p><p>&lt;!-- Spring刷新Log4j配置文件变动的间隔,单位为毫秒 --&gt;</p><p>&lt;context-param&gt;</p><p>&lt;param-name&gt;log4jRefreshInterval&lt;/param-name&gt;</p><p>&lt;param-value&gt;10000&lt;/param-value&gt;</p><p>&lt;/context-param&gt;</p><p>&lt;listener&gt;</p><p>&lt;listener-class&gt;org.springframework.web.util.Log4jConfigListener&lt;/listener-class&gt;</p><p>&lt;/listener&gt;</p><p>2、可以通过资源类对资源文件进行加载，与使用为一体</p><p>[java] view plain copy<br>public class Logger4JTest { <br> <br> public static void main(String[] args) { <br> PropertyConfigurator.configure(" D:/log/log4j.properties "); <br> Logger logger = Logger.getLogger(Logger4JTest.class); <br> logger.debug(" debug "); <br> logger.error(" error "); <br> } <br>} <br>四、在程序中的使用 <br>在程序中使用Log4j之前，首先要将commons-logging.jar和logging-log4j-1.2.9.jar导入到classpath中，并将log4j.properties放于src根目录中。接下来就可以使用了。</p><p>1.得到记录器 <br>使用Log4j，第一步就是获取日志记录器，这个记录器将负责控制日志信息。其语法为： <br>public static Logger getLogger( String name)， <br>通过指定的名字获得记录器，如果必要的话，则为这个名字创建一个新的记录器。Name一般取本类的名字，比如： <br>static Logger logger = Logger.getLogger ( ServerWithLog4j.class.getName () ) ; <br>2.插入记录信息（格式化日志信息） <br>当上两个必要步骤执行完毕，您就可以轻松地使用不同优先级别的日志记录语句插入到您想记录日志的任何地方，其语法如下： <br>logger.debug ( Object message ) ; <br>logger.info ( Object message ) ; <br>logger.warn ( Object message ) ; <br>logger.error ( Object message ) ;</p><p>&nbsp;</p></div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-html.js"></script>
+</body>
+</html>

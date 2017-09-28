@@ -1,0 +1,167 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>【转】slf4j配置</title>
+<style>
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-html.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/show-main.js"></script>
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">【转】slf4j配置</h1>
+		<div class="content-html" id="leanote-content"><p>http://blog.csdn.net/anialy/article/details/8529188</p><p>简述：<br>添加logger的日志输出，下面是配置信息供备忘</p><p>步骤：<br>1. 在Maven的porn.xml 文件中添加dependency如下<br>```<br>&lt;dependency&gt; <br> &lt;groupId&gt;org.slf4j&lt;/groupId&gt; <br> &lt;artifactId&gt;slf4j-log4j12&lt;/artifactId&gt; <br> &lt;version&gt;1.7.2&lt;/version&gt; <br>&lt;/dependency&gt; <br>```<br>之后就会添加三个包，</p><p><br>2. 之后在项目下添加log4j.properties<br>项目路径如下，</p><p>```<br>log4j.properties<br>#config root logger <br>log4j.rootLogger = INFO,system.out <br>log4j.appender.system.out=org.apache.log4j.ConsoleAppender <br>log4j.appender.system.out.layout=org.apache.log4j.PatternLayout <br>log4j.appender.system.out.layout.ConversionPattern=MINAServer Logger--&gt;%5p{%F:%L}-%m%n <br> <br>#config this Project.file logger <br>log4j.logger.thisProject.file=INFO,thisProject.file.out <br>log4j.appender.thisProject.file.out=org.apache.log4j.DailyRollingFileAppender <br>log4j.appender.thisProject.file.out.File=logContentFile.log <br>log4j.appender.thisProject.file.out.layout=org.apache.log4j.PatternLayout <br>```</p><p>3. 在代码中添加<br>```<br>private static final Logger logger = LoggerFactory.getLogger(MINAServer.class); <br>```<br>接下来就能输出了，<br>```<br>logger.info("now {}" , "starting server"); <br>```<br>输出如下：</p><p><br>如果要输出logger文件：<br>```<br>log4j.rootLogger=INFO,R,stdout <br> <br>log4j.appender.stdout=org.apache.log4j.ConsoleAppender <br>log4j.appender.stdout.layout=org.apache.log4j.PatternLayout <br>log4j.appender.stdout.layout.ConversionPattern=Logger--&gt;%5p{%F:%L}-%m%n <br> <br>log4j.appender.R=org.apache.log4j.DailyRollingFileAppender <br>log4j.appender.R.File=../logs/log <br>log4j.appender.R.layout=org.apache.log4j.PatternLayout <br>log4j.appender.R.layout.ConversionPattern=Logger--&gt;%5p{%F:%L}-%m%n <br>```</p><p><br>下面是log4j.properties的配置信息，在此要感谢前辈提供的资源<br>```<br>#输出格式<br>#%m 输出代码中指定的消息<br>#%p 输出优先级，即DEBUG，INFO，WARN，ERROR，FATAL<br>#%r 输出自应用启动到输出该log信息耗费的毫秒数<br>#%c 输出所属的类目，通常就是所在类的全名<br>#%t 输出产生该日志事件的线程名<br>#%n 输出一个回车换行符，Windows平台为“\r\n”，Unix平台为“\n”<br>#%d 输出日志时间点的日期或时间，默认格式为ISO8601，也<br>```<br>可以在其后指定格式，比如：%d{yyyy MMM dd HH:mm:ss,SSS}，输出类似：2002年10月18日 22：10：28，921<br>\#%l 输出日志事件的发生位置，包括类目名、发生的线程，以及在代码中的行数。举例：Testlog4.main(TestLog4.java:10)</p><p>格式化例子：<br>log4j.appender.thisProject.file.out.layout.ConversionPattern=log4j--&gt;%d{yyyy MMM dd HH:mm:ss,SSS}%5p{%F\:%L}-%m%n</p><p><br>注意：</p><p>1.信息格式化的小知识<br> 这些参数中间可能会参杂一些数字比如：%5p它的意思就是在输出此参数之前加入多少个空格，还有就是里面的“\”的作用是转义字符</p><p>2.log4j.properties文件放置位置<br> (1)在java project项目中，它放置的位置是在项目的根目录下而不是在项目的src目录下。<br> (2)在javaweb项目中它放置的位置是在src目录下，因为这个时候tomcat会去默认的加载它的，不需要我们去手动的加载log4j的配置文件，只需要根据配置获取自己需要的logger实例即可,由此我们可以知道如果我们使用的不是tomcat容器的话，是不是需要自己手动加载或者至少要配置一下呢？比如使用Websphere等非apache服务器。</p><p>3.对于java web项目里面的日志的位置配置<br> (1)如果是要指定日志文件的位置为D盘下的log.txt文件。<br> log4j.appender.thisProject.file.out.File=d:\\log.txt<br> (2)如果指定日志文件的位置为当前的tomcat的工作目录下的某个文件<br> log4j.appender.thisProject.file.out.File=${catalina.home}/logs/logs_tomcat.log</p><p>4.log4j的加载机制</p><p>log4j.properties加载机制？其实log4j.properties只是log4j的配置文件。程序启动时，log4j组件去读log4j.properties，和读取普通配置文件没多大区别。获取用户配置的一些log4j的属性值，调用想应该的方法为log4j属性设置。</p><p>把log4j.properties当作一个struts.xml或者一个hibernate-cfg.xml就可以了。但不同的是，log4j不像struts和hibernate，它不是一个独立的组件,没法自己完成初始化，一般都是什么组件需要它 就去初始化。比如，hibernate默认的日志组件就是log4j，在hibernate初始化的时候它会去初始化log4j。如果你没配置log4j.properties,hibernate会抛出异常，但还是可以正常初始化</p></div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-html.js"></script>
+</body>
+</html>
