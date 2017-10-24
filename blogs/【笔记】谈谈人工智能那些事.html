@@ -1,0 +1,331 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>【笔记】谈谈人工智能那些事</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/show-main.js"></script>
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">【笔记】谈谈人工智能那些事</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 正如这篇文章里头的一个观点：人工智能将成为这个时代的通用技术，所以人工智能的技术也将是非学不可的了
+
+这里是文章的原文：[谈谈人工智能那些事-微信文章](http://mp.weixin.qq.com/s?__biz=MzU2NDA2NTgyNQ==&mid=2247483900&idx=1&sn=ef7c9be5c2a25f578e5e34005a9eb5a2&chksm=fc51e2b2cb266ba44e9a86f792e7f589f1bd58b71eb4ec3a6aacdc6b712beadad43ccaad34bf&scene=27#wechat_redirect)
+
+1. **人工智能解决过去编程的一个大的痛点**：在过去的50年的绝大多数时间里面，信息技术领域的进步及其应用都聚焦把某种已有的知识和编程成指令，再把这种指令植入计算机，确实，编程这个词总是意味着这样一种艰苦的过程，即开发者把自己头脑中的知识转换为一种机器能够理解和执行的格式。这个方法有一种很根本的弱点：有些知识对于人类来说是心照不宣的，也就是说我们不能完全解释他们。
+对于我们来说，写下每一条指令让另一个人明白如何骑自行车，如何识别出一个朋友的脸庞，这几乎是不可能的。
+
+2. 近年大多数成功案例都是基于监督学习方面的：也就是基于**特定问题**，赋予机器大量正确的学习实例。这个过程几乎总是涉及到一组输入X到一组输出Y的映射。比如输入可能是一个各种动物的图片，正确的输出是关于这些动物的标签：猫狗马等
+
+3. 概念的范围：人工智能》机器学习》深度学习
+4. 神经网络，监督学习，无监督学习，强化学习。
+5. 算法的成功多半要依仗一种叫做深度学习的方法，而深度学习利用的是神经网络。
+
+6. 标记一组数据并把它们用于训练监督学习是比较简单直接的，这也是为什么监督学习比较常见的原因。
+7. 无监督学习比监督学习有很多的可能性，他使得机器能用全新的方法审视问题，帮助我们找到其中的模式，可用于疾病的观察，证券价格走势判断等。正是这种可能性，FaceBook AI研究主管，纽约大学教授Yann LeCun吧监督学习系统比作在蛋糕上撒砒霜，而吧无监督学习比作蛋糕本身。
+
+8. 另一个渺小但是在成长中的领域就是强化学习。在强化学习系统中，编程人员会具体说明系统的现状和目标，列出可被允许的行为，描述会影响和限制行为结果的环境因素。在可被允许的行为下，系统要找出尽可能接近目标的方法。人类可以具体说明目标而不需要说明如何做到，在这种情况下系统运行得最好。因此准确而清晰的指定目标至关重要。
+
+9. 人工智能的使用并不是这么高的门槛的：
+    * 人工智能的广泛传播，有很多途径可以了解到人工智能的知识。---人才的准备
+    * 现代人工智能的算法和硬件是可以买到和租赁的-----道路的准备
+    * 机器学习并不一定需要这么大量的数据----资源的准备
+
+
+10. 机器学习正在深刻推动商业的变革：任务和职业，商业进程，商业模式
+
+11. **人工智能的风险**：
+    * 机器学习系统是难以理解的，人类将难以理解系统是如何运作的。深度神经网络可能拥有数亿的连接，每一个连接都为最终的决策贡献了力量。
+    * 由于这种无法清晰辨析的运作方式，机器可能存在偏见。这些偏见不是来自机器设计的意图，而是来自训练他们的数据。
+    * 与建立明确的逻辑规则上的传统系统不一样，神经网络系统处理是数据事实，而不是绝对的事实。（有些事实是数据没有描述的。就像一个经典的案例一样，美国的一个学者在有限的经费下需要对飞机进行加固，在对现有飞机所有弹孔进行了统计以后，一般人认为需要加固的地方就是飞机中中弹最多的地方，而这个学者说应该加固中弹较少的地方，毕竟那些飞机没有能成功的飞回来。也就是说我们掌握的数据并不是整个事实的完成描述。）
+    * 机器学习系统犯错的时候，判断和纠正都是极端困难的。
+
+12. **人工智能的极限**：
+    * 毕加索通过对计算机的观察得出结论：他们没有用，只是给出了答案而已。计算机是用来回答问题的设备，而不是提出问题的设备。
+    * 企业家，创新者，创造者和其他那些寻找下一个问题和机会的人，那些探寻新领域的人，他们依旧是机器无法替代的
+    * 目前机器是能通过语气和面部表情来识别一个人的表情和情绪的。也就是说机器对于人的局限并不能体现在知觉和认知上，这是跟我们常规的认为人工智能的界限的感知是有差异的地方
+
+13. **领导力已经在第二机器时代变得越来越重要了**
+    在这个超级强大的机器学习时代，对于人类智慧来说，最大的重要机遇在于两个领域的交叉：弄清下一步需要解决的问题，说明很多人解决这个问题，一起去寻求解决方案---而这个能力就是领导力
+
+14. 人工智能，尤其是机器学习，这些已经是我们这个时代最重要的通用技术了。
+
+
+
+
+
+
+
+        
+
+
+
+
+</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 正如这篇文章里头的一个观点：人工智能将成为这个时代的通用技术，所以人工智能的技术也将是非学不可的了
+
+这里是文章的原文：[谈谈人工智能那些事-微信文章](http://mp.weixin.qq.com/s?__biz=MzU2NDA2NTgyNQ==&mid=2247483900&idx=1&sn=ef7c9be5c2a25f578e5e34005a9eb5a2&chksm=fc51e2b2cb266ba44e9a86f792e7f589f1bd58b71eb4ec3a6aacdc6b712beadad43ccaad34bf&scene=27#wechat_redirect)
+
+1. **人工智能解决过去编程的一个大的痛点**：在过去的50年的绝大多数时间里面，信息技术领域的进步及其应用都聚焦把某种已有的知识和编程成指令，再把这种指令植入计算机，确实，编程这个词总是意味着这样一种艰苦的过程，即开发者把自己头脑中的知识转换为一种机器能够理解和执行的格式。这个方法有一种很根本的弱点：有些知识对于人类来说是心照不宣的，也就是说我们不能完全解释他们。
+对于我们来说，写下每一条指令让另一个人明白如何骑自行车，如何识别出一个朋友的脸庞，这几乎是不可能的。
+
+2. 近年大多数成功案例都是基于监督学习方面的：也就是基于**特定问题**，赋予机器大量正确的学习实例。这个过程几乎总是涉及到一组输入X到一组输出Y的映射。比如输入可能是一个各种动物的图片，正确的输出是关于这些动物的标签：猫狗马等
+
+3. 概念的范围：人工智能》机器学习》深度学习
+4. 神经网络，监督学习，无监督学习，强化学习。
+5. 算法的成功多半要依仗一种叫做深度学习的方法，而深度学习利用的是神经网络。
+
+6. 标记一组数据并把它们用于训练监督学习是比较简单直接的，这也是为什么监督学习比较常见的原因。
+7. 无监督学习比监督学习有很多的可能性，他使得机器能用全新的方法审视问题，帮助我们找到其中的模式，可用于疾病的观察，证券价格走势判断等。正是这种可能性，FaceBook AI研究主管，纽约大学教授Yann LeCun吧监督学习系统比作在蛋糕上撒砒霜，而吧无监督学习比作蛋糕本身。
+
+8. 另一个渺小但是在成长中的领域就是强化学习。在强化学习系统中，编程人员会具体说明系统的现状和目标，列出可被允许的行为，描述会影响和限制行为结果的环境因素。在可被允许的行为下，系统要找出尽可能接近目标的方法。人类可以具体说明目标而不需要说明如何做到，在这种情况下系统运行得最好。因此准确而清晰的指定目标至关重要。
+
+9. 人工智能的使用并不是这么高的门槛的：
+    * 人工智能的广泛传播，有很多途径可以了解到人工智能的知识。---人才的准备
+    * 现代人工智能的算法和硬件是可以买到和租赁的-----道路的准备
+    * 机器学习并不一定需要这么大量的数据----资源的准备
+
+
+10. 机器学习正在深刻推动商业的变革：任务和职业，商业进程，商业模式
+
+11. **人工智能的风险**：
+    * 机器学习系统是难以理解的，人类将难以理解系统是如何运作的。深度神经网络可能拥有数亿的连接，每一个连接都为最终的决策贡献了力量。
+    * 由于这种无法清晰辨析的运作方式，机器可能存在偏见。这些偏见不是来自机器设计的意图，而是来自训练他们的数据。
+    * 与建立明确的逻辑规则上的传统系统不一样，神经网络系统处理是数据事实，而不是绝对的事实。（有些事实是数据没有描述的。就像一个经典的案例一样，美国的一个学者在有限的经费下需要对飞机进行加固，在对现有飞机所有弹孔进行了统计以后，一般人认为需要加固的地方就是飞机中中弹最多的地方，而这个学者说应该加固中弹较少的地方，毕竟那些飞机没有能成功的飞回来。也就是说我们掌握的数据并不是整个事实的完成描述。）
+    * 机器学习系统犯错的时候，判断和纠正都是极端困难的。
+
+12. **人工智能的极限**：
+    * 毕加索通过对计算机的观察得出结论：他们没有用，只是给出了答案而已。计算机是用来回答问题的设备，而不是提出问题的设备。
+    * 企业家，创新者，创造者和其他那些寻找下一个问题和机会的人，那些探寻新领域的人，他们依旧是机器无法替代的
+    * 目前机器是能通过语气和面部表情来识别一个人的表情和情绪的。也就是说机器对于人的局限并不能体现在知觉和认知上，这是跟我们常规的认为人工智能的界限的感知是有差异的地方
+
+13. **领导力已经在第二机器时代变得越来越重要了**
+    在这个超级强大的机器学习时代，对于人类智慧来说，最大的重要机遇在于两个领域的交叉：弄清下一步需要解决的问题，说明很多人解决这个问题，一起去寻求解决方案---而这个能力就是领导力
+
+14. 人工智能，尤其是机器学习，这些已经是我们这个时代最重要的通用技术了。
+
+
+
+
+
+
+
+        
+
+
+
+
+</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="../js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>
