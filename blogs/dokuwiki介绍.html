@@ -1,0 +1,335 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>dokuwiki介绍</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/show-main.js"></script>
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">dokuwiki介绍</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 为了方便组内人员进行文档编写，找了一个工具进行写作---dokuwiki；下面就介绍dokuwiki的安装配置和使用
+
+[TOC]
+
+## dokuwiki 是什么
+dokuwiki是一个方便个人或者组织建立wiki的工具，能够很方便的生成文档、博客等。同时文档是以文本文件的形式存放的，非常易于管理和迁移。还有丰富的插件使用，使用插件可以支持markdown写作。
+
+## dokuwiki安装
+dokuwiki的安装参见官网[dokuwiki](https://www.dokuwiki.org/dokuwiki#)
+
+1. windows安装包在200的software文件夹中有，只要执行run.cmd即可，自带apache服务器，点击即可运行。
+2. 软件包解压缩就可以使用，首次执行会让你进行很简单的配置工作。
+
+## dokuwiki简单配置
+
+[见配置说明文档](wiki:dokuwiki-config)
+
+## 添加新页面
+dokuwiki中添加新的页面很简单，有两种方式
+
+1. 通过url添加：浏览器中输入url就好了，id后面的部分就是你自定义的页面路径 http://192.168.5.200:8800/doku.php?id=dokuwiki:start
+2. 如果url链接所指向的文件已经存在，则显示该文件，点击右侧按钮进行修改；如果不存在，则就是新增文件
+2. 通过自己在服务器对应目录中创建对应的文件夹和文件即可：文本文件的目录是/dokuwiki/data/pages/  （推荐使用方法1，避免不必要的问题，同时也能保留操作记录）
+3. 路径说明：dokuwiki:start  这个格式表示dokuwiki文件夹下的start文件，以此类推
+4. 新页面如果内容被删除为空进行保存，则namespace也会被清空
+
+## 页面内容中添加链接
+如果页面直接需要添加链接，链接格式如下：
+
+1. 添加文档内部链接：例如：[[:start]]   [ [dokuwiki:start] ]   (到时候两个中括号的空格不要，里面写上面说的文件路径)
+2. 添加文档外部链接：例如：[[http://www.baidu.com|baidu]]   [ [http://www.baidu.com|baidu]]    （到时候把空格去掉）
+3. 添加图片{{wiki:skyon.png}}  { {wiki:skyon.png}}（到时候把空格去掉）
+4. 添加有link的图片[[http://www.skyon.com.cn|{{wiki:skyon.png}}]]    [ [http://www.skyon.com.cn|{ {wiki:skyon.png}}]]    （到时候把空格去掉）
+5. 具体可以参考官网这个说明 [[wiki:syntax|语法]]
+
+## 页面内容中添加图片等多媒体资源
+
+右上角媒体管理器中进行上传，每个资源会有一个id，同上面的文本资源名格式  namespaces:name 
+
+## sidebar的编辑
+sidebar同样也是一个txt文件，路径是[[:sidebar]]，对应的是服务器的路径/dokuwiki/data/pages/sidebar.txt
+
+也可以实用插件自动生成sidebar，目前实用indexmenu插件自动，不用自己配置sidebar
+
+关于怎么使用自动sidebar配置，请参照[[https://www.dokuwiki.org/plugin:indexmenu#about_empty_namespaces|插件文档]]或者参看根目录的下sidebar配置
+
+## markdown语法
+markdown 是一种写作语言，markdown的教程参见[leante-blog  markdown 写法](http://gong.leanote.com/post/markdown%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E7%94%A8%E6%B3%95)
+
+或者参见[学习笔记markdown](学习笔记:markdown)
+
+## 尝试一下
+我在github上开了一个仓库存放平时的dokuwiki文件，直接拉下来就可以跑起来，不需要数据库，不需要额外配置
+[github-dokuwiki](https://github.com/langchenglc/wiki)
+拉下来后，在windows64位同直接运行run.cmd即可
+</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 为了方便组内人员进行文档编写，找了一个工具进行写作---dokuwiki；下面就介绍dokuwiki的安装配置和使用
+
+[TOC]
+
+## dokuwiki 是什么
+dokuwiki是一个方便个人或者组织建立wiki的工具，能够很方便的生成文档、博客等。同时文档是以文本文件的形式存放的，非常易于管理和迁移。还有丰富的插件使用，使用插件可以支持markdown写作。
+
+## dokuwiki安装
+dokuwiki的安装参见官网[dokuwiki](https://www.dokuwiki.org/dokuwiki#)
+
+1. windows安装包在200的software文件夹中有，只要执行run.cmd即可，自带apache服务器，点击即可运行。
+2. 软件包解压缩就可以使用，首次执行会让你进行很简单的配置工作。
+
+## dokuwiki简单配置
+
+[见配置说明文档](wiki:dokuwiki-config)
+
+## 添加新页面
+dokuwiki中添加新的页面很简单，有两种方式
+
+1. 通过url添加：浏览器中输入url就好了，id后面的部分就是你自定义的页面路径 http://192.168.5.200:8800/doku.php?id=dokuwiki:start
+2. 如果url链接所指向的文件已经存在，则显示该文件，点击右侧按钮进行修改；如果不存在，则就是新增文件
+2. 通过自己在服务器对应目录中创建对应的文件夹和文件即可：文本文件的目录是/dokuwiki/data/pages/  （推荐使用方法1，避免不必要的问题，同时也能保留操作记录）
+3. 路径说明：dokuwiki:start  这个格式表示dokuwiki文件夹下的start文件，以此类推
+4. 新页面如果内容被删除为空进行保存，则namespace也会被清空
+
+## 页面内容中添加链接
+如果页面直接需要添加链接，链接格式如下：
+
+1. 添加文档内部链接：例如：[[:start]]   [ [dokuwiki:start] ]   (到时候两个中括号的空格不要，里面写上面说的文件路径)
+2. 添加文档外部链接：例如：[[http://www.baidu.com|baidu]]   [ [http://www.baidu.com|baidu]]    （到时候把空格去掉）
+3. 添加图片{{wiki:skyon.png}}  { {wiki:skyon.png}}（到时候把空格去掉）
+4. 添加有link的图片[[http://www.skyon.com.cn|{{wiki:skyon.png}}]]    [ [http://www.skyon.com.cn|{ {wiki:skyon.png}}]]    （到时候把空格去掉）
+5. 具体可以参考官网这个说明 [[wiki:syntax|语法]]
+
+## 页面内容中添加图片等多媒体资源
+
+右上角媒体管理器中进行上传，每个资源会有一个id，同上面的文本资源名格式  namespaces:name 
+
+## sidebar的编辑
+sidebar同样也是一个txt文件，路径是[[:sidebar]]，对应的是服务器的路径/dokuwiki/data/pages/sidebar.txt
+
+也可以实用插件自动生成sidebar，目前实用indexmenu插件自动，不用自己配置sidebar
+
+关于怎么使用自动sidebar配置，请参照[[https://www.dokuwiki.org/plugin:indexmenu#about_empty_namespaces|插件文档]]或者参看根目录的下sidebar配置
+
+## markdown语法
+markdown 是一种写作语言，markdown的教程参见[leante-blog  markdown 写法](http://gong.leanote.com/post/markdown%E4%BB%8B%E7%BB%8D%E5%8F%8A%E5%85%B6%E7%94%A8%E6%B3%95)
+
+或者参见[学习笔记markdown](学习笔记:markdown)
+
+## 尝试一下
+我在github上开了一个仓库存放平时的dokuwiki文件，直接拉下来就可以跑起来，不需要数据库，不需要额外配置
+[github-dokuwiki](https://github.com/langchenglc/wiki)
+拉下来后，在windows64位同直接运行run.cmd即可
+</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="../js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>
