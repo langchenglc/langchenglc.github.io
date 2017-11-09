@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>科技里的哲学</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/show-main.js"></script>
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">科技里的哲学</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 哲学渗透在我们的世界的方方面面，年纪越大，越能慢慢感受到他们的存在。即便是乏味的字母数字里，也有哲学赋予的禅理，就让细心的我们一起去找寻这样的果实，让我们的人生更加智慧！<br/>
+当然这是一个细细寻觅的过程，但是我相信会很有趣！
+
+## 正则人生
+从正则表达式```(?>.*?)```中看透的人生故事
+这个正则表达式的匹配过程是这样的：
+
+1. `.*`表示是匹配任何除了换行符号的字符
+2. 后面的`?`表示1中的表达式是一个懒惰模式，会忽略优先，优先将资源扔给后面的表达式去匹配，目前的状态保存为一个备用状态，如果后面的表达式匹配失败再进行回溯（虽然他后面没有任何东西了）
+3. `?>`表示这个分组是一个固定分组，不能进行回溯，任何备用状态直接丢弃
+4. 所以这个表达式一边将目前的状态丢到后面进行回溯，一边由于固定分组的规则无法回到过去的备用状态。
+5. 最后什么不能匹配到
+
+**道理**：人生是各种各样的选择中连成的一条通往明天的旅途，过程中我们往往会经受各种诱惑，所以什么都想要。我们也往往认为对于未知的新事物尝试一下有什么大不了，因为即便是失败了、失去了，我们还可以退回到原点重来。但是我们却往往忽略了人生路上有一个很重要的固定分组---时间。我们的过去的还有现在经历的一切都将成为我们将来的一部分，所以任何当下的抉择都至关重要。任何不草率的决定都将是无法直接清零这样的形式来抵消和消除它的影响的。
+
+
+---
+未完待续
+
+---</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 哲学渗透在我们的世界的方方面面，年纪越大，越能慢慢感受到他们的存在。即便是乏味的字母数字里，也有哲学赋予的禅理，就让细心的我们一起去找寻这样的果实，让我们的人生更加智慧！<br/>
+当然这是一个细细寻觅的过程，但是我相信会很有趣！
+
+## 正则人生
+从正则表达式```(?>.*?)```中看透的人生故事
+这个正则表达式的匹配过程是这样的：
+
+1. `.*`表示是匹配任何除了换行符号的字符
+2. 后面的`?`表示1中的表达式是一个懒惰模式，会忽略优先，优先将资源扔给后面的表达式去匹配，目前的状态保存为一个备用状态，如果后面的表达式匹配失败再进行回溯（虽然他后面没有任何东西了）
+3. `?>`表示这个分组是一个固定分组，不能进行回溯，任何备用状态直接丢弃
+4. 所以这个表达式一边将目前的状态丢到后面进行回溯，一边由于固定分组的规则无法回到过去的备用状态。
+5. 最后什么不能匹配到
+
+**道理**：人生是各种各样的选择中连成的一条通往明天的旅途，过程中我们往往会经受各种诱惑，所以什么都想要。我们也往往认为对于未知的新事物尝试一下有什么大不了，因为即便是失败了、失去了，我们还可以退回到原点重来。但是我们却往往忽略了人生路上有一个很重要的固定分组---时间。我们的过去的还有现在经历的一切都将成为我们将来的一部分，所以任何当下的抉择都至关重要。任何不草率的决定都将是无法直接清零这样的形式来抵消和消除它的影响的。
+
+
+---
+未完待续
+
+---</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="../js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>

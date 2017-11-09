@@ -1,0 +1,1063 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>项目中常见spring注解</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/show-main.js"></script>
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">项目中常见spring注解</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">>这次主要介绍spring mvc中参数绑定的注解
+
+简介：根据处理的request的不同内容部分分为四类
+
+1. 处理request body部分的注解：@RequestParam,@RequestBody;
+2. 处理requet uri 部分（这里指uri template中variable，不含queryString部分）的注解：@PathVariable;
+3. 处理request header部分的注解：@RequestHeader, @CookieValue;
+4. 处理attribute类型是注解： @SessionAttributes, @ModelAttribute;
+
+
+[TOC]
+
+---
+
+### @RequestParam
+>该注解类型用于将指定的请求参数赋值给方法中的形参
+
+@RequestParam注解支持的属性
+|属性|类型|是否必要|说明|
+|-|
+|name|String|否|指定请求头绑定的名称|
+|value|String|否|name属性的别名|
+|required|Boolean|否|指示参数是否必须绑定|
+|defaultValue|String|否|如果没有传递参数而使用的默认值|
+
+
+@RequestParam用来处理Content-Type: 为 application/x-www-form-urlencoded编码的内容，提交方式GET、POST.
+该注解主要参数：value用来指定要传入值的id名称；required默认是true，表示请求中一定要有相应的参数，否则将报404错误码；default默认值，表示如果请求中没有同名参数时的默认值，默认值可以是SpEL表达式，如“#{systemProperties['java.vm.version']}”。
+
+例：http://localhost:8080/login?username=joven&password=123456
+
+
+
+```java
+@RequestMapping("/login")
+public  ModelAndView go(@RequestParam("username") String username,
+                        @RequestParam("password") String password){          
+        return .....;        
+}
+```
+以上代码会将请求中的loginname参数的值"joven"赋给loginname变量，password参数的值"123456"赋给password变量
+
+---
+
+### @RequestBody
+该注解常用来处理Content-Type: 不是application/x-www-form-urlencoded编码的内容，例如application/json, application/xml等；
+
+```java
+$.ajax({  
+    type: "post",  
+    contentType:"application/json",  
+    url: "repairs/saveDispatches",  
+    data: JSON.stringify(dispatchesDTO),  
+    success: function(data){  
+        if(!data.success){  
+          alertError("派工失败");  
+        }else{  
+        alertSuccess("派工成功");  
+    }  
+}) 
+```
+
+
+```java
+@RequestMapping(value="/saveUser",method=RequestMethod.POST) 
+@ResponseBody  
+public void saveUser(@RequestBody List<User> users,@RequestBody DispatchesDTO dispatchesDTO,) { 
+   userService.batchSave(users); 
+   dispatchesService.saveDispatches(dispatchesDTO);
+} 
+```
+
+其实 @RequestBody接收的是一个Json对象的字符串，而不是一个Json对象。然而在ajax请求往往传的都是Json对象，后来发现用 JSON.stringify(data)的方式就能将对象变成字符串。同时ajax请求的时候也要指定dataType: "json",contentType:"application/json" 这样就可以轻易的将一个对象或者List传到Java端，使用@RequestBody即可绑定对象或者List.
+
+---
+
+### @PathVariable
+
+>该注解类型可以非常方便地获得请求URL中的动态参数。注解只支持一个属性value，类型为String，表示绑定的名称，如果省略则默认绑定同名参数
+
+
+
+
+```java
+@RequestMapping("/{id}")  
+public  GeResult  findById(@PathVariable  String id) {
+       return  roleService. findById (Role.class,id);    }
+```
+
+当使用@RequestMapping URI template 样式映射时， 即 someUrl/{id}, 这时的id可通过 @Pathvariable注解绑定它传过来的值到方法的参数上。若方法参数名称和需要绑定的uri template中变量名称不一致，需要在@PathVariable("name")指定uri template中的名称
+
+
+---
+
+### @RequestHeader
+>该注解类型用于将请求的头信息区数据映射到功能处理方法的参数上
+
+@RequestHeader注解支持的属性
+|属性|类型|是否必要|说明|
+|-|
+|name|String|否|指定请求头绑定的名称|
+|value|String|否|name属性的别名|
+|required|Boolean|否|指示参数是否必须绑定|
+|defaultValue|String|否|如果没有传递参数而使用的默认值|
+
+
+这是一个Request 的header部分：
+
+
+```
+|Host|localhost:8080|
+|Accept|text/html,application/xhtml+xml,application/xml;q=0.9|
+|Accept-Language|fr,en-gb;q=0.7,en;q=0.3|
+|Accept-Encoding|gzip,deflate|
+|Accept-Charset|ISO-8859-1,utf-8;q=0.7,*;q=0.7|
+|Keep-Alive|300|
+```
+
+```java
+@RequestMapping("/teat")
+public void requestHeaderTest(@RequestHeader(value="Accept") String[] accepts){
+}
+```
+
+以上配置自动将请求头“Accept”的值赋到accepts参数上
+
+---
+### @CookieValue
+>该注解将请求的cookie数据映射到功能处理方法的参数上
+
+@CookieValue注解支持的属性
+|属性|类型|是否必要|说明|
+|-|
+|name|String|否|指定请求头绑定的名称|
+|value|String|否|name属性的别名|
+|required|Boolean|否|指示参数是否必须绑定|
+|defaultValue|String|否|如果没有传递参数而使用的默认值|
+
+
+
+```java
+@RequestMapping("/displayHeaderIndo.do")  
+public  void  display(@CookieValue(value="JSESSIONID",defaultValue="")  String sessionId){
+}
+```
+
+以上配置会自动将JSESSIONID值设置到sessionId参数上，defaultValue表示Cookie中没有JSESSIONID时默认为空
+
+
+---
+
+### @SessionAttributes
+>该注解类型允许我们有选择地指定Model中哪些参数需要转存到HttpSession对象当中
+
+@SessionAttributes注解支持的属性
+|属性|类型|是否必要|说明|
+|-|
+|names|String[]|否|Model中属性的名称，即存储在HTTPSession当中的属性名称|
+|value|String[]|否|names属性的别名|
+|types|Class<?>[]|否|指示参数是否必须绑定|
+
+    **@SessionAttributes只能声明在类上，而不能声明在方法上**
+
+```java
+@Controller
+@RequestMapping("/editPet.do")
+@SessionAttributes("pet")  
+public  class  EditPetForm{  }
+```
+
+还有如下写法
+``@SessionAttributes(types={User.class),value="user")``
+
+
+还可以设置多个对象到HTTPSession当中
+``@SessionAttributes(types={User.class,Dept.class),value={"user","dept"})``
+
+
+[参考链接](http://www.cnblogs.com/caoyc/p/5635914.html)
+
+---
+
+### @ModelAttribute
+
+> 该注解类型将请求参数绑定到Model对象
+
+
+@ModelAttribute注解只支持一个属性Value,类型为String，表示绑定的属性名称
+
+
+@ModelAttribute注释方式
+
+1. 用于方法上：通常用来在处理@RequestMapping之前，为请求绑定需要从后台查询的model；
+2. 用于参数上：用来通过名称对应，把相应名称的值绑定到注解的参数bean上；要绑定的值来源于：
+A)@SessionAttributes 启用的attribute 对象上；
+B)@ModelAttribute 用于方法上时指定的model对象；
+C)上述两种情况都没有时，new一个需要绑定的bean对象，然后把request中按名称对应的方式把值绑定到bean中。
+
+#### @ModelAttribute注释在方法上
+
+* @ModelAttribute注释void返回值的方法
+
+```java
+public class HelloWorldController {  
+        @ModelAttribute  
+        public void populateModel(@RequestParam String abc, Model model) {  
+           model.addAttribute("attributeName", abc);  
+        }  
+        @RequestMapping(value = "/helloWorld")  
+        public String helloWorld() {  
+           return "helloWorld";  
+        }  
+}
+```
+
+
+***被@ModelAttribute注释的方法会在Controller每个方法执行前被执行***
+
+例子中，在获得请求/helloWorld 后，populateModel方法在helloWorld方法之前先被调用，它把请求参数（/helloWorld?abc="xxx"）加入到一个名为attributeName的model属性中，在它执行后helloWorld被调用，返回视图名helloWorld和model已由@ModelAttribute方法生产好了。
+
+* @ModelAttribute和@RequestMapping同时注释一个方法
+
+```java
+public class HelloWorldController {  
+        @RequestMapping(value = "/helloWorld")  
+        @ModelAttribute("attributeName")  
+        public String helloWorld() {  
+           return "hi";  
+        }  
+}
+```
+
+@ModelAttribute和@RequestMapping同时注释一个方法, 这时这个方法的返回值并不是表示一个视图名称，而是model属性的值，视图名称由RequestToViewNameTranslator根据请求"/helloWorld"转换为逻辑视图helloWorld。Model属性名称有@ModelAttribute(value=””)指定，相当于在request中封装了key=attributeName，value=hi。
+
+* @ModelAttribute注释返回具体类的方法 
+
+```java
+@ModelAttribute  
+public Account addAccount(@RequestParam String number) {  
+   return accountManager.findAccount(number);  
+}  
+```
+这种情况，model属性的名称没有指定，它由返回类型隐含表示，如这个方法返回Account类型，那么这个model属性的名称是account。这个例子中model属性名称由返回对象类型隐含表示，model属性对象就是方法的返回值。它无须要特定的参数。
+    
+
+* @ModelAttribute(value="")注释返回具体类的方法    
+
+```java
+@Controller  
+public class HelloWorldController {  
+     @ModelAttribute("attributeName")  
+     public String addAccount(@RequestParam String abc) {  
+        return abc;  
+     }  
+     @RequestMapping(value = "/helloWorld")  
+     public String helloWorld() {  
+         return "helloWorld";  
+      }  
+}
+```
+
+这个例子中使用@ModelAttribute注释的value属性，来指定model属性的名称。model属性对象就是方法的返回值。它无须要特定的参数。
+
+---
+
+#### @ModelAttribute注释在参数上
+
+```java
+@Controller  
+public class HelloWorldController {  
+     @ModelAttribute("user")  
+     public User addAccount() {  
+        return new User("jz","123");  
+     }  
+     @RequestMapping(value = "/helloWorld")  
+     public String helloWorld(@ModelAttribute("user") User user) {  
+        user.setUserName("jizhou");  
+        return "helloWorld";  
+     }  
+}
+```
+在这个例子里，@ModelAttribute("user") User user注释方法参数，参数user的值来源于addAccount()方法中的model属性。
+关于user值的获取先后：先查询@SessionAttributes层方面有无，再是@ModelAttribute方法层面上有无，若没有则将URI template中的值或Form表单按对应的名称绑定到user对象的各属性上。所以也可以写成如下代码：
+
+```java
+@Controller  
+public class HelloWorldController {  
+   @RequestMapping(value = "/helloWorld")  
+   public String helloWorld(@ModelAttribute User user) {  
+       return "helloWorld";  
+   }  
+}
+```
+（实际上，不做此注释也能拿到user对象）
+
+
+
+---
+
+## spring异常处理
+
+1. @ExceptionHandler：统一处理某一类异常，从而能够减少代码重复率和复杂度
+2. @ControllerAdvice：异常集中处理，更好的使业务逻辑与异常处理剥离开
+3. @ResponseStatus：可以将某种异常映射为HTTP状态码
+
+### @ExceptionHandler
+
+>该注解作用对象为方法，并且在运行时有效，由该注解注释的方法可以具有灵活的输入参数，方法返回值：ModelAndView、Model、Map、View、String还有@ResponseBody、HttpEntity<?>或ResponseEntity<?>，以及void。
+
+使用@ExceptionHandler进行处理有一个不好的地方是进行异常处理的方法必须与出错的方法在同一个Controller里面
+
+
+### @ControllerAdvice
+>该注解作用对象为TYPE，包括类、接口和枚举等，在运行时有效，并且可以通过Spring扫描为bean组件。其可以包含由@ExceptionHandler、@InitBinder 和@ModelAttribute标注的方法，可以处理多个Controller类，这样所有控制器的异常可以在一个地方进行处理
+
+```java
+@ControllerAdvice
+public  class  ExceptionsHandler {
+  @EceptionHandler (Exception.class) //可以直接写@EceptionHandler，不指明异常类，会自动映射，IOExeption继承于Exception
+  public  ModelAndView  allExceptionHandler(Exception  exception){ //还可以声明接收其他任意参数
+       ModelAndView  modelAndView = new ModelAndView("generic_error");
+       modelAndView.addObject("errMsg", "this is Exception.class");
+       return  modelAndView;
+  }
+  @ExceptionHandler(Throwable. class)
+  @ResponseBody
+  public  GeResult<Boolean>    respThrowable(Exception  ex) {
+     logger.warn("代码执行异常！", ex);
+     return  error(CodeEnum.RUNTIME_ERROR,ex.getMessage());
+  }
+  public  GeResult<Boolean>   error(CodeEnum errorCode,String message) {
+        GeResult<Boolean> ret = new GeResult<>();
+        ret.setCode(errorCode.getCode());
+        ret.setMessage(errorCode.getDesc()+"："+message);
+        return   ret;
+  }                          
+} 
+```
+
+### @ResponseStatus
+
+> 该注解修饰的可以是类或是方法。它有两个属性，value属性是http状态码，比如404，500等。reason是错误信息
+
+```java
+@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Are you okay?")
+public class AuthException extends RuntimeException {
+    private static final long serialVersionUID = 5759027883028274330L;
+}
+@Controller("/hello") //在控制器方法中，抛出一个 AuthException异常
+public class SampleControoler {
+    @RequestMapping("/say")
+    @ResponseBody
+    String say() {
+       throw new AuthException();
+    }
+}
+```
+
+@ResponseStatus如果修饰目标方法
+
+```java
+@ResponseStatus(value=HttpStatus.FORBIDDEN,reason="用户名不匹配")
+@RequestMapping("/testResponseStatus")
+public String testResponseStatus(int i){
+     if(i==0)
+          throw new UserNotMatchException();
+     return "hello";
+}
+```
+无论它执行方法过程中有没有异常产生，用户都会得到异常的界面。而目标方法正常执行
+
+---
+
+## 了解型的spring注解
+
+### @Deprecated
+
+用@Deprecated注释的程序元素，不鼓励程序员使用这样的元素，通常是因为它很危险或存在更好的选择。在使用不被赞成的程序元素或在不被赞成的代码中执行重写时，编译器会发出警告。
+
+### @Valid验证注解
+
+```java
+@Controller
+public class HelloController{
+   @RequestMapping("/queryEdubg")                                           //验证注解
+   public ModelAndView querydata(ModelAndView modelAndView,@ModelAttribute @Valid CheckInfo checkInfo,BindingResult bindingResult){//BindingResult类紧跟@Valid注解后
+   modelAndView.setViewName("test/queryDataPage");
+   try{
+       Product_data pd=dataService.queryDataFromRemote(checkInfo);
+       modelAndView.addObject("data",pd);
+   }catch(Exception e){
+       e.printStackTrace();
+       bindingResult.addError(new ObjectError("errorMsg","查询未得到信息"));
+       modelAndView.addObject("checkErrorMsg",bindingResult.getGlobalError());
+   }
+   return modelAndView;
+   }
+   @InitBinder("checkInfo")
+   protected void initBinder(WebDataBinder webDataBinder){
+        webDataBinder.addValidators(new CheckInfoValidator());
+   }
+}
+public class  CheckInfoValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> claz) {
+        return CheckInfo.class.equals(claz);
+    }
+    @Override
+    public void validate(Object obj, Errors errors) {
+        CheckInfo checkInfo=(CheckInfo)obj;
+        if(StringUtils.isEmpty(checkInfo.getName){
+           errors.rejectValue("name","query.error.msg","姓名不能为空!");
+        }
+        ValidationUtils.rejectIfEmpty(errors,"name","query.error.msg","姓名不能为空!");
+    }
+}
+```
+
+
+</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">>这次主要介绍spring mvc中参数绑定的注解
+
+简介：根据处理的request的不同内容部分分为四类
+
+1. 处理request body部分的注解：@RequestParam,@RequestBody;
+2. 处理requet uri 部分（这里指uri template中variable，不含queryString部分）的注解：@PathVariable;
+3. 处理request header部分的注解：@RequestHeader, @CookieValue;
+4. 处理attribute类型是注解： @SessionAttributes, @ModelAttribute;
+
+
+[TOC]
+
+---
+
+### @RequestParam
+>该注解类型用于将指定的请求参数赋值给方法中的形参
+
+@RequestParam注解支持的属性
+|属性|类型|是否必要|说明|
+|-|
+|name|String|否|指定请求头绑定的名称|
+|value|String|否|name属性的别名|
+|required|Boolean|否|指示参数是否必须绑定|
+|defaultValue|String|否|如果没有传递参数而使用的默认值|
+
+
+@RequestParam用来处理Content-Type: 为 application/x-www-form-urlencoded编码的内容，提交方式GET、POST.
+该注解主要参数：value用来指定要传入值的id名称；required默认是true，表示请求中一定要有相应的参数，否则将报404错误码；default默认值，表示如果请求中没有同名参数时的默认值，默认值可以是SpEL表达式，如“#{systemProperties['java.vm.version']}”。
+
+例：http://localhost:8080/login?username=joven&password=123456
+
+
+
+```java
+@RequestMapping("/login")
+public  ModelAndView go(@RequestParam("username") String username,
+                        @RequestParam("password") String password){          
+        return .....;        
+}
+```
+以上代码会将请求中的loginname参数的值"joven"赋给loginname变量，password参数的值"123456"赋给password变量
+
+---
+
+### @RequestBody
+该注解常用来处理Content-Type: 不是application/x-www-form-urlencoded编码的内容，例如application/json, application/xml等；
+
+```java
+$.ajax({  
+    type: "post",  
+    contentType:"application/json",  
+    url: "repairs/saveDispatches",  
+    data: JSON.stringify(dispatchesDTO),  
+    success: function(data){  
+        if(!data.success){  
+          alertError("派工失败");  
+        }else{  
+        alertSuccess("派工成功");  
+    }  
+}) 
+```
+
+
+```java
+@RequestMapping(value="/saveUser",method=RequestMethod.POST) 
+@ResponseBody  
+public void saveUser(@RequestBody List<User> users,@RequestBody DispatchesDTO dispatchesDTO,) { 
+   userService.batchSave(users); 
+   dispatchesService.saveDispatches(dispatchesDTO);
+} 
+```
+
+其实 @RequestBody接收的是一个Json对象的字符串，而不是一个Json对象。然而在ajax请求往往传的都是Json对象，后来发现用 JSON.stringify(data)的方式就能将对象变成字符串。同时ajax请求的时候也要指定dataType: "json",contentType:"application/json" 这样就可以轻易的将一个对象或者List传到Java端，使用@RequestBody即可绑定对象或者List.
+
+---
+
+### @PathVariable
+
+>该注解类型可以非常方便地获得请求URL中的动态参数。注解只支持一个属性value，类型为String，表示绑定的名称，如果省略则默认绑定同名参数
+
+
+
+
+```java
+@RequestMapping("/{id}")  
+public  GeResult  findById(@PathVariable  String id) {
+       return  roleService. findById (Role.class,id);    }
+```
+
+当使用@RequestMapping URI template 样式映射时， 即 someUrl/{id}, 这时的id可通过 @Pathvariable注解绑定它传过来的值到方法的参数上。若方法参数名称和需要绑定的uri template中变量名称不一致，需要在@PathVariable("name")指定uri template中的名称
+
+
+---
+
+### @RequestHeader
+>该注解类型用于将请求的头信息区数据映射到功能处理方法的参数上
+
+@RequestHeader注解支持的属性
+|属性|类型|是否必要|说明|
+|-|
+|name|String|否|指定请求头绑定的名称|
+|value|String|否|name属性的别名|
+|required|Boolean|否|指示参数是否必须绑定|
+|defaultValue|String|否|如果没有传递参数而使用的默认值|
+
+
+这是一个Request 的header部分：
+
+
+```
+|Host|localhost:8080|
+|Accept|text/html,application/xhtml+xml,application/xml;q=0.9|
+|Accept-Language|fr,en-gb;q=0.7,en;q=0.3|
+|Accept-Encoding|gzip,deflate|
+|Accept-Charset|ISO-8859-1,utf-8;q=0.7,*;q=0.7|
+|Keep-Alive|300|
+```
+
+```java
+@RequestMapping("/teat")
+public void requestHeaderTest(@RequestHeader(value="Accept") String[] accepts){
+}
+```
+
+以上配置自动将请求头“Accept”的值赋到accepts参数上
+
+---
+### @CookieValue
+>该注解将请求的cookie数据映射到功能处理方法的参数上
+
+@CookieValue注解支持的属性
+|属性|类型|是否必要|说明|
+|-|
+|name|String|否|指定请求头绑定的名称|
+|value|String|否|name属性的别名|
+|required|Boolean|否|指示参数是否必须绑定|
+|defaultValue|String|否|如果没有传递参数而使用的默认值|
+
+
+
+```java
+@RequestMapping("/displayHeaderIndo.do")  
+public  void  display(@CookieValue(value="JSESSIONID",defaultValue="")  String sessionId){
+}
+```
+
+以上配置会自动将JSESSIONID值设置到sessionId参数上，defaultValue表示Cookie中没有JSESSIONID时默认为空
+
+
+---
+
+### @SessionAttributes
+>该注解类型允许我们有选择地指定Model中哪些参数需要转存到HttpSession对象当中
+
+@SessionAttributes注解支持的属性
+|属性|类型|是否必要|说明|
+|-|
+|names|String[]|否|Model中属性的名称，即存储在HTTPSession当中的属性名称|
+|value|String[]|否|names属性的别名|
+|types|Class<?>[]|否|指示参数是否必须绑定|
+
+    **@SessionAttributes只能声明在类上，而不能声明在方法上**
+
+```java
+@Controller
+@RequestMapping("/editPet.do")
+@SessionAttributes("pet")  
+public  class  EditPetForm{  }
+```
+
+还有如下写法
+``@SessionAttributes(types={User.class),value="user")``
+
+
+还可以设置多个对象到HTTPSession当中
+``@SessionAttributes(types={User.class,Dept.class),value={"user","dept"})``
+
+
+[参考链接](http://www.cnblogs.com/caoyc/p/5635914.html)
+
+---
+
+### @ModelAttribute
+
+> 该注解类型将请求参数绑定到Model对象
+
+
+@ModelAttribute注解只支持一个属性Value,类型为String，表示绑定的属性名称
+
+
+@ModelAttribute注释方式
+
+1. 用于方法上：通常用来在处理@RequestMapping之前，为请求绑定需要从后台查询的model；
+2. 用于参数上：用来通过名称对应，把相应名称的值绑定到注解的参数bean上；要绑定的值来源于：
+A)@SessionAttributes 启用的attribute 对象上；
+B)@ModelAttribute 用于方法上时指定的model对象；
+C)上述两种情况都没有时，new一个需要绑定的bean对象，然后把request中按名称对应的方式把值绑定到bean中。
+
+#### @ModelAttribute注释在方法上
+
+* @ModelAttribute注释void返回值的方法
+
+```java
+public class HelloWorldController {  
+        @ModelAttribute  
+        public void populateModel(@RequestParam String abc, Model model) {  
+           model.addAttribute("attributeName", abc);  
+        }  
+        @RequestMapping(value = "/helloWorld")  
+        public String helloWorld() {  
+           return "helloWorld";  
+        }  
+}
+```
+
+
+***被@ModelAttribute注释的方法会在Controller每个方法执行前被执行***
+
+例子中，在获得请求/helloWorld 后，populateModel方法在helloWorld方法之前先被调用，它把请求参数（/helloWorld?abc="xxx"）加入到一个名为attributeName的model属性中，在它执行后helloWorld被调用，返回视图名helloWorld和model已由@ModelAttribute方法生产好了。
+
+* @ModelAttribute和@RequestMapping同时注释一个方法
+
+```java
+public class HelloWorldController {  
+        @RequestMapping(value = "/helloWorld")  
+        @ModelAttribute("attributeName")  
+        public String helloWorld() {  
+           return "hi";  
+        }  
+}
+```
+
+@ModelAttribute和@RequestMapping同时注释一个方法, 这时这个方法的返回值并不是表示一个视图名称，而是model属性的值，视图名称由RequestToViewNameTranslator根据请求"/helloWorld"转换为逻辑视图helloWorld。Model属性名称有@ModelAttribute(value=””)指定，相当于在request中封装了key=attributeName，value=hi。
+
+* @ModelAttribute注释返回具体类的方法 
+
+```java
+@ModelAttribute  
+public Account addAccount(@RequestParam String number) {  
+   return accountManager.findAccount(number);  
+}  
+```
+这种情况，model属性的名称没有指定，它由返回类型隐含表示，如这个方法返回Account类型，那么这个model属性的名称是account。这个例子中model属性名称由返回对象类型隐含表示，model属性对象就是方法的返回值。它无须要特定的参数。
+    
+
+* @ModelAttribute(value="")注释返回具体类的方法    
+
+```java
+@Controller  
+public class HelloWorldController {  
+     @ModelAttribute("attributeName")  
+     public String addAccount(@RequestParam String abc) {  
+        return abc;  
+     }  
+     @RequestMapping(value = "/helloWorld")  
+     public String helloWorld() {  
+         return "helloWorld";  
+      }  
+}
+```
+
+这个例子中使用@ModelAttribute注释的value属性，来指定model属性的名称。model属性对象就是方法的返回值。它无须要特定的参数。
+
+---
+
+#### @ModelAttribute注释在参数上
+
+```java
+@Controller  
+public class HelloWorldController {  
+     @ModelAttribute("user")  
+     public User addAccount() {  
+        return new User("jz","123");  
+     }  
+     @RequestMapping(value = "/helloWorld")  
+     public String helloWorld(@ModelAttribute("user") User user) {  
+        user.setUserName("jizhou");  
+        return "helloWorld";  
+     }  
+}
+```
+在这个例子里，@ModelAttribute("user") User user注释方法参数，参数user的值来源于addAccount()方法中的model属性。
+关于user值的获取先后：先查询@SessionAttributes层方面有无，再是@ModelAttribute方法层面上有无，若没有则将URI template中的值或Form表单按对应的名称绑定到user对象的各属性上。所以也可以写成如下代码：
+
+```java
+@Controller  
+public class HelloWorldController {  
+   @RequestMapping(value = "/helloWorld")  
+   public String helloWorld(@ModelAttribute User user) {  
+       return "helloWorld";  
+   }  
+}
+```
+（实际上，不做此注释也能拿到user对象）
+
+
+
+---
+
+## spring异常处理
+
+1. @ExceptionHandler：统一处理某一类异常，从而能够减少代码重复率和复杂度
+2. @ControllerAdvice：异常集中处理，更好的使业务逻辑与异常处理剥离开
+3. @ResponseStatus：可以将某种异常映射为HTTP状态码
+
+### @ExceptionHandler
+
+>该注解作用对象为方法，并且在运行时有效，由该注解注释的方法可以具有灵活的输入参数，方法返回值：ModelAndView、Model、Map、View、String还有@ResponseBody、HttpEntity<?>或ResponseEntity<?>，以及void。
+
+使用@ExceptionHandler进行处理有一个不好的地方是进行异常处理的方法必须与出错的方法在同一个Controller里面
+
+
+### @ControllerAdvice
+>该注解作用对象为TYPE，包括类、接口和枚举等，在运行时有效，并且可以通过Spring扫描为bean组件。其可以包含由@ExceptionHandler、@InitBinder 和@ModelAttribute标注的方法，可以处理多个Controller类，这样所有控制器的异常可以在一个地方进行处理
+
+```java
+@ControllerAdvice
+public  class  ExceptionsHandler {
+  @EceptionHandler (Exception.class) //可以直接写@EceptionHandler，不指明异常类，会自动映射，IOExeption继承于Exception
+  public  ModelAndView  allExceptionHandler(Exception  exception){ //还可以声明接收其他任意参数
+       ModelAndView  modelAndView = new ModelAndView("generic_error");
+       modelAndView.addObject("errMsg", "this is Exception.class");
+       return  modelAndView;
+  }
+  @ExceptionHandler(Throwable. class)
+  @ResponseBody
+  public  GeResult<Boolean>    respThrowable(Exception  ex) {
+     logger.warn("代码执行异常！", ex);
+     return  error(CodeEnum.RUNTIME_ERROR,ex.getMessage());
+  }
+  public  GeResult<Boolean>   error(CodeEnum errorCode,String message) {
+        GeResult<Boolean> ret = new GeResult<>();
+        ret.setCode(errorCode.getCode());
+        ret.setMessage(errorCode.getDesc()+"："+message);
+        return   ret;
+  }                          
+} 
+```
+
+### @ResponseStatus
+
+> 该注解修饰的可以是类或是方法。它有两个属性，value属性是http状态码，比如404，500等。reason是错误信息
+
+```java
+@ResponseStatus(value = HttpStatus.FORBIDDEN, reason = "Are you okay?")
+public class AuthException extends RuntimeException {
+    private static final long serialVersionUID = 5759027883028274330L;
+}
+@Controller("/hello") //在控制器方法中，抛出一个 AuthException异常
+public class SampleControoler {
+    @RequestMapping("/say")
+    @ResponseBody
+    String say() {
+       throw new AuthException();
+    }
+}
+```
+
+@ResponseStatus如果修饰目标方法
+
+```java
+@ResponseStatus(value=HttpStatus.FORBIDDEN,reason="用户名不匹配")
+@RequestMapping("/testResponseStatus")
+public String testResponseStatus(int i){
+     if(i==0)
+          throw new UserNotMatchException();
+     return "hello";
+}
+```
+无论它执行方法过程中有没有异常产生，用户都会得到异常的界面。而目标方法正常执行
+
+---
+
+## 了解型的spring注解
+
+### @Deprecated
+
+用@Deprecated注释的程序元素，不鼓励程序员使用这样的元素，通常是因为它很危险或存在更好的选择。在使用不被赞成的程序元素或在不被赞成的代码中执行重写时，编译器会发出警告。
+
+### @Valid验证注解
+
+```java
+@Controller
+public class HelloController{
+   @RequestMapping("/queryEdubg")                                           //验证注解
+   public ModelAndView querydata(ModelAndView modelAndView,@ModelAttribute @Valid CheckInfo checkInfo,BindingResult bindingResult){//BindingResult类紧跟@Valid注解后
+   modelAndView.setViewName("test/queryDataPage");
+   try{
+       Product_data pd=dataService.queryDataFromRemote(checkInfo);
+       modelAndView.addObject("data",pd);
+   }catch(Exception e){
+       e.printStackTrace();
+       bindingResult.addError(new ObjectError("errorMsg","查询未得到信息"));
+       modelAndView.addObject("checkErrorMsg",bindingResult.getGlobalError());
+   }
+   return modelAndView;
+   }
+   @InitBinder("checkInfo")
+   protected void initBinder(WebDataBinder webDataBinder){
+        webDataBinder.addValidators(new CheckInfoValidator());
+   }
+}
+public class  CheckInfoValidator implements Validator {
+    @Override
+    public boolean supports(Class<?> claz) {
+        return CheckInfo.class.equals(claz);
+    }
+    @Override
+    public void validate(Object obj, Errors errors) {
+        CheckInfo checkInfo=(CheckInfo)obj;
+        if(StringUtils.isEmpty(checkInfo.getName){
+           errors.rejectValue("name","query.error.msg","姓名不能为空!");
+        }
+        ValidationUtils.rejectIfEmpty(errors,"name","query.error.msg","姓名不能为空!");
+    }
+}
+```
+
+
+</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="../js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>
