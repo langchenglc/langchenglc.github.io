@@ -25,7 +25,7 @@ body {
 /*公用文字样式*/
 h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
 .note-container{
-    width:850px; 
+    width:850px;
     margin:auto;
     padding: 10px 20px;
     box-shadow: 1px 1px 10px #eee;
@@ -172,6 +172,8 @@ pre code {
 </style>
 <!-- 该css供自定义样式 -->
 <link href="../leanote-markdown.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/show-main.js"></script>
 </head>
 
 <body>
@@ -194,7 +196,7 @@ python中和时间相关的模块有以下几个，常用就是time模块：
 
 在Python中，通常有这几种方式来表示时间：
 1. 时间戳
-2. 格式化的时间字符串 
+2. 格式化的时间字符串
 3. 元组（struct_time）共九个元素。
 
 由于Python的time模块实现主要调用C库，所以各个平台可能有所不同。
@@ -218,7 +220,7 @@ UTC（Coordinated Universal Time，世界协调时）
     |6	| tm_wday（weekday）	 |0 - 6（0表示周日）|
     |7	| tm_yday（一年中的第几天）	 |1 - 366|
     |8	| tm_isdst（是否是夏令时）	 |默认为-1|
-    
+
 ## 2.常用的方法
 
 * `time.localtime([secs])` 返回当地时区的struct_time
@@ -293,7 +295,7 @@ python中和时间相关的模块有以下几个，常用就是time模块：
 
 在Python中，通常有这几种方式来表示时间：
 1. 时间戳
-2. 格式化的时间字符串 
+2. 格式化的时间字符串
 3. 元组（struct_time）共九个元素。
 
 由于Python的time模块实现主要调用C库，所以各个平台可能有所不同。
@@ -317,7 +319,7 @@ UTC（Coordinated Universal Time，世界协调时）
     |6	| tm_wday（weekday）	 |0 - 6（0表示周日）|
     |7	| tm_yday（一年中的第几天）	 |1 - 366|
     |8	| tm_isdst（是否是夏令时）	 |默认为-1|
-    
+
 ## 2.常用的方法
 
 * `time.localtime([secs])` 返回当地时区的struct_time
@@ -385,7 +387,7 @@ time.struct_time(tm_year=2017, tm_mon=11, tm_mday=14, tm_hour=16, tm_min=4, tm_s
 
 <!-- 该js供其它处理 -->
 <script src="../leanote-markdown.js"></script>
-<script src="http://leanote.github.io/markdown-to-html/markdown-to-html.min.js"></script>
+<script src="../js/markdown-to-html.min.js"></script>
 <script>
 function init() {
 	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
