@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>python中的time</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px; 
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">python中的time</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 本篇介绍python中的time模块
+
+python中和时间相关的模块有以下几个，常用就是time模块：
+
+* time
+* datetime
+* calendar
+
+---
+## 1.概念
+
+在Python中，通常有这几种方式来表示时间：
+1. 时间戳
+2. 格式化的时间字符串 
+3. 元组（struct_time）共九个元素。
+
+由于Python的time模块实现主要调用C库，所以各个平台可能有所不同。
+
+UTC（Coordinated Universal Time，世界协调时）
+:    亦即格林威治天文时间，世界标准时间。在中国为UTC+8。DST（Daylight Saving Time）即夏令时。
+
+时间戳（timestamp）的方式
+:    通常来说，时间戳表示的是从1970年1月1日00:00:00开始按秒计算的偏移量。我们运行“type(time.time())”，返回的是float类型。返回时间戳方式的函数主要有time()，clock()等。
+
+元组（struct_time）方式
+:    struct_time元组共有9个元素，返回struct_time的函数主要有gmtime()，localtime()，strptime()。下面列出这种方式元组中的几个元素：
+    |索引|属性|值|
+    |-|-|
+    |0	| tm_year（年）	 |比如2011 |
+    |1	| tm_mon（月）	 |1 - 12|
+    |2	| tm_mday（日）	 |1 - 31|
+    |3	| tm_hour（时）	 |0 - 23|
+    |4	| tm_min（分）	 |0 - 59|
+    |5	| tm_sec（秒）	 |0 - 61|
+    |6	| tm_wday（weekday）	 |0 - 6（0表示周日）|
+    |7	| tm_yday（一年中的第几天）	 |1 - 366|
+    |8	| tm_isdst（是否是夏令时）	 |默认为-1|
+    
+## 2.常用的方法
+
+* `time.localtime([secs])` 返回当地时区的struct_time
+* `time.gmtime([secs])` 返回UTC时区的struct_time
+* `time.time()` 返回当前时间戳
+* `time.mktime(t)` 将一个struct_time转化为时间戳
+* `time.sleep(secs)` 线程推迟指定时间；seconds
+* `time.strptime(string[,format])` 把一个格式化的时间字符串转化为struct_time
+* `time.strftime(format[,t])` 将时间转化为格式化字符串输出
+
+### 2.1时间格式format
+
+|格式|含义|备注|
+|-|-|-|
+|%a	|本地（locale）简化星期名称	 |
+|%A	|本地完整星期名称	 |
+|%b	|本地简化月份名称	 |
+|%B	|本地完整月份名称	 |
+|%c	|本地相应的日期和时间表示	 |
+|%d	|一个月中的第几天（01 - 31）	 |
+|%H	|一天中的第几个小时（24小时制，00 - 23）	 |
+|%I	|第几个小时（12小时制，01 - 12）	 |
+|%j	|一年中的第几天（001 - 366）	 |
+|%m	|月份（01 - 12）	 |
+|%M	|分钟数（00 - 59）	 |
+|%p	|本地am或者pm的相应符	|一|
+|%S	|秒（01 - 61）	|二|
+|%U	|一年中的星期数。（00 -53星期天是一个星期的开始。）第一个星期天之前的所有天数都放在第0周。	|三|
+|%w	|一个星期中的第几天（0 - 6，0是星期天）	|三|
+|%W	|和%U基本相同，不同的是%W以星期一为一个星期的开始。	 |
+|%x	|本地相应日期	 |
+|%X	|本地相应时间	 |
+|%y	|去掉世纪的年份（00 - 99）	 |
+|%Y	|完整的年份	 |
+|%Z	|时区的名字（如果不存在为空字符）	 |
+|%%	|‘%’字符	 |
+
+## 3. 例子
+
+```
+>>> time.localtime()
+time.struct_time(tm_year=2017, tm_mon=11, tm_mday=14, tm_hour=16, tm_min=4, tm_sec=44, tm_wday=1, tm_yday=318, tm_isdst=0)
+```
+
+```
+>>> time.mktime(time.localtime())
+1304576839.0
+```
+
+
+
+![关系图](python中的time_files/5a0aa4c125288e60b000000a.png)
+
+
+## 参考链接
+
+[https://www.cnblogs.com/qq78292959/archive/2013/03/22/2975786.html](https://www.cnblogs.com/qq78292959/archive/2013/03/22/2975786.html)
+[官方doc](https://docs.python.org/2/library/time.html)
+
+</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 本篇介绍python中的time模块
+
+python中和时间相关的模块有以下几个，常用就是time模块：
+
+* time
+* datetime
+* calendar
+
+---
+## 1.概念
+
+在Python中，通常有这几种方式来表示时间：
+1. 时间戳
+2. 格式化的时间字符串 
+3. 元组（struct_time）共九个元素。
+
+由于Python的time模块实现主要调用C库，所以各个平台可能有所不同。
+
+UTC（Coordinated Universal Time，世界协调时）
+:    亦即格林威治天文时间，世界标准时间。在中国为UTC+8。DST（Daylight Saving Time）即夏令时。
+
+时间戳（timestamp）的方式
+:    通常来说，时间戳表示的是从1970年1月1日00:00:00开始按秒计算的偏移量。我们运行“type(time.time())”，返回的是float类型。返回时间戳方式的函数主要有time()，clock()等。
+
+元组（struct_time）方式
+:    struct_time元组共有9个元素，返回struct_time的函数主要有gmtime()，localtime()，strptime()。下面列出这种方式元组中的几个元素：
+    |索引|属性|值|
+    |-|-|
+    |0	| tm_year（年）	 |比如2011 |
+    |1	| tm_mon（月）	 |1 - 12|
+    |2	| tm_mday（日）	 |1 - 31|
+    |3	| tm_hour（时）	 |0 - 23|
+    |4	| tm_min（分）	 |0 - 59|
+    |5	| tm_sec（秒）	 |0 - 61|
+    |6	| tm_wday（weekday）	 |0 - 6（0表示周日）|
+    |7	| tm_yday（一年中的第几天）	 |1 - 366|
+    |8	| tm_isdst（是否是夏令时）	 |默认为-1|
+    
+## 2.常用的方法
+
+* `time.localtime([secs])` 返回当地时区的struct_time
+* `time.gmtime([secs])` 返回UTC时区的struct_time
+* `time.time()` 返回当前时间戳
+* `time.mktime(t)` 将一个struct_time转化为时间戳
+* `time.sleep(secs)` 线程推迟指定时间；seconds
+* `time.strptime(string[,format])` 把一个格式化的时间字符串转化为struct_time
+* `time.strftime(format[,t])` 将时间转化为格式化字符串输出
+
+### 2.1时间格式format
+
+|格式|含义|备注|
+|-|-|-|
+|%a	|本地（locale）简化星期名称	 |
+|%A	|本地完整星期名称	 |
+|%b	|本地简化月份名称	 |
+|%B	|本地完整月份名称	 |
+|%c	|本地相应的日期和时间表示	 |
+|%d	|一个月中的第几天（01 - 31）	 |
+|%H	|一天中的第几个小时（24小时制，00 - 23）	 |
+|%I	|第几个小时（12小时制，01 - 12）	 |
+|%j	|一年中的第几天（001 - 366）	 |
+|%m	|月份（01 - 12）	 |
+|%M	|分钟数（00 - 59）	 |
+|%p	|本地am或者pm的相应符	|一|
+|%S	|秒（01 - 61）	|二|
+|%U	|一年中的星期数。（00 -53星期天是一个星期的开始。）第一个星期天之前的所有天数都放在第0周。	|三|
+|%w	|一个星期中的第几天（0 - 6，0是星期天）	|三|
+|%W	|和%U基本相同，不同的是%W以星期一为一个星期的开始。	 |
+|%x	|本地相应日期	 |
+|%X	|本地相应时间	 |
+|%y	|去掉世纪的年份（00 - 99）	 |
+|%Y	|完整的年份	 |
+|%Z	|时区的名字（如果不存在为空字符）	 |
+|%%	|‘%’字符	 |
+
+## 3. 例子
+
+```
+>>> time.localtime()
+time.struct_time(tm_year=2017, tm_mon=11, tm_mday=14, tm_hour=16, tm_min=4, tm_sec=44, tm_wday=1, tm_yday=318, tm_isdst=0)
+```
+
+```
+>>> time.mktime(time.localtime())
+1304576839.0
+```
+
+
+
+![关系图](python中的time_files/5a0aa4c125288e60b000000a.png)
+
+
+## 参考链接
+
+[https://www.cnblogs.com/qq78292959/archive/2013/03/22/2975786.html](https://www.cnblogs.com/qq78292959/archive/2013/03/22/2975786.html)
+[官方doc](https://docs.python.org/2/library/time.html)
+
+</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="http://leanote.github.io/markdown-to-html/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>

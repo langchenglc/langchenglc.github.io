@@ -1,5 +1,7 @@
 {
   "data": [
+  ["python中的time","2017-11-12",["time","python"]],
+  ["python中的logging","2017-11-12",["logging","python"]],
   ["正则表达式","2017-11-09",["regex","正则"]],
   ["项目中常见spring注解","2017-11-09",["spring注解"]],
   ["form的enctype属性意义","2017-11-09",["form","enctype"]],
