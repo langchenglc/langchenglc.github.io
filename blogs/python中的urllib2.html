@@ -1,0 +1,477 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>python中的urllib2</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px;
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">python中的urllib2</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 本篇介绍python中的urllib2模块
+
+
+python3中urllib2已经被拆成了urllib.request urllib.error两个模块
+urllib2提供了基本的认证，重定向，cookie等url相关的函数和类
+
+## 使用
+
+### 1.常用方法
+* `urllib2.urlopen(url,data,timeout) raise URLError`
+* `urllib2.install_opener(opener)`设置一个OpenerDirector作为全局默认opener
+* `urllib2.build_opener([handler,...])` 返回一个OpenerDirector实例；自带有ProxyHandler,unknownHandler,HttpHandler,HttpDefaultErrorHandler,HttpRedirectHandler,FtpHandler,HttpErrorProcessor,HttpsHandler
+* `urllib2.Request(url,data,headers,origin_req_host,unverifiable)`
+
+
+### 2.类
+* BaseHandler
+* HTTPRedirectHandler
+* HTTPCookieProcessor
+* ProxyHandler
+* HTTPPasswordMgr
+* HTTPBasicAuthHandler
+* ProxyBasicAuthHandler
+* HTTPHandler
+* HTTPSHandler
+* FileHandler
+* FTPHandler
+* CacheFTPHandler
+* UnknownHandler
+* HTTPErrorProcessor
+
+## 代码example
+
+```
+# http://cuiqingcai.com/1052.html
+# https://docs.python.org/2/library/urllib2.html#module-urllib2
+
+#使用urllib2 urllib包进行请求
+import urllib
+import urllib2
+url='http://www.baidu.com'
+user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+values = {'name':'gong','age':22}
+headers = {'User-Agent':user_agent,'Referer':'http://www.zhihu.com/articles'}
+data = urllib.urlencode(values)
+
+request = urllib2.Request(url,data,headers)
+#-------------------------------------------------------------------------------
+#动态增加header
+import urllib2
+req = urllib2.Request('http://www.example.com/')
+req.add_header('Referer', 'http://www.python.org/')
+# Customize the default User-Agent header value:
+req.add_header('User-Agent', 'urllib-example/0.1 (Contact: . . .)')
+r = urllib2.urlopen(req)
+#------------------------------------------------------------------------------
+#代理的使用
+import urllib2
+enable_proxy = True
+proxy_handler = urllib2.ProxyHandler({'http':'http://192.168.5.190:8080'})
+null_proxy_handler = urllib2.ProxyHandler({})
+if enable_proxy:
+    opener = urllib2.build_opener(proxy_handler)
+else:
+    opener = urllib2.bulid_opener(null_proxy_handler)
+urllib2.install_opener(opener)
+
+#-------------------------------------------------------------------------------
+
+proxy_handler = urllib2.ProxyHandler({'http': 'http://www.example.com:3128/'})
+proxy_auth_handler = urllib2.ProxyBasicAuthHandler()
+proxy_auth_handler.add_password('realm', 'host', 'username', 'password')
+
+opener = urllib2.build_opener(proxy_handler, proxy_auth_handler)
+# This time, rather than install the OpenerDirector, we use it directly:
+opener.open('http://www.example.com/login.html')
+#-------------------------------------------------------------------------------
+#URLError
+import urllib2
+request = urllib2.Request('http://xxx.com/do-not-exist')
+try:
+    urllib2.urlopen(request)
+except urllib2.URLError,e:
+    print e.reason
+
+# urllib2.HTTPError ,e
+# HTTPError是URLError的子类
+# print e.code
+
+#-------------------------------------------------------------------------------
+#cookie的使用
+import urllib2
+import cookielib
+cookie = cookielib.CookieJar()
+handler = urllib2.HTTPCookieProcessor(cookie)
+opener = urllib2.bulid_opener(handler)
+response = opener.open('http://www.baide.com')
+for item in cookie:
+    print item.name,":",item.value
+# cookie.save()
+# cookie.load()
+
+#------------------------------------------------------------------------------
+#basic http 验证
+import urllib2
+# Create an OpenerDirector with support for Basic HTTP Authentication...
+auth_handler = urllib2.HTTPBasicAuthHandler()
+auth_handler.add_password(realm='PDQ Application',
+                          uri='https://mahler:8092/site-updates.py',
+                          user='klem',
+                          passwd='kadidd!ehopper')
+opener = urllib2.build_opener(auth_handler)
+# ...and install it globally so it can be used with urlopen.
+urllib2.install_opener(opener)
+urllib2.urlopen('http://www.example.com/login.html')
+
+#-------------------------------------------------------------------------------
+#opener 层面为所有的request都增加headers
+import urllib2
+opener = urllib2.build_opener()
+opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+opener.open('http://www.example.com/')
+
+```
+
+## 参考链接
+[官方doc](https://docs.python.org/2/library/urllib2.html#module-urllib2)
+[http://cuiqingcai.com/1052.html](http://cuiqingcai.com/1052.html)</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 本篇介绍python中的urllib2模块
+
+
+python3中urllib2已经被拆成了urllib.request urllib.error两个模块
+urllib2提供了基本的认证，重定向，cookie等url相关的函数和类
+
+## 使用
+
+### 1.常用方法
+* `urllib2.urlopen(url,data,timeout) raise URLError`
+* `urllib2.install_opener(opener)`设置一个OpenerDirector作为全局默认opener
+* `urllib2.build_opener([handler,...])` 返回一个OpenerDirector实例；自带有ProxyHandler,unknownHandler,HttpHandler,HttpDefaultErrorHandler,HttpRedirectHandler,FtpHandler,HttpErrorProcessor,HttpsHandler
+* `urllib2.Request(url,data,headers,origin_req_host,unverifiable)`
+
+
+### 2.类
+* BaseHandler
+* HTTPRedirectHandler
+* HTTPCookieProcessor
+* ProxyHandler
+* HTTPPasswordMgr
+* HTTPBasicAuthHandler
+* ProxyBasicAuthHandler
+* HTTPHandler
+* HTTPSHandler
+* FileHandler
+* FTPHandler
+* CacheFTPHandler
+* UnknownHandler
+* HTTPErrorProcessor
+
+## 代码example
+
+```
+# http://cuiqingcai.com/1052.html
+# https://docs.python.org/2/library/urllib2.html#module-urllib2
+
+#使用urllib2 urllib包进行请求
+import urllib
+import urllib2
+url='http://www.baidu.com'
+user_agent = 'Mozilla/4.0 (compatible; MSIE 5.5; Windows NT)'
+values = {'name':'gong','age':22}
+headers = {'User-Agent':user_agent,'Referer':'http://www.zhihu.com/articles'}
+data = urllib.urlencode(values)
+
+request = urllib2.Request(url,data,headers)
+#-------------------------------------------------------------------------------
+#动态增加header
+import urllib2
+req = urllib2.Request('http://www.example.com/')
+req.add_header('Referer', 'http://www.python.org/')
+# Customize the default User-Agent header value:
+req.add_header('User-Agent', 'urllib-example/0.1 (Contact: . . .)')
+r = urllib2.urlopen(req)
+#------------------------------------------------------------------------------
+#代理的使用
+import urllib2
+enable_proxy = True
+proxy_handler = urllib2.ProxyHandler({'http':'http://192.168.5.190:8080'})
+null_proxy_handler = urllib2.ProxyHandler({})
+if enable_proxy:
+    opener = urllib2.build_opener(proxy_handler)
+else:
+    opener = urllib2.bulid_opener(null_proxy_handler)
+urllib2.install_opener(opener)
+
+#-------------------------------------------------------------------------------
+
+proxy_handler = urllib2.ProxyHandler({'http': 'http://www.example.com:3128/'})
+proxy_auth_handler = urllib2.ProxyBasicAuthHandler()
+proxy_auth_handler.add_password('realm', 'host', 'username', 'password')
+
+opener = urllib2.build_opener(proxy_handler, proxy_auth_handler)
+# This time, rather than install the OpenerDirector, we use it directly:
+opener.open('http://www.example.com/login.html')
+#-------------------------------------------------------------------------------
+#URLError
+import urllib2
+request = urllib2.Request('http://xxx.com/do-not-exist')
+try:
+    urllib2.urlopen(request)
+except urllib2.URLError,e:
+    print e.reason
+
+# urllib2.HTTPError ,e
+# HTTPError是URLError的子类
+# print e.code
+
+#-------------------------------------------------------------------------------
+#cookie的使用
+import urllib2
+import cookielib
+cookie = cookielib.CookieJar()
+handler = urllib2.HTTPCookieProcessor(cookie)
+opener = urllib2.bulid_opener(handler)
+response = opener.open('http://www.baide.com')
+for item in cookie:
+    print item.name,":",item.value
+# cookie.save()
+# cookie.load()
+
+#------------------------------------------------------------------------------
+#basic http 验证
+import urllib2
+# Create an OpenerDirector with support for Basic HTTP Authentication...
+auth_handler = urllib2.HTTPBasicAuthHandler()
+auth_handler.add_password(realm='PDQ Application',
+                          uri='https://mahler:8092/site-updates.py',
+                          user='klem',
+                          passwd='kadidd!ehopper')
+opener = urllib2.build_opener(auth_handler)
+# ...and install it globally so it can be used with urlopen.
+urllib2.install_opener(opener)
+urllib2.urlopen('http://www.example.com/login.html')
+
+#-------------------------------------------------------------------------------
+#opener 层面为所有的request都增加headers
+import urllib2
+opener = urllib2.build_opener()
+opener.addheaders = [('User-agent', 'Mozilla/5.0')]
+opener.open('http://www.example.com/')
+
+```
+
+## 参考链接
+[官方doc](https://docs.python.org/2/library/urllib2.html#module-urllib2)
+[http://cuiqingcai.com/1052.html](http://cuiqingcai.com/1052.html)</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="../js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>
