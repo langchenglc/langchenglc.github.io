@@ -1,0 +1,659 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>python中的装饰器</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px;
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/show-main.js"></script>
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">python中的装饰器</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 本篇介绍python中的装饰器---decorators
+
+
+[TOC]
+
+python中有两类装饰器：
+
+* 方法装饰器
+* 类装饰器
+
+
+python中的装饰器是任何可以调用的python object，他们能改变方法和类；将一个方法或者一个类的引用传给装饰器，然后返回一个改变过的方法或类；当然，这个改变的方法或者类中常常包含了对原来方法或类的调用；
+
+## 理解装饰器需要恶补的几个关于python方法的知识
+
+### 1.多名字的方法
+
+python中的方法可以有多个不同名字来对应同一个方法，我们删掉一个名字以后，另外一个名字仍然可以正常调用这个方法；
+```
+>>> def succ(x):
+       return x+1
+>>> successor = succ
+>>> successor(10)
+11
+>>> succ(10)
+11
+>>> del succ
+>>> successor(10)
+11
+```
+
+### 2. 方法中定义方法
+
+python中的方法可以在方法中定义方法;并且可以在方法中调用定义的方法；
+
+```
+def f():
+    def g():
+        print "function g;"
+    print "funciton f;"
+    g()
+f()
+```
+
+### 3.方法作为参数
+
+由于python中的方法其实也是object（或者叫object的指代），我们可以将方法作为参数传入另一个方法中。
+
+```
+def g():
+    print "function g"
+def f(func):
+    print "function f"
+    print "call func"
+    func()   # 获取真实的方法名func.__name__  ===>  g
+f(g)
+```
+
+### 4.将方法作为返回值返回
+
+方法中能返回以个方法
+
+```
+def f(x):
+    def g(y):
+        return x+y+3
+    return g
+nf1 = f(1) # x  nf1指代的是一个方法g,方法g=lamabda y:1+y+3
+print nf1(1) #y
+```
+
+## 一个简单的装饰器
+
+```
+def our_decorator(func):
+    def function_wrapper(x):
+        print("Before calling " + func.__name__)
+        func(x)
+        print("After calling " + func.__name__)
+    return function_wrapper
+def foo(x):
+    print("Hi, foo has been called with " + str(x))
+print("We call foo before decoration:")
+foo("Hi")
+print("We now decorate foo with f:")
+foo = our_decorator(foo)# 对方法进行改造，然后返回新的方法；
+print("We call foo after decoration:")
+foo(42)
+```
+
+## 用@改造上面的装饰器
+
+```
+def our_decorator(func):
+    def function_wrapper(x):
+        print("Before calling " + func.__name__)
+        func(x)
+        print("After calling " + func.__name__)
+    return function_wrapper
+@our_decorator
+def foo(x):
+    print("Hi, foo has been called with " + str(x))
+foo("Hi")
+```
+
+## 多参数的处理
+
+```
+from random import random, randint, choice
+
+def our_decorator(func): ## func方法名
+    def function_wrapper(*args, **kwargs):   ## 这里对应原来的函数参数列表就好了
+        print("Before calling " + func.__name__)
+        res = func(*args, **kwargs)
+        print(res)
+        print("After calling " + func.__name__)
+    return function_wrapper
+random = our_decorator(random)
+randint = our_decorator(randint)
+choice = our_decorator(choice)
+random()
+randint(3, 8)
+choice([4, 5, 6])
+```
+
+
+## 带参数的装饰器
+
+```
+def greeting(expr):
+    def greeting_decorator(func):
+        def function_wrapper(x):
+            print(expr + ", " + func.__name__ + " returns:")
+            func(x)
+        return function_wrapper
+    return greeting_decorator
+@greeting("καλημερα")
+def foo(x):
+    print(42)
+foo("Hi")
+foo = greeting("καλημερα")(foo) # 或者可以这样使用
+```
+
+## functools 中的@wraps的使用
+
+使用之前的装饰器的定义方式，返回的修改后的方法的元信息如（__name__,__doc__,__module__等）都将被装饰器方法覆盖；在之后调用此方法的这些元信息将返回不是我们需要的信息；这是因为实际上装饰器返回的是一个闭包对象；
+functools包中的@wraps能自动帮我们处理这个覆盖；
+
+```
+from functools import wraps
+
+def greeting(func):
+    @wraps(func)
+    def function_wrapper(x):
+        """ function_wrapper of greeting """
+        print("Hi, " + func.__name__ + " returns:")
+        return func(x)
+    return function_wrapper
+```
+
+[functools中的@wraps详解](https://www.cnblogs.com/myd7349/p/how_to_use_wraps_of_functools.html)
+
+
+## 类的装饰器
+
+### 1.`__call__`方法
+装饰器就是将一个可调用对象作为参数传入一个方法；python中方法是一个可调用对象，但是实际上类也是一个可调用对象；当我们在类中定义了`__call__`方法，我们再像调用方法那样调用对象的时候，也会调用这个方法；
+```
+class A:
+    def __init__(self):
+        print("An instance of A was initialized")
+    def __call__(self, *args, **kwargs):
+        print("Arguments are:", args, kwargs)
+x = A()
+print("now calling the instance:")
+x(3, 4, x=11, y=10)
+print("Let's call it again:")
+x(3, 4, x=11, y=10)
+```
+我们得到的输出是这样的：
+```
+An instance of A was initialized
+now calling the instance:
+Arguments are: (3, 4) {'x': 11, 'y': 10}
+Let's call it again:
+Arguments are: (3, 4) {'x': 11, 'y': 10}
+```
+
+### 2.用类装饰器来重写一次装饰器
+
+```
+def decorator1(f):
+    def helper():
+        print("Decorating", f.__name__)
+        f()
+    return helper
+@decorator1
+def foo():
+    print("inside foo()")
+foo()
+```
+
+```
+class decorator2:
+    def __init__(self, f):
+        self.f = f
+    def __call__(self):
+        print("Decorating", self.f.__name__)
+        self.f()
+@decorator2
+def foo():
+    print("inside foo()")
+foo()
+```
+
+## 参考link
+[python3 tutor](https://www.python-course.eu/python3_decorators.php)
+</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 本篇介绍python中的装饰器---decorators
+
+
+[TOC]
+
+python中有两类装饰器：
+
+* 方法装饰器
+* 类装饰器
+
+
+python中的装饰器是任何可以调用的python object，他们能改变方法和类；将一个方法或者一个类的引用传给装饰器，然后返回一个改变过的方法或类；当然，这个改变的方法或者类中常常包含了对原来方法或类的调用；
+
+## 理解装饰器需要恶补的几个关于python方法的知识
+
+### 1.多名字的方法
+
+python中的方法可以有多个不同名字来对应同一个方法，我们删掉一个名字以后，另外一个名字仍然可以正常调用这个方法；
+```
+>>> def succ(x):
+       return x+1
+>>> successor = succ
+>>> successor(10)
+11
+>>> succ(10)
+11
+>>> del succ
+>>> successor(10)
+11
+```
+
+### 2. 方法中定义方法
+
+python中的方法可以在方法中定义方法;并且可以在方法中调用定义的方法；
+
+```
+def f():
+    def g():
+        print "function g;"
+    print "funciton f;"
+    g()
+f()
+```
+
+### 3.方法作为参数
+
+由于python中的方法其实也是object（或者叫object的指代），我们可以将方法作为参数传入另一个方法中。
+
+```
+def g():
+    print "function g"
+def f(func):
+    print "function f"
+    print "call func"
+    func()   # 获取真实的方法名func.__name__  ===>  g
+f(g)
+```
+
+### 4.将方法作为返回值返回
+
+方法中能返回以个方法
+
+```
+def f(x):
+    def g(y):
+        return x+y+3
+    return g
+nf1 = f(1) # x  nf1指代的是一个方法g,方法g=lamabda y:1+y+3
+print nf1(1) #y
+```
+
+## 一个简单的装饰器
+
+```
+def our_decorator(func):
+    def function_wrapper(x):
+        print("Before calling " + func.__name__)
+        func(x)
+        print("After calling " + func.__name__)
+    return function_wrapper
+def foo(x):
+    print("Hi, foo has been called with " + str(x))
+print("We call foo before decoration:")
+foo("Hi")
+print("We now decorate foo with f:")
+foo = our_decorator(foo)# 对方法进行改造，然后返回新的方法；
+print("We call foo after decoration:")
+foo(42)
+```
+
+## 用@改造上面的装饰器
+
+```
+def our_decorator(func):
+    def function_wrapper(x):
+        print("Before calling " + func.__name__)
+        func(x)
+        print("After calling " + func.__name__)
+    return function_wrapper
+@our_decorator
+def foo(x):
+    print("Hi, foo has been called with " + str(x))
+foo("Hi")
+```
+
+## 多参数的处理
+
+```
+from random import random, randint, choice
+
+def our_decorator(func): ## func方法名
+    def function_wrapper(*args, **kwargs):   ## 这里对应原来的函数参数列表就好了
+        print("Before calling " + func.__name__)
+        res = func(*args, **kwargs)
+        print(res)
+        print("After calling " + func.__name__)
+    return function_wrapper
+random = our_decorator(random)
+randint = our_decorator(randint)
+choice = our_decorator(choice)
+random()
+randint(3, 8)
+choice([4, 5, 6])
+```
+
+
+## 带参数的装饰器
+
+```
+def greeting(expr):
+    def greeting_decorator(func):
+        def function_wrapper(x):
+            print(expr + ", " + func.__name__ + " returns:")
+            func(x)
+        return function_wrapper
+    return greeting_decorator
+@greeting("καλημερα")
+def foo(x):
+    print(42)
+foo("Hi")
+foo = greeting("καλημερα")(foo) # 或者可以这样使用
+```
+
+## functools 中的@wraps的使用
+
+使用之前的装饰器的定义方式，返回的修改后的方法的元信息如（__name__,__doc__,__module__等）都将被装饰器方法覆盖；在之后调用此方法的这些元信息将返回不是我们需要的信息；这是因为实际上装饰器返回的是一个闭包对象；
+functools包中的@wraps能自动帮我们处理这个覆盖；
+
+```
+from functools import wraps
+
+def greeting(func):
+    @wraps(func)
+    def function_wrapper(x):
+        """ function_wrapper of greeting """
+        print("Hi, " + func.__name__ + " returns:")
+        return func(x)
+    return function_wrapper
+```
+
+[functools中的@wraps详解](https://www.cnblogs.com/myd7349/p/how_to_use_wraps_of_functools.html)
+
+
+## 类的装饰器
+
+### 1.`__call__`方法
+装饰器就是将一个可调用对象作为参数传入一个方法；python中方法是一个可调用对象，但是实际上类也是一个可调用对象；当我们在类中定义了`__call__`方法，我们再像调用方法那样调用对象的时候，也会调用这个方法；
+```
+class A:
+    def __init__(self):
+        print("An instance of A was initialized")
+    def __call__(self, *args, **kwargs):
+        print("Arguments are:", args, kwargs)
+x = A()
+print("now calling the instance:")
+x(3, 4, x=11, y=10)
+print("Let's call it again:")
+x(3, 4, x=11, y=10)
+```
+我们得到的输出是这样的：
+```
+An instance of A was initialized
+now calling the instance:
+Arguments are: (3, 4) {'x': 11, 'y': 10}
+Let's call it again:
+Arguments are: (3, 4) {'x': 11, 'y': 10}
+```
+
+### 2.用类装饰器来重写一次装饰器
+
+```
+def decorator1(f):
+    def helper():
+        print("Decorating", f.__name__)
+        f()
+    return helper
+@decorator1
+def foo():
+    print("inside foo()")
+foo()
+```
+
+```
+class decorator2:
+    def __init__(self, f):
+        self.f = f
+    def __call__(self):
+        print("Decorating", self.f.__name__)
+        self.f()
+@decorator2
+def foo():
+    print("inside foo()")
+foo()
+```
+
+## 参考link
+[python3 tutor](https://www.python-course.eu/python3_decorators.php)
+</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="../js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>

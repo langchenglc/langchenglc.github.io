@@ -1,0 +1,365 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>悲观锁和乐观锁</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px;
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/show-main.js"></script>
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">悲观锁和乐观锁</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 多线程操作数据库的时候，往往涉及到数据加锁的问题；一直对于锁机制的不太了解，今天来学习一下悲观锁和乐观锁的概念和使用；
+
+
+[TOC]
+
+## 悲观锁
+
+**悲观锁就是对外界的数据保持保守态度**，认为查询反馈的数据极大可能被修改；因此**在数据整个处理过程中就对数据进行锁定**，直到数据处理流程结束以后释放锁；
+
+悲观锁的实现极大的依赖数据库本身的加锁机制
+
+一个典型的悲观锁的sql语句：
+```
+我们可以使用命令设置MySQL为非autocommit模式：
+set autocommit=0;
+
+设置完autocommit后，我们就可以执行我们的正常业务了。具体如下：
+//0.开始事务
+begin;/begin work;/start transaction; (三者选一就可以)
+//1.查询出商品信息
+select status from t_goods where id=1 for update;
+//2.根据商品信息生成订单
+insert into t_orders (id,goods_id) values (null,1);
+//3.修改商品status为2
+update t_goods set status=2;
+//4.提交事务
+commit;/commit work;
+```
+
+优势：
+1. 只有数据库的锁机制才能保证数据访问的排他性
+2. 多应用场景下对同一数据的访问也是安全的
+
+劣势：
+1. 所有数据访问都经过数据库加锁，加锁消耗大
+2. 对于高并发，长事务场景不友好
+
+**注意：**
+1. 使用`select ...for update`对数据进行加锁，mysql中默认的是行锁，只对数据行进行加锁，但是需要明确的指定主键或使用明确的索引，否则执行表级别的锁定
+2. 查询无数据的不执行锁定
+
+## 乐观锁
+
+乐观锁是相对于悲观锁而言的另一种对数据更新操作时候的加锁方式；其实他的具体实现不像是我们字面上的加锁，而更接近于验证；
+
+**乐观锁假设数据一般情况下都不会冲突，只对数据更新操作时候进行验证，如果修改的数据已经是历史数据则新的修改失败**
+
+要达到这种目的，一般可以在数据库中增加version或者timestamp的字段，在数据查询出以后修改的时候对数据进行version或timestamp的验证和更新（比如+1）；从而保证在查询到这次更新期间没有别的对这条数据的更新操作；
+
+一条典型的乐观锁的sql语句是这样的
+```
+update t_goods
+set status=2,version=version+1
+where id=#{id} and version=#{version};
+```
+
+优势：
+1. 应用层面的锁机制而非使用数据库底层的锁机制，对于数据库的开销会小很多
+2. 适用于主查询少更新的场景
+3. 适用于长事务场景和高并发友好
+
+劣势:
+1. 数据检查是在应用层面控制的，如果数据是多系统都有权利进行修改，这时候无法保证数据修改的先后顺序和冲突
+
+> ps：刚做程序员的第一个项目，完全的一个小白，里头有一个场景就是可能多人对一个数据进行处理，自己最后想了一个办法就是操作数据中增加了一个时间戳的字段进行了验证；当时对于悲观锁和乐观锁的机制还不了解，也没有这样的概念，现在想想我原来已经在工作中使用了这个乐观锁的机制了；
+
+## 参考链接
+
+[java中的悲观锁和乐观锁的实现](http://blog.csdn.net/linlzk/article/details/50683050)
+[mysql悲观锁](http://chenzhou123520.iteye.com/blog/1860954)
+[mysql乐观锁](http://chenzhou123520.iteye.com/blog/1863407)</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 多线程操作数据库的时候，往往涉及到数据加锁的问题；一直对于锁机制的不太了解，今天来学习一下悲观锁和乐观锁的概念和使用；
+
+
+[TOC]
+
+## 悲观锁
+
+**悲观锁就是对外界的数据保持保守态度**，认为查询反馈的数据极大可能被修改；因此**在数据整个处理过程中就对数据进行锁定**，直到数据处理流程结束以后释放锁；
+
+悲观锁的实现极大的依赖数据库本身的加锁机制
+
+一个典型的悲观锁的sql语句：
+```
+我们可以使用命令设置MySQL为非autocommit模式：
+set autocommit=0;
+
+设置完autocommit后，我们就可以执行我们的正常业务了。具体如下：
+//0.开始事务
+begin;/begin work;/start transaction; (三者选一就可以)
+//1.查询出商品信息
+select status from t_goods where id=1 for update;
+//2.根据商品信息生成订单
+insert into t_orders (id,goods_id) values (null,1);
+//3.修改商品status为2
+update t_goods set status=2;
+//4.提交事务
+commit;/commit work;
+```
+
+优势：
+1. 只有数据库的锁机制才能保证数据访问的排他性
+2. 多应用场景下对同一数据的访问也是安全的
+
+劣势：
+1. 所有数据访问都经过数据库加锁，加锁消耗大
+2. 对于高并发，长事务场景不友好
+
+**注意：**
+1. 使用`select ...for update`对数据进行加锁，mysql中默认的是行锁，只对数据行进行加锁，但是需要明确的指定主键或使用明确的索引，否则执行表级别的锁定
+2. 查询无数据的不执行锁定
+
+## 乐观锁
+
+乐观锁是相对于悲观锁而言的另一种对数据更新操作时候的加锁方式；其实他的具体实现不像是我们字面上的加锁，而更接近于验证；
+
+**乐观锁假设数据一般情况下都不会冲突，只对数据更新操作时候进行验证，如果修改的数据已经是历史数据则新的修改失败**
+
+要达到这种目的，一般可以在数据库中增加version或者timestamp的字段，在数据查询出以后修改的时候对数据进行version或timestamp的验证和更新（比如+1）；从而保证在查询到这次更新期间没有别的对这条数据的更新操作；
+
+一条典型的乐观锁的sql语句是这样的
+```
+update t_goods
+set status=2,version=version+1
+where id=#{id} and version=#{version};
+```
+
+优势：
+1. 应用层面的锁机制而非使用数据库底层的锁机制，对于数据库的开销会小很多
+2. 适用于主查询少更新的场景
+3. 适用于长事务场景和高并发友好
+
+劣势:
+1. 数据检查是在应用层面控制的，如果数据是多系统都有权利进行修改，这时候无法保证数据修改的先后顺序和冲突
+
+> ps：刚做程序员的第一个项目，完全的一个小白，里头有一个场景就是可能多人对一个数据进行处理，自己最后想了一个办法就是操作数据中增加了一个时间戳的字段进行了验证；当时对于悲观锁和乐观锁的机制还不了解，也没有这样的概念，现在想想我原来已经在工作中使用了这个乐观锁的机制了；
+
+## 参考链接
+
+[java中的悲观锁和乐观锁的实现](http://blog.csdn.net/linlzk/article/details/50683050)
+[mysql悲观锁](http://chenzhou123520.iteye.com/blog/1860954)
+[mysql乐观锁](http://chenzhou123520.iteye.com/blog/1863407)</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="../js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>

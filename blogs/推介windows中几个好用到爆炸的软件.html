@@ -1,0 +1,391 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="tool" content="leanote-desktop-app">
+<title>推介windows中几个好用到爆炸的软件</title>
+<style>
+.tab{font-size:12px; margin-bottom: 10px;}
+.tab a{cursor:pointer;cursor:pointer;display:inline-block;margin-right:10px;color:#000}#tab-html{color:#ccc}
+
+.content-container .content-html{visibility: hidden;}
+.content-container.html .content-markdown{display:none}
+.content-container.html .content-html{display:block; visibility: visible;}
+.content-container.html #tab-markdown{color:#ccc}
+.content-container.html #tab-html{color:#000}
+.content-markdown {overflow: auto;}
+textarea {display: none;}
+
+*{font-family:"lucida grande","lucida sans unicode",lucida,helvetica,"Hiragino Sans GB","Microsoft YaHei","WenQuanYi Micro Hei",sans-serif;}
+
+body {
+  margin: 0;
+}
+
+/*公用文字样式*/
+h1{font-size:30px}h2{font-size:24px}h3{font-size:18px}h4{font-size:14px}
+.note-container{
+    width:850px;
+    margin:auto;
+    padding: 10px 20px;
+    box-shadow: 1px 1px 10px #eee;
+}
+#title {
+  margin: 0;
+}
+table {
+    margin-bottom: 16px;
+    border-collapse: collapse;
+}
+table th, table td {
+    padding: 6px 13px;
+    border: 1px solid #ddd;
+}
+table th {
+    font-weight: bold;
+}
+
+table tr {
+    background-color: none;
+    border-top: 1px solid #ccc;
+}
+table tr:nth-child(2n) {
+    background-color: rgb(247, 247, 249);
+}
+.mce-item-table, .mce-item-table td, .mce-item-table th, .mce-item-table caption {
+  border: 1px solid #ddd;
+  border-collapse: collapse;
+  padding: 6px 13px;
+}
+blockquote {
+  border-left-width:10px;
+  background-color:rgba(128,128,128,0.05);
+  border-top-right-radius:5px;
+  border-bottom-right-radius:5px;
+  padding:15px 20px;
+  border-left:5px solid rgba(128,128,128,0.075);
+}
+blockquote p {
+  margin-bottom:1.1em;
+  font-size:1em;
+  line-height:1.45
+}
+blockquote ul:last-child,blockquote ol:last-child {
+  margin-bottom:0
+}
+pre {
+  padding: 18px;
+  background-color: #f7f7f9;
+  border: 1px solid #e1e1e8;
+  border-radius: 3px;
+  display: block;
+}
+code {
+  padding: 2px 4px;
+  font-size: 90%;
+  color: #c7254e;
+  white-space: nowrap;
+  background-color: #f9f2f4;
+  border-radius: 4px;
+}
+.footnote {
+  vertical-align: top;
+  position: relative;
+  top: -0.5em;
+  font-size: .8em;
+}
+
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%;
+  display: block;
+  margin: auto;
+}
+pre {
+  word-break:break-word
+}
+p,pre,pre.prettyprint,blockquote {
+  margin:0 0 1.1em
+}
+hr {
+  margin:2em 0
+}
+img {
+  max-width:100%
+}
+.sequence-diagram,.flow-chart {
+  text-align:center;
+  margin-bottom:1.1em
+}
+.sequence-diagram text,.flow-chart text {
+  font-size:15px !important;
+  font-family:"Source Sans Pro",sans-serif !important
+}
+.sequence-diagram [fill="#ffffff"],.flow-chart [fill="#ffffff"] {
+  fill:#f6f6f6
+}
+.sequence-diagram [stroke="#000000"],.flow-chart [stroke="#000000"] {
+  stroke:#3f3f3f
+}
+.sequence-diagram text[stroke="#000000"],.flow-chart text[stroke="#000000"] {
+  stroke:none
+}
+.sequence-diagram [fill="#000"],.flow-chart [fill="#000"],.sequence-diagram [fill="#000000"],.flow-chart [fill="#000000"],.sequence-diagram [fill="black"],.flow-chart [fill="black"] {
+  fill:#3f3f3f
+}
+ul,ol {
+  margin-bottom:1.1em
+}
+ul ul,ol ul,ul ol,ol ol {
+  margin-bottom:1.1em
+}
+kbd {
+  padding:.1em .6em;
+  border:1px solid rgba(63,63,63,0.25);
+  -webkit-box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  box-shadow:0 1px 0 rgba(63,63,63,0.25);
+  font-size:.7em;
+  font-family:sans-serif;
+  background-color:#fff;
+  color:#333;
+  border-radius:3px;
+  display:inline-block;
+  margin:0 .1em;
+  white-space:nowrap
+}
+.toc ul {
+  list-style-type:none;
+  margin-bottom:15px
+}
+.m-todo-item {
+  list-style: none;
+}
+pre code {
+  padding: 0;
+  color: inherit;
+  white-space: pre-wrap;
+  background-color: inherit;
+  border-radius: 0;
+}
+</style>
+<!-- 该css供自定义样式 -->
+<link href="../leanote-markdown.css" rel="stylesheet">
+<script type="text/javascript" src="../js/jquery-1.8.2.min.js"></script>
+<script type="text/javascript" src="../js/show-main.js"></script>
+</head>
+
+<body>
+
+	<div class="note-container">
+		<h1 class="title" id="leanote-title">推介windows中几个好用到爆炸的软件</h1>
+		<div class="content-container html" id="content-container">
+			<!-- 切换 -->
+			<div class="tab"><a id="tab-markdown">Markdown</a><a id="tab-html">HTML</a></div>
+			<textarea id="leanote-content-markdown">> 工欲善其事，必先利其器；好用的软件能很大程度上提升我们的生产力和工作效率；最近工作不忙，偶尔也会折腾一些新软件；发现了很多好用的工具和软件，容我一一道来
+当然这些都是基于windows的；你是mac的高富帅的话，就不要浪费时间了；
+
+[TOC]
+
+## leanote  不只是一个笔记工具
+
+这个当然不必说了，来这里看这个文章的肯定对这个软件就很熟悉了；相比于更熟知的印象笔记什么的，我个人感觉还是leanote好用很多啊
+
+1. 原生支持markdown语法
+    对于带一点文字工作的程序员而言，我们有时候并不十分关注文字的细部排版，文章的内容相对于文章的布局更值得我们关注；如果你是有这样的需求，markdown就是一个很好的写作方式；让我们能完全专注于文本的内容，但是写作出来的文章又能保持很好的排版布局，还能导出为各种方式的文件；简直不要太赞。
+2. 一键发布为博客，简单的装逼利器
+    博客作为程序员的装逼利器，相信很多人都尝试过；不管什么wordpress，dokuwiki，hexo，githug pages等等；但是和笔记无缝集成的还是很少的；一键能将本地的笔记发布为博客；省去了很多博客布置的烦恼；还是那句话，将所有的精力集中到文本本身就好了；
+3. 方便的图片插入，思维导图的插入
+    leanote支持插入图片和思维导图等，简直太方便了；文本中贴代码也是极其easy的；just ctrl +v
+![leanote](推介windows中几个好用到爆炸的软件_files/5a1638a0a622877ad4000000.png)
+
+## Atom  好用的通用代码编辑器
+
+文本编辑器，或者进一步叫做代码编辑器；相信这个每个人都有每个人中意的，没办法强求大家都统一使用同一种工具；之前也在洪流中折腾了下vim，emacs，sublime，notepad；要么就是太复杂，学习成本高；要么就是要钱，虽然破解的有，但是终归心里是用的不舒服的；
+
+1. 免费，老爸是github
+    看看这背景，就知道这个代码编辑器差不到哪里去，天生支持git和github，很方便的就将自己的代码纳入git或者github的管理中了；
+2. 插件越来越多，越来越方便
+    好用的插件越来越多；可以到官网进行查询一下；最近也在慢慢转化到这个编辑器中，也在慢慢找好用的工具和插件；
+![atom](推介windows中几个好用到爆炸的软件_files/5a1638c3a622877ad4000001.png)
+
+## launchy  桌面软件助手  listary
+
+之前也用过一段时间的ubuntu，全局搜索就能开软件的功能实在是十分的喜欢；windows平台中发现了launchy这个工具，能很方便的输入字母就能查找到想要的软件；
+当然如果你愿意花钱，或者对windows中的文档查找要求比较高，推荐另一个功能更强大listary，看功能介绍很牛逼的，个人没有使用过；没有太多发言权；
+
+1. 全局搜索软件和文件
+2. 能够快捷网络搜索
+
+![搜索](推介windows中几个好用到爆炸的软件_files/5a1638eda622877ad4000002.png)
+![百度搜索](推介windows中几个好用到爆炸的软件_files/5a163923a622877ad4000003.png)
+
+## cmder  windows下的超级终端
+
+程序员经常需要到linux下进行一些操作，是不是有时候还是觉得命令行的方式更快捷有效呢；但是苦于windows下难用的dos命令，而且和linux的命令还不一样；那么使用cmder就能让你有在windows下使用linux的畅快感
+
+1. linux的基本命令cmder中都可以使用
+2. 支持ssh，scp，什么xshell,filezilla都可以卸载了
+3. 硬盘版本，不同电脑即开即用
+
+![cmder](推介windows中几个好用到爆炸的软件_files/5a163affa622877ad4000009.png)
+
+## 坚果云  好用的多终端同步工具
+
+windows之前有一款onedriver，无奈不能使用了，不知道是被墙了还是怎么的；坚果云就是一款好用的同步工具；就像操作你的本地文件夹一样，只要将你的文件夹纳入同步管理，之后就不用操心了；不用再担心公司的文件在家里无法查看了；虽然所谓的什么网盘啊都提供了转储服务，但是没有和windows这么紧密的结合；
+
+1. 一键同步文件夹
+2. 好看的微信公众号文章一键存到坚果云pdf
+    结合下面的这个功能，简直不要太好用；做书摘要简直不要太方便了；
+![坚果云](推介windows中几个好用到爆炸的软件_files/5a1639cfa622877ad4000005.png)
+![微信文章](推介windows中几个好用到爆炸的软件_files/5a1639f1a622877ad4000006.png)
+
+## windows 10 ink功能
+
+装了windows10也很久了，才发现windows10的一些功能还是颇为方便的，win+w键呼唤出ink面板；里头的画画和屏幕草图的功能太好用了；不过你如果是平板上使用，效果更佳；毕竟我使用的平板是surface
+
+1. 方便的绘图，不用开什么low到爆的画图工具了
+2. 屏幕截图标记；虽然qq截图也有；
+3. q pdf reader  uwp软件；能够打开pdf文件，还能使用进行手工笔记；对于看书看文章的时候标注的同学还是很有用的；
+4. ink中自带了便签的功能
+
+![ink功能](推介windows中几个好用到爆炸的软件_files/5a163a04a622877ad4000007.png)
+
+
+## inletexEMC  屏幕共享
+
+内网之间，同事之间做个交流，用这个能很方便的共享大家的屏幕，简单高效；比qq和windows自带的简洁多了；
+
+![inletexEMC](推介windows中几个好用到爆炸的软件_files/5a163a29a622877ad4000008.png)
+
+
+## chrome插件
+
+chrome中有很多好用的插件
+
+1. FE前端助手
+2. cvim 让你像vim中操作浏览器，不用鼠标，方便快捷
+3. onetab 网页还要继续看，但是如果又要关闭电脑，这个方便进行标签管理和恢复；</textarea>
+			<!-- markdown -->
+			<pre class="content-markdown">> 工欲善其事，必先利其器；好用的软件能很大程度上提升我们的生产力和工作效率；最近工作不忙，偶尔也会折腾一些新软件；发现了很多好用的工具和软件，容我一一道来
+当然这些都是基于windows的；你是mac的高富帅的话，就不要浪费时间了；
+
+[TOC]
+
+## leanote  不只是一个笔记工具
+
+这个当然不必说了，来这里看这个文章的肯定对这个软件就很熟悉了；相比于更熟知的印象笔记什么的，我个人感觉还是leanote好用很多啊
+
+1. 原生支持markdown语法
+    对于带一点文字工作的程序员而言，我们有时候并不十分关注文字的细部排版，文章的内容相对于文章的布局更值得我们关注；如果你是有这样的需求，markdown就是一个很好的写作方式；让我们能完全专注于文本的内容，但是写作出来的文章又能保持很好的排版布局，还能导出为各种方式的文件；简直不要太赞。
+2. 一键发布为博客，简单的装逼利器
+    博客作为程序员的装逼利器，相信很多人都尝试过；不管什么wordpress，dokuwiki，hexo，githug pages等等；但是和笔记无缝集成的还是很少的；一键能将本地的笔记发布为博客；省去了很多博客布置的烦恼；还是那句话，将所有的精力集中到文本本身就好了；
+3. 方便的图片插入，思维导图的插入
+    leanote支持插入图片和思维导图等，简直太方便了；文本中贴代码也是极其easy的；just ctrl +v
+![leanote](推介windows中几个好用到爆炸的软件_files/5a1638a0a622877ad4000000.png)
+
+## Atom  好用的通用代码编辑器
+
+文本编辑器，或者进一步叫做代码编辑器；相信这个每个人都有每个人中意的，没办法强求大家都统一使用同一种工具；之前也在洪流中折腾了下vim，emacs，sublime，notepad；要么就是太复杂，学习成本高；要么就是要钱，虽然破解的有，但是终归心里是用的不舒服的；
+
+1. 免费，老爸是github
+    看看这背景，就知道这个代码编辑器差不到哪里去，天生支持git和github，很方便的就将自己的代码纳入git或者github的管理中了；
+2. 插件越来越多，越来越方便
+    好用的插件越来越多；可以到官网进行查询一下；最近也在慢慢转化到这个编辑器中，也在慢慢找好用的工具和插件；
+![atom](推介windows中几个好用到爆炸的软件_files/5a1638c3a622877ad4000001.png)
+
+## launchy  桌面软件助手  listary
+
+之前也用过一段时间的ubuntu，全局搜索就能开软件的功能实在是十分的喜欢；windows平台中发现了launchy这个工具，能很方便的输入字母就能查找到想要的软件；
+当然如果你愿意花钱，或者对windows中的文档查找要求比较高，推荐另一个功能更强大listary，看功能介绍很牛逼的，个人没有使用过；没有太多发言权；
+
+1. 全局搜索软件和文件
+2. 能够快捷网络搜索
+
+![搜索](推介windows中几个好用到爆炸的软件_files/5a1638eda622877ad4000002.png)
+![百度搜索](推介windows中几个好用到爆炸的软件_files/5a163923a622877ad4000003.png)
+
+## cmder  windows下的超级终端
+
+程序员经常需要到linux下进行一些操作，是不是有时候还是觉得命令行的方式更快捷有效呢；但是苦于windows下难用的dos命令，而且和linux的命令还不一样；那么使用cmder就能让你有在windows下使用linux的畅快感
+
+1. linux的基本命令cmder中都可以使用
+2. 支持ssh，scp，什么xshell,filezilla都可以卸载了
+3. 硬盘版本，不同电脑即开即用
+
+![cmder](推介windows中几个好用到爆炸的软件_files/5a163affa622877ad4000009.png)
+
+## 坚果云  好用的多终端同步工具
+
+windows之前有一款onedriver，无奈不能使用了，不知道是被墙了还是怎么的；坚果云就是一款好用的同步工具；就像操作你的本地文件夹一样，只要将你的文件夹纳入同步管理，之后就不用操心了；不用再担心公司的文件在家里无法查看了；虽然所谓的什么网盘啊都提供了转储服务，但是没有和windows这么紧密的结合；
+
+1. 一键同步文件夹
+2. 好看的微信公众号文章一键存到坚果云pdf
+    结合下面的这个功能，简直不要太好用；做书摘要简直不要太方便了；
+![坚果云](推介windows中几个好用到爆炸的软件_files/5a1639cfa622877ad4000005.png)
+![微信文章](推介windows中几个好用到爆炸的软件_files/5a1639f1a622877ad4000006.png)
+
+## windows 10 ink功能
+
+装了windows10也很久了，才发现windows10的一些功能还是颇为方便的，win+w键呼唤出ink面板；里头的画画和屏幕草图的功能太好用了；不过你如果是平板上使用，效果更佳；毕竟我使用的平板是surface
+
+1. 方便的绘图，不用开什么low到爆的画图工具了
+2. 屏幕截图标记；虽然qq截图也有；
+3. q pdf reader  uwp软件；能够打开pdf文件，还能使用进行手工笔记；对于看书看文章的时候标注的同学还是很有用的；
+4. ink中自带了便签的功能
+
+![ink功能](推介windows中几个好用到爆炸的软件_files/5a163a04a622877ad4000007.png)
+
+
+## inletexEMC  屏幕共享
+
+内网之间，同事之间做个交流，用这个能很方便的共享大家的屏幕，简单高效；比qq和windows自带的简洁多了；
+
+![inletexEMC](推介windows中几个好用到爆炸的软件_files/5a163a29a622877ad4000008.png)
+
+
+## chrome插件
+
+chrome中有很多好用的插件
+
+1. FE前端助手
+2. cvim 让你像vim中操作浏览器，不用鼠标，方便快捷
+3. onetab 网页还要继续看，但是如果又要关闭电脑，这个方便进行标签管理和恢复；</pre>
+			<!-- html -->
+			<div class="content-html" id="leanote-content-html"></div>
+		</div>
+	</div>
+
+<!-- 该js供其它处理 -->
+<script src="../leanote-markdown.js"></script>
+<script src="../js/markdown-to-html.min.js"></script>
+<script>
+function init() {
+	markdownToHtml(document.getElementById('leanote-content-markdown').value, document.getElementById('leanote-content-html'), function(html) {
+		// 解析后执行
+		if(window.markdownParsed) {
+			window.markdownParsed(html);
+		}
+	});
+	var $m = document.getElementById('tab-markdown');
+	var $h = document.getElementById('tab-html');
+	var $cc = document.getElementById('content-container');
+	function toggleToHtml(isToHtml) {
+		$cc.className = isToHtml ? 'content-container html' : 'content-container';
+	}
+	$m.addEventListener('click', function() {
+		toggleToHtml(false);
+	});
+	$h.addEventListener('click', function() {
+		toggleToHtml(true);
+	});
+}
+
+// 如果不要自动解析html, notParseMarkdown在leanote-markdown.js中定义
+if(!window.notParseMarkdown) {
+	init();
+}
+</script>
+</body>
+</html>
